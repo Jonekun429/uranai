@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" data-theme="dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
@@ -43,7 +43,7 @@
             --shadow-sm:0 2px 10px rgba(0,0,0,0.06);--shadow-lg:0 6px 20px rgba(0,0,0,0.10);
             --nav-h:74px;
         }
-        @media(prefers-color-scheme:dark){:root{
+        @media(prefers-color-scheme:dark){:root:not([data-theme="light"]){
             --primary:#6BA99F;--primary-dark:#8EC8BE;--primary-light:#1E3230;
             --bg-page:#121816;--bg-card:#1E2622;
             --text-main:#C8D8D2;--text-sub:#7A9A91;--text-muted:#4E6860;
@@ -51,7 +51,18 @@
             --danger:#D08080;--danger-light:#2E2222;
             --warning-bg:#2A2218;--warning-text:#C89A60;
             --shadow-sm:0 2px 10px rgba(0,0,0,0.20);--shadow-lg:0 6px 20px rgba(0,0,0,0.30);
-        }input[type="date"]{color-scheme:dark;}}
+        }}
+        :root[data-theme="dark"]{
+            --primary:#6BA99F;--primary-dark:#8EC8BE;--primary-light:#1E3230;
+            --bg-page:#121816;--bg-card:#1E2622;
+            --text-main:#C8D8D2;--text-sub:#7A9A91;--text-muted:#4E6860;
+            --border-color:#2E3E3A;
+            --danger:#D08080;--danger-light:#2E2222;
+            --warning-bg:#2A2218;--warning-text:#C89A60;
+            --shadow-sm:0 2px 10px rgba(0,0,0,0.20);--shadow-lg:0 6px 20px rgba(0,0,0,0.30);
+        }
+        :root[data-theme="dark"] input[type="date"]{color-scheme:dark;}
+        :root[data-theme="dark"] .birth-select{color-scheme:dark;}
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;}
         .mono-font{font-family:var(--font-mono);}
@@ -70,17 +81,22 @@
         @keyframes pulse-ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.15);opacity:1}}
         @keyframes scan-down{0%{top:-4px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% + 4px);opacity:0}}
         #scan-overlay{background:rgba(246,247,245,.97);backdrop-filter:blur(20px);}
-        @media(prefers-color-scheme:dark){#scan-overlay{background:rgba(18,24,22,.97);}}
+        :root[data-theme="dark"] #scan-overlay{background:rgba(18,24,22,.97);}
+        @media(prefers-color-scheme:dark){:root:not([data-theme="light"]) #scan-overlay{background:rgba(18,24,22,.97);}}
         .scan-line{position:absolute;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--primary),transparent);box-shadow:0 0 16px var(--primary),0 0 40px rgba(92,142,132,.25);animation:scan-down 3.5s ease-in-out infinite;}
         .orbit-ring{position:absolute;border:var(--border-w) solid var(--border-color);border-radius:50%;animation:orbit linear infinite;}
         .orbit-dot{position:absolute;width:5px;height:5px;background:var(--primary);border-radius:50%;box-shadow:0 0 8px var(--primary);}
         .fortune-card{background:var(--bg-card);border:var(--border-w) solid var(--border-color);border-radius:var(--radius);box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
         .fortune-card:hover{box-shadow:var(--shadow-lg);}
+        .premium-cat-btn.active-cat{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary)20;}
         .card-accent-line{position:absolute;top:0;left:0;right:0;height:2px;}
         .form-input{background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);padding:13px 16px;color:var(--text-main);font-family:var(--font-body);font-size:15px;width:100%;transition:border-color .3s,box-shadow .3s;outline:none;-webkit-appearance:none;}
         .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(92,142,132,.15);}
         .form-input::placeholder{color:var(--text-muted);}
         select.form-input{cursor:pointer;}
+        .birth-select{background:transparent;border:none;padding:15px 4px;color:var(--text-main);font-family:var(--font-body);font-size:15px;text-align:center;text-align-last:center;-moz-text-align-last:center;outline:none;-webkit-appearance:none;appearance:none;cursor:pointer;flex:1;min-width:0;}
+        .birth-select:focus{background:var(--primary-light);}
+        .birth-sep{color:var(--text-muted);font-size:14px;flex-shrink:0;user-select:none;}
         .btn-primary{background:var(--primary-dark);color:#fff;font-family:var(--font-body);font-size:15px;font-weight:700;padding:15px 24px;border-radius:var(--radius-btn);border:none;cursor:pointer;transition:opacity .3s,transform .15s;width:100%;display:flex;align-items:center;justify-content:center;gap:8px;}
         .btn-primary:hover{opacity:.9;}.btn-primary:active{transform:scale(.98);}
         .btn-ghost{background:transparent;color:var(--text-sub);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);padding:12px 20px;cursor:pointer;font-family:var(--font-body);font-size:14px;font-weight:700;transition:background .3s,color .3s;display:flex;align-items:center;justify-content:center;gap:6px;}
@@ -91,11 +107,102 @@
         .progress-fill{height:100%;background:var(--primary);width:0%;transition:width linear;}
         .toast{position:fixed;bottom:calc(var(--nav-h) + 24px);left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:var(--border-w) solid var(--border-color);color:var(--text-main);padding:12px 24px;border-radius:var(--radius);font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transition:all .4s;z-index:200;pointer-events:none;white-space:nowrap;}
         .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+        .drawer-item:hover,.drawer-item:active{background:var(--primary-light);}
+        #drawer.open{transform:translateX(0);}
+        .ob-dot.active{background:var(--primary) !important;width:16px;border-radius:4px;}
         ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:3px;}
         #share-canvas{display:none;}
     </style>
 </head>
-<body class="selection:bg-[#5C8E84] selection:text-white dark:selection:bg-[#6BA99F]">
+<body>
+
+<!-- ONBOARDING -->
+<div id="onboarding" style="position:fixed;top:0;left:0;right:0;bottom:0;background:#0A0D0B;z-index:9999;display:none;">
+    <div class="ob-slide" data-slide="0" style="position:absolute;top:0;left:0;right:0;bottom:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;transition:opacity .5s;opacity:1;">
+        <div style="width:80px;height:80px;position:relative;margin-bottom:36px;">
+            <div class="orbit-ring" style="width:80px;height:80px;top:0;left:0;animation-duration:8s;border-color:rgba(92,142,132,.4);"><div class="orbit-dot" style="top:-2px;left:50%;transform:translateX(-50%);"></div></div>
+            <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;"><div style="width:10px;height:10px;border-radius:50%;background:#5C8E84;box-shadow:0 0 24px #5C8E84,0 0 48px rgba(92,142,132,.3);animation:pulse-ring 2.5s infinite;"></div></div>
+        </div>
+        <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#5C8E84;margin-bottom:28px;">Private Session</p>
+        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">ずっと、ここで<br>あなたを待っていました</h2>
+        <p style="font-size:14px;line-height:2.2;color:#7A9A91;">深呼吸して、リラックスしてください。<br>ここは、あなただけの特別な場所です。</p>
+    </div>
+    <div class="ob-slide" data-slide="1" style="position:absolute;top:0;left:0;right:0;bottom:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;transition:opacity .5s;opacity:0;pointer-events:none;">
+        <div style="width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:36px;background:rgba(92,142,132,.08);border:1px solid rgba(92,142,132,.25);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6BA99F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
+        </div>
+        <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#5C8E84;margin-bottom:28px;">Your Energy</p>
+        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">あなたの中にある<br>見えない力を感じてください</h2>
+        <p style="font-size:14px;line-height:2.2;color:#7A9A91;">生年月日には、あなただけの<br>エネルギーが刻まれています。<br>それを、一緒に読み解いていきましょう。</p>
+    </div>
+    <div class="ob-slide" data-slide="2" style="position:absolute;top:0;left:0;right:0;bottom:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;transition:opacity .5s;opacity:0;pointer-events:none;">
+        <div style="width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:36px;background:rgba(92,142,132,.08);border:1px solid rgba(92,142,132,.25);">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6BA99F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="11" x="3" y="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#5C8E84;margin-bottom:28px;">Our Secret</p>
+        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">ここで起きることは<br>あなたと私だけの秘密</h2>
+        <p style="font-size:14px;line-height:2.2;color:#7A9A91;">安心してください。<br>あなたの情報は、どこにも出ません。<br><br>心の準備ができたら、はじめましょう。</p>
+    </div>
+    <div style="position:absolute;bottom:0;left:0;right:0;padding:16px 32px 40px;background:#0A0D0B;">
+        <div style="display:flex;justify-content:center;gap:8px;margin-bottom:24px;">
+            <span class="ob-dot" data-i="0" style="display:block;width:16px;height:8px;border-radius:4px;background:#5C8E84;transition:all .3s;"></span>
+            <span class="ob-dot" data-i="1" style="display:block;width:8px;height:8px;border-radius:50%;background:#2E3E3A;transition:all .3s;"></span>
+            <span class="ob-dot" data-i="2" style="display:block;width:8px;height:8px;border-radius:50%;background:#2E3E3A;transition:all .3s;"></span>
+        </div>
+        <button id="ob-next-btn" style="width:100%;font-weight:700;padding:16px;border-radius:12px;border:none;cursor:pointer;font-size:14px;font-family:inherit;background:#3E6B62;color:#E8EDE9;transition:all .3s;">次へ</button>
+        <button id="ob-skip-btn" style="width:100%;padding:12px;margin-top:8px;font-size:12px;background:transparent;border:none;cursor:pointer;color:#4E6860;font-family:inherit;">スキップ</button>
+    </div>
+</div>
+
+<!-- SIDE DRAWER -->
+<div id="drawer-overlay" class="fixed inset-0 z-40 hidden" style="background:rgba(0,0,0,.4);backdrop-filter:blur(2px);" onclick="closeDrawer()"></div>
+<nav id="drawer" class="fixed top-0 left-0 bottom-0 z-40 w-72 transform -translate-x-full transition-transform duration-300" style="background:var(--bg-card);border-right:var(--border-w) solid var(--border-color);box-shadow:var(--shadow-lg);">
+    <div class="flex flex-col h-full">
+        <div class="p-5 flex items-center justify-between" style="border-bottom:var(--border-w) solid var(--border-color);">
+            <span class="t-service" style="color:var(--primary-dark);">Fortuna</span>
+            <button onclick="closeDrawer()" class="w-8 h-8 flex items-center justify-center rounded-lg" style="color:var(--text-sub);"><i data-lucide="x" class="w-5 h-5"></i></button>
+        </div>
+        <div class="flex-1 p-4 space-y-1">
+            <button onclick="window.open('#privacy','_self');closeDrawer();" class="drawer-item w-full text-left flex items-center gap-3 p-3 rounded-xl" style="color:var(--text-main);">
+                <i data-lucide="shield" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">プライバシーポリシー</span>
+            </button>
+            <button onclick="window.open('#terms','_self');closeDrawer();" class="drawer-item w-full text-left flex items-center gap-3 p-3 rounded-xl" style="color:var(--text-main);">
+                <i data-lucide="file-text" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">利用規約</span>
+            </button>
+            <div class="my-2" style="height:1px;background:var(--border-color);"></div>
+            <!-- Dark mode toggle -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="color:var(--text-main);">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="moon" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">ダークモード</span>
+                </div>
+                <label class="relative inline-block w-11 h-6 cursor-pointer">
+                    <input type="checkbox" id="theme-toggle" class="sr-only peer" checked>
+                    <span class="absolute inset-0 rounded-full transition-colors duration-300 peer-checked:bg-[#5C8E84]" style="background:var(--border-color);"></span>
+                    <span class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 peer-checked:translate-x-5"></span>
+                </label>
+            </div>
+            <!-- Tutorial toggle -->
+            <div class="flex items-center justify-between p-3 rounded-xl" style="color:var(--text-main);">
+                <div class="flex items-center gap-3">
+                    <i data-lucide="sparkles" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">起動時チュートリアル</span>
+                </div>
+                <label class="relative inline-block w-11 h-6 cursor-pointer">
+                    <input type="checkbox" id="tutorial-toggle" class="sr-only peer" checked>
+                    <span class="absolute inset-0 rounded-full transition-colors duration-300 peer-checked:bg-[#5C8E84]" style="background:var(--border-color);"></span>
+                    <span class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 peer-checked:translate-x-5"></span>
+                </label>
+            </div>
+        </div>
+        <div class="p-4" style="border-top:var(--border-w) solid var(--border-color);">
+            <p class="t-caption text-center" style="color:var(--text-muted);">Fortuna v1.0 — by Fortuna Team</p>
+        </div>
+    </div>
+</nav>
+
+<!-- HAMBURGER BUTTON (fixed top-left) -->
+<button id="hamburger-btn" onclick="openDrawer()" style="position:fixed;top:16px;left:16px;z-index:50;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--bg-card);border:1.5px solid var(--border-color);box-shadow:0 2px 10px rgba(0,0,0,.2);cursor:pointer;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-sub)" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+</button>
 
 <!-- SCAN OVERLAY -->
 <div id="scan-overlay" class="fixed inset-0 z-50 hidden flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
@@ -112,20 +219,12 @@
     </div>
 </div>
 
-<!-- PREMIUM MODAL -->
-<div id="premium-modal" class="fixed inset-0 z-50 hidden flex items-center justify-center p-4 opacity-0 transition-opacity duration-300" style="background:rgba(0,0,0,.4);backdrop-filter:blur(4px);">
-    <div id="premium-modal-inner" class="fortune-card p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
-        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="lock" class="w-6 h-6" style="color:var(--primary);"></i></div>
-        <h3 class="t-header mb-2" style="color:var(--primary-dark);letter-spacing:1px;">プレミアム鑑定</h3>
-        <p class="t-body leading-relaxed mb-6" style="color:var(--text-sub);">「人生の転機」「金運ピーク期」「真の相性」などの詳細鑑定は、現在プロトタイプ版のためロック中です。</p>
-        <button id="close-premium-btn" class="btn-ghost w-full">閉じる</button>
-    </div>
-</div>
+<!-- (premium modal removed — now inline) -->
 
 <div id="toast" class="toast"></div>
 
 <!-- MAIN -->
-<main class="relative z-10 w-full max-w-md mx-auto px-4 py-8 pb-24" style="min-height:100dvh;">
+<main class="relative z-10 w-full max-w-md mx-auto px-4 pt-16 pb-24" style="min-height:100dvh;">
 
     <!-- INPUT -->
     <section id="input-section">
@@ -138,13 +237,21 @@
             <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
             <div class="space-y-5 pt-2">
                 <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">ニックネーム</label><input type="text" id="name" placeholder="例: ジョン" class="form-input" maxlength="20"></div>
-                <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">生年月日</label><input type="date" id="birthdate" class="form-input"></div>
+                <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">生年月日</label>
+                    <div class="flex items-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);overflow:hidden;">
+                        <select id="birth-year" class="birth-select" style="flex:1.2;"><option value="">年</option></select>
+                        <span class="birth-sep">/</span>
+                        <select id="birth-month" class="birth-select"><option value="">月</option></select>
+                        <span class="birth-sep">/</span>
+                        <select id="birth-day" class="birth-select"><option value="">日</option></select>
+                    </div>
+                </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">性別</label><select id="gender" class="form-input"><option value="unspecified">回答しない</option><option value="female">女性</option><option value="male">男性</option></select></div>
                     <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">現在の状況</label><select id="status" class="form-input"><option value="single_free">フリー</option><option value="single_partnered">パートナー有</option><option value="married">既婚</option></select></div>
                 </div>
                 <button id="predict-btn" class="btn-primary mt-4"><i data-lucide="sparkles" class="w-4 h-4"></i><span>占いを開始する</span></button>
-                <p id="error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を入力してください</p>
+                <p id="error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を選択してください</p>
             </div>
         </div>
         <p class="text-center t-caption mt-6 fade-up d3" style="color:var(--text-muted);">入力データは端末内でのみ処理されます</p>
@@ -171,21 +278,56 @@
             </div>
         </div>
 
-        <!-- PREMIUM -->
-        <div class="fortune-card p-6 mt-6 fade-up d8 relative overflow-hidden" style="border-color:var(--primary);">
-            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary-dark),transparent);"></div>
-            <div class="absolute -right-8 -bottom-8 opacity-5"><i data-lucide="star" class="w-40 h-40" style="color:var(--primary);"></i></div>
-            <div class="relative z-10">
-                <p class="mono-font t-card-title mb-4" style="color:var(--primary);">PREMIUM</p>
-                <p class="t-body leading-relaxed mb-5" style="color:var(--text-sub);">この星の配置を持つ方に多い特徴が、まだいくつか見つかっています。</p>
-                <ul class="space-y-2.5 mb-6">
-                    <li class="flex items-center gap-2.5 t-body" style="color:var(--text-main);"><i data-lucide="calendar-clock" class="w-4 h-4" style="color:var(--primary);"></i><span>人生の転機となる年</span></li>
-                    <li class="flex items-center gap-2.5 t-body" style="color:var(--text-main);"><i data-lucide="trending-up" class="w-4 h-4" style="color:var(--primary);"></i><span>金運がピークになる時期</span></li>
-                    <li class="flex items-center gap-2.5 t-body" style="color:var(--text-main);"><i data-lucide="heart-handshake" class="w-4 h-4" style="color:var(--primary);"></i><span>本当に相性の良いタイプ</span></li>
-                </ul>
-                <button id="premium-btn" class="btn-primary w-full"><i data-lucide="lock-open" class="w-4 h-4"></i><span>もっと深く占う</span></button>
+        <!-- PREMIUM DEEP DIVE -->
+        <div class="mt-8 fade-up d8">
+            <div class="flex items-center gap-2.5 mb-4">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="sparkles" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                <div>
+                    <p class="t-service" style="color:var(--text-main);">もっと深く知る</p>
+                    <p class="t-caption" style="color:var(--text-muted);">気になるテーマをタップして深掘り</p>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-3" id="premium-categories">
+                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="love">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--danger-light);"><i data-lucide="heart" class="w-4 h-4" style="color:var(--danger);"></i></div>
+                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">恋愛・相性</p>
+                    <p class="t-caption" style="color:var(--text-muted);">相性・恋愛傾向を3段階で</p>
+                </button>
+                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="career">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="briefcase" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">仕事・転職</p>
+                    <p class="t-caption" style="color:var(--text-muted);">適職・行動プランまで</p>
+                </button>
+                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="money">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="coins" class="w-4 h-4" style="color:var(--warning-text);"></i></div>
+                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">お金・投資</p>
+                    <p class="t-caption" style="color:var(--text-muted);">金運タイプ・行動指針</p>
+                </button>
+                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:#EDE8F5;"><i data-lucide="users" class="w-4 h-4" style="color:#7C6FA0;"></i></div>
+                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p>
+                    <p class="t-caption" style="color:var(--text-muted);">悩みの根本・解決策</p>
+                </button>
+            </div>
+            <!-- Dynamic step container -->
+            <div id="deep-dive-area" class="mt-4 space-y-4"></div>
+        </div>
+
+        <!-- Paywall Gate -->
+        <div id="paywall-gate" class="hidden mt-6">
+            <div class="fortune-card p-6 relative overflow-hidden" style="border-color:var(--primary);">
+                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary-dark),transparent);"></div>
+                <div class="absolute -right-8 -bottom-8 opacity-5"><i data-lucide="lock" class="w-40 h-40" style="color:var(--primary);"></i></div>
+                <div class="relative z-10 text-center">
+                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="crown" class="w-5 h-5" style="color:var(--primary);"></i></div>
+                    <p class="t-service mb-2" style="color:var(--primary-dark);">Fortuna Premium</p>
+                    <p class="t-body leading-relaxed mb-4" style="color:var(--text-sub);">全カテゴリの深掘りや毎月の運勢アップデートをご利用いただけます。</p>
+                    <button id="paywall-btn" class="btn-primary w-full mb-3"><i data-lucide="crown" class="w-4 h-4"></i><span>プレミアムに登録する</span></button>
+                    <p class="t-caption" style="color:var(--text-muted);">現在準備中です</p>
+                </div>
             </div>
         </div>
+
         <div class="mt-6 fade-up d8"><button id="reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>別の占いをする</span></button></div>
     </section>
 </main>
@@ -194,6 +336,29 @@
 
 <script>
 const db={zodiac:{aries:{name:'牡羊座',icon:'flame',base:{sub:'情熱的なパイオニア',points:['思い立ったら即行動する直感タイプ','嘘がつけず裏表のない性格','新しい挑戦に対して恐れがない','負けず嫌いで上昇志向が強い'],conc:'周囲からは「エネルギッシュで裏表のない人」として映る傾向があります。'},thought:{sub:'直感と決断力',points:['迷うよりまず動く行動派','最初の直感を強く信じる','過去より未来に目が向きやすい'],conc:'ゼロからイチを生み出す開拓者の資質を持っています。'},relation:{sub:'素直でストレート',points:['回りくどい表現が苦手','気の合う仲間と熱く語り合える','怒りの持続時間が短い'],conc:'建前より本音で関わり合える関係を好むタイプです。'},romance_free:{points:['直感で恋に落ちやすい','自分から積極的にアプローチする','駆け引きを面倒に感じる'],caution:['熱しやすく冷めやすい面に注意','相手のペースを置き去りにしやすい'],conc:'一緒にアクティブな体験を楽しめる相手との出会いが鍵です。'},romance_pair:{points:['愛情表現がストレートで伝わりやすい','デートはアクティブ派','相手をリードしたい気持ちが強い'],caution:['たまには相手の意見に耳を傾けること','関係のマンネリ化に注意'],conc:'お互いに新しい挑戦を共有することで関係が活性化します。'},romance_married:{points:['家族を引っ張るリーダー気質','休日は外出派','明るく風通しの良い家庭を作る'],caution:['自分のペースを家族に押し付けない','家事の分担を明確にすること'],conc:'適度な自由と家族イベントの両立が円満の秘訣です。'}},taurus:{name:'牡牛座',icon:'mountain',base:{sub:'穏やかな堅実主義者',points:['落ち着いた雰囲気で信頼を集める','コツコツ積み上げることが得意','一度決めたことは長く継続できる','感情より安定・現実を重視する'],conc:'周囲からは「安心感のある人」として映る傾向があります。'},thought:{sub:'慎重で現実的',points:['リスクを十分に検討する','勢いではなく納得してから動く','長期的な視点で判断する'],conc:'資産形成・計画・仕組みづくりに適性があります。'},relation:{sub:'狭く深い信頼関係',points:['信頼できる人を大切にする','穏やかな表面を保つ','本音は簡単に出さない'],conc:'無理な付き合いより安心できる関係を好むタイプです。'},romance_free:{points:['駆け引きより信頼関係を重視','一度好きになると長く続く','慎重に相手を見極める'],caution:['一人の時間も大切にしすぎる面','恋愛を後回しにしがち'],conc:'自分の生活を大切にしながら自然体で出会える関係が吉です。'},romance_pair:{points:['浮気の心配が少なく誠実','美味しい食事や空間の共有が好き','安定感のある関係を築く'],caution:['頑固になって意見を譲らない時がある','変化を嫌う傾向'],conc:'一緒に美味しいものを楽しむ時間が最高の愛情表現になります。'},romance_married:{points:['家族の基盤をしっかり守る','経済観念がしっかりしている','住環境へのこだわりが強い'],caution:['所有欲が強くなりすぎないこと','「こうあるべき」を押し付けないこと'],conc:'五感を満たす快適な家づくりが家族の幸福度に直結します。'}},gemini:{name:'双子座',icon:'messages-square',base:{sub:'好奇心旺盛な情報通',points:['頭の回転が速く機転が利く','話題が豊富でコミュニケーション上手','同時進行で複数をこなすマルチタスク派','一つの場所に留まるのが苦手'],conc:'周囲からは「話していて面白い多才な人」として映る傾向があります。'},thought:{sub:'論理的で客観的',points:['感情論よりデータ・事実を好む','常に新しい情報を取り入れる','一つの考えに固執しない柔軟さ'],conc:'情報収集やトレンド分析に優れた資質があります。'},relation:{sub:'広く風通しの良い関係',points:['誰とでもすぐに打ち解ける','深刻な悩み相談は少し苦手','ネットワークを広げるのが上手い'],conc:'軽やかで楽しい関係を好むタイプです。'},romance_free:{points:['会話のテンポを重視する','友達から恋愛に発展しやすい','束縛されると距離を置く'],caution:['飽きっぽい面がある','深刻なムードが苦手'],conc:'知的な会話が弾み自由を尊重し合える相手が吉です。'},romance_pair:{points:['友達のような恋人関係','一緒にいて飽きない会話力','新しい話題を常に提供できる'],caution:['連絡頻度にムラがある','深い感情表現を照れ隠ししやすい'],conc:'お互いの趣味・一人の時間を尊重する関係が長続きの鍵です。'},romance_married:{points:['会話が絶えない明るい家庭','フットワークの軽い行動派','夫婦というより親友のような関係'],caution:['家族行事より自分の予定を優先しがち','小言が多くならないこと'],conc:'夫婦で共通の趣味や学びを持つと新鮮さが続きます。'}},cancer:{name:'蟹座',icon:'shield',base:{sub:'愛情深い守護者',points:['共感力が非常に高い','身内や仲間を全力で守る','記憶力が良く過去を大切にする','警戒心が強く最初は人見知り'],conc:'周囲からは「優しくて面倒見の良い人」として映る傾向があります。'},thought:{sub:'感情と直感がベース',points:['理屈より「どう感じるか」を大切にする','場の空気を瞬時に読み取る','安心・安全を第一に考える'],conc:'人のサポートや快適な環境づくりに優れた資質があります。'},relation:{sub:'深い絆の構築者',points:['心を開いた相手にはとことん尽くす','冷たい人・攻撃的な人が苦手','共感をベースに絆を深める'],conc:'アットホームなコミュニティを好むタイプです。'},romance_free:{points:['相手の世話を焼くのが好き','外見より安心感・包容力を重視','過去の恋愛を引きずりやすい'],caution:['傷つくのを恐れて奥手になりがち','相手の顔色を伺いすぎる'],conc:'あなたの優しさに感謝してくれる誠実な相手が吉です。'},romance_pair:{points:['包み込むような深い愛情表現','手料理や生活面で尽くす','一緒にいる時間を何より大切にする'],caution:['感情の起伏が激しくなる時がある','束縛・干渉しすぎに注意'],conc:'言葉で愛情を確かめ合うと情緒が安定します。'},romance_married:{points:['家族を最優先にする','温かく居心地の良い家庭を築く才能','子供・配偶者への愛情が深い'],caution:['心配が過干渉になりがち','不満を突然爆発させる'],conc:'「自分のための時間」も意識的に確保することが大切です。'}},leo:{name:'獅子座',icon:'crown',base:{sub:'華やかな主役タイプ',points:['自己表現が得意で堂々としている','頼られると期待以上の力を出す','ドラマチックで楽しいことが好き','プライドが高く弱音は見せない'],conc:'周囲からは「明るく頼りになるリーダー」として映る傾向があります。'},thought:{sub:'スケールが大きく前向き',points:['細かいことより全体像を重視','「どう輝くか」を常に意識','ポジティブで逆境に強い'],conc:'人前に立つこと、プロジェクトの牽引に適性があります。'},relation:{sub:'場の中心で盛り上げる',points:['気前が良くおもてなし好き','褒められると大きく伸びる','無視や軽い扱いには傷つく'],conc:'自分を認めてくれる人たちと楽しく華やかに過ごすのを好みます。'},romance_free:{points:['情熱的でドラマチックな展開を好む','サプライズで相手を喜ばせたい','理想が高く誇れる相手を探す'],caution:['見栄を張ってしまいがち','自分の話が中心になりやすい'],conc:'あなたを主役として立ててくれる相手が吉です。'},romance_pair:{points:['恋人には一途で甘い','華やかなデートやプレゼントを好む','相手を守る正義感が強い'],caution:['自己中心的にならないこと','相手の都合も考慮すること'],conc:'感謝と日常の小さな幸せも大切にすると絆が深まります。'},romance_married:{points:['家族の誇り・大黒柱','子供のように無邪気に遊べる親','記念日を盛大にお祝いする'],caution:['家庭内でも主導権を握りたがる','見栄っ張りな出費に注意'],conc:'「ありがとう」「すごいね」の言葉が円満の原動力です。'}},virgo:{name:'乙女座',icon:'scan-search',base:{sub:'几帳面な完璧主義者',points:['細部まで気がつきミスが少ない','実用的で役立つことを好む','清潔感と秩序を大切にする','自分にも他人にも厳しい面がある'],conc:'周囲からは「有能でしっかり者」として映る傾向があります。'},thought:{sub:'論理的でデータ重視',points:['曖昧さより事実と数字を信頼する','物事を整理・分析して最適化する','計画を立ててから実行に移す'],conc:'データ管理・品質チェック・実務処理に優れた資質があります。'},relation:{sub:'誠実で細やかな気配り',points:['困っている人を放っておけない','約束や時間は厳守する','ルーズな人が苦手'],conc:'お互いを尊重できる誠実な関係を好むタイプです。'},romance_free:{points:['相手の人間性・生活態度をよく観察する','清潔感やマナーを重視する','徐々に知ってから好きになる'],caution:['減点方式で見てしまいがち','理想が高すぎて発展しにくい'],conc:'誠実で地に足のついた尊敬できる相手が吉です。'},romance_pair:{points:['体調や気分の変化に細やかに気づく','デートの計画・手配が完璧','真面目で浮気の心配が少ない'],caution:['批判的に相手の欠点を指摘しがち','細かいことを気にしすぎる'],conc:'相手の欠点も「個性」として大目に見る余裕が鍵です。'},romance_married:{points:['家計管理や家事がきっちりしている','家族の健康管理を徹底する','効率的な役割分担を設計する'],caution:['自分のルールを押し付けがち','神経質になりすぎること'],conc:'完璧を目指しすぎず多少の余白を笑って許せると円満です。'}},libra:{name:'天秤座',icon:'scale',base:{sub:'バランス感覚の社交家',points:['人当たりが良く誰に対しても公平','争いを避け平和を愛する','美意識が高くセンスが良い','決断に時間がかかりやすい'],conc:'周囲からは「洗練されて付き合いやすい人」として映る傾向があります。'},thought:{sub:'客観的で多角的な視点',points:['常にバランスを取ろうとする','相手の立場で考えられる','極端な思想・行動を嫌う'],conc:'交渉・デザイン・人と人を繋ぐ調整役に適性があります。'},relation:{sub:'スマートな距離感',points:['誰とでも適度に付き合える','場の空気を読んで話を合わせる','泥臭い感情のぶつかり合いは苦手'],conc:'知的でスマートな会話が楽しめる平和な関係を好みます。'},romance_free:{points:['外見やファッションセンスを重視しがち','ロマンチックなシチュエーションに弱い','受け身になりやすく押しに弱い'],caution:['八方美人で誤解を招く','自分から決断するのが苦手'],conc:'リードしてくれて美的センスを共有できる相手が吉です。'},romance_pair:{points:['喧嘩を避け穏やかな関係を維持する','いつもオシャレに気を遣う','相手の意見を尊重して合わせる'],caution:['本音を我慢してストレスを溜める','優柔不断で相手を困らせる'],conc:'たまには本音でぶつかる勇気を持つことも大切です。'},romance_married:{points:['おしゃれで生活感のない理想の家庭','夫婦喧嘩が少なく会話で解決する','パートナーを対等に扱う'],caution:['面倒な問題から目を背けがち','外面を良くすることに注力しすぎ'],conc:'ありのままを見せ合える関係づくりが大切です。'}},scorpio:{name:'蠍座',icon:'eye',base:{sub:'洞察力の鋭い探求者',points:['物事の裏側や本質を見抜く直感','並外れた集中力を発揮する','秘密主義で本心は滅多に見せない','最後までやり遂げる執念がある'],conc:'周囲からは「ミステリアスで芯の強い人」として映る傾向があります。'},thought:{sub:'深く狭く徹底的に',points:['中途半端を嫌い白黒ハッキリさせる','興味ある分野は専門家レベルまで調べる','表面的な情報に惑わされない'],conc:'研究・調査・専門職など深く掘り下げる仕事に適性があります。'},relation:{sub:'嘘を見抜く深い絆',points:['裏切りを絶対に許さない','ごく少数の人を深く愛する','上辺だけの付き合いは時間の無駄'],conc:'魂レベルで共鳴し合える絶対的な信頼関係を求めます。'},romance_free:{points:['直感で相手の本質を見抜き一途に想う','ミステリアスな色気で人を惹きつける','軽い関係には興味がない'],caution:['嫉妬深く独占欲が強くなりやすい','相手のすべてを知りたがる'],conc:'深い愛情を受け止め裏切らない誠実な相手が吉です。'},romance_pair:{points:['全身全霊で相手を愛する','二人の世界を大切にし秘密を共有する','頼りになる強さがある'],caution:['些細な言動を深読みしすぎる','一度怒ると長期間根に持つ'],conc:'信頼して少し放任する余裕を持つことが大切です。'},romance_married:{points:['家族を外敵から守る強い意志','夫婦の絆を非常に重視する','困難な状況でも逃げ出さない'],caution:['秘密を抱え込みやすい','執着心が強すぎる面'],conc:'「それぞれの世界」を認め合うと風通しが良くなります。'}},sagittarius:{name:'射手座',icon:'compass',base:{sub:'自由を愛する冒険家',points:['常に未知の世界や新しい知識を求める','束縛を極端に嫌い自分のペースで動く','おおらかで楽天的な性格','目標を見つけると真っ直ぐ突き進む'],conc:'周囲からは「行動力があり楽しそうな人」として映る傾向があります。'},thought:{sub:'直感的で未来志向',points:['常に「次は何をするか」を考える','哲学的な問いや大きなビジョンが好き','衝動と直感で動く行動派'],conc:'海外関連やアイデアを形にする企画職に適性があります。'},relation:{sub:'オープンで裏表なし',points:['誰に対してもフレンドリーで偏見がない','思ったことをストレートに言う','ベタベタした依存関係は苦手'],conc:'自由を尊重し合いフランクに語れる関係を好みます。'},romance_free:{points:['恋愛も一種の冒険として楽しむ','束縛してくる相手は即対象外','国境も年齢も気にしない大胆さ'],caution:['熱しやすく冷めやすいハンター気質','追いかける恋のほうが燃える'],conc:'自由を理解し共に未知を楽しめる相手が吉です。'},romance_pair:{points:['旅行や新体験の共有が好き','寛容で細かいことを気にしない','恋人であり親友のような関係'],caution:['デリカシーに欠ける発言に注意','放置気味になりやすい'],conc:'相手の話を最後まで聞く姿勢が信頼を深めます。'},romance_married:{points:['自由で明るい型破りな家庭','子供にも多様な体験をさせたい','細かいルールを嫌う'],caution:['地味なルーティン作業から逃げがち','金銭面がどんぶり勘定に'],conc:'最低限のルールを共有しつつ週末は冒険に出るのが円満の鍵です。'}},capricorn:{name:'山羊座',icon:'target',base:{sub:'目標達成型の努力家',points:['掲げた目標は必ず達成しようとする','無駄を嫌い時間・お金を効率的に使う','伝統やルールを重んじる真面目さ','年齢とともに魅力が増す大器晩成型'],conc:'周囲からは「頼りがいのあるしっかり者」として映る傾向があります。'},thought:{sub:'現実的で長期計画型',points:['未来の安定を優先する','実利と結果を重視する','常にプランBを用意している'],conc:'組織マネジメントや時間をかけた事業構築に適性があります。'},relation:{sub:'信頼と実績を重視',points:['軽薄な人・口だけの人が一番苦手','有益か尊敬できるかを無意識に判断する','一度信頼した相手には義理堅い'],conc:'落ち着いた大人の付き合いを好むタイプです。'},romance_free:{points:['恋愛にも将来性・現実的メリットを求める','時間をかけて相手を審査する','アプローチは非常に慎重'],caution:['条件で人を選びがち','仕事が忙しいと恋愛を後回しにする'],conc:'野心を理解し精神的にも自立した相手が吉です。'},romance_pair:{points:['浮気の心配が少なく一途','記念日はきっちり計画してお祝い','将来に向けた現実的な話ができる'],caution:['愛情表現が不器用で言葉不足','相手にも同レベルの努力を求めがち'],conc:'結果だけでなく一緒に過ごす過程も楽しむことが長続きの鍵です。'},romance_married:{points:['家族を経済的・社会的に守る責任感','家計管理と老後の備えが万全','子供にしっかりした教育を受けさせたい'],caution:['仕事人間でコミュニケーション不足','理想の家庭像を押し付けがち'],conc:'計画を忘れて家族とダラダラする余裕も大切です。'}},aquarius:{name:'水瓶座',icon:'lightbulb',base:{sub:'独創的な自由人',points:['常識にとらわれない独自の世界観','誰に対してもフラットで平等','感情的になるのが苦手でクール','最新テクノロジーや未来的なものに興味'],conc:'周囲からは「個性的で天才肌の人」として映る傾向があります。'},thought:{sub:'未来志向で俯瞰的',points:['「普通」という前提を疑う','全体の合理性を個人の感情より優先','閃きと論理を組み合わせる'],conc:'IT・企画・フリーランスなど裁量のある仕事に適性があります。'},relation:{sub:'自立したネットワーク',points:['年齢・性別・国籍を問わず幅広い交友','自分のテリトリーへの侵入を嫌う','多様性を本気で尊重する'],conc:'個性を認め合い干渉しない自立した関係を好みます。'},romance_free:{points:['恋愛感情より人間的な面白さを重視','友達からいつの間にか恋に発展','ドロドロした感情が苦手'],caution:['恋人にも友達と同じ態度を取りがち','変わり者すぎて一般的アプローチが通じない'],conc:'知的で自立しお互いの時間を尊重し合える相手が吉です。'},romance_pair:{points:['恋人を一人の人間として尊重する','既存の枠にとらわれない付き合い方','趣味・仕事の話で盛り上がれる'],caution:['ロマンチックな演出は期待できない','突然距離を置くことがある'],conc:'二人に合ったオリジナルな関係性を築くことが大切です。'},romance_married:{points:['伝統的な役割分担にこだわらない','お互いの生き方を尊重する風通しの良さ','子供を一人の人間として対等に扱う'],caution:['現実問題から逃げがち','ドライすぎて寂しい思いをさせる'],conc:'家族の非合理的な感情にも寄り添う努力が必要です。'}},pisces:{name:'魚座',icon:'waves',base:{sub:'共感力の高いロマンチスト',points:['他者の感情をスポンジのように吸収する共感力','誰にでも優しく寄り添える境界線のなさ','想像力が豊かで空想の世界が好き','直感や目に見えないものを信じる'],conc:'周囲からは「癒し系で不思議な魅力のある人」として映る傾向があります。'},thought:{sub:'直感的で柔軟',points:['「何となくそう感じる」で動く直感型','水のように状況に適応する柔軟さ','芸術的センスやインスピレーションに優れる'],conc:'芸術・クリエイティブ・医療福祉など人を癒やす仕事に適性があります。'},relation:{sub:'自己犠牲的な優しさ',points:['困っている人を放っておけない','押しに弱くNOと言えない','厳しい現実や争いから逃避する癖'],conc:'穏やかな人に囲まれた平和な関係を好むタイプです。'},romance_free:{points:['恋愛体質で常に誰かに恋していたい','相手の色に染まることに喜びを感じる','同情が愛情に変わることが多い'],caution:['ダメな人を引き寄せ依存しやすい','雰囲気に流されやすい'],conc:'優しさを利用せず守ってくれる現実感覚のある相手が吉です。'},romance_pair:{points:['相手の求めることを察知し献身的に尽くす','ロマンチックな雰囲気を大切にする','深い精神的な繋がりを求める'],caution:['相手との境界線が曖昧になりがち','悲劇のヒロインを演じてしまう'],conc:'自分の「嫌なこと」もしっかり伝える強さが長続きの鍵です。'},romance_married:{points:['家族に無償の愛を注ぐ優しい親','家に芸術的な癒やしの空間を作る','パートナーの痛みを受け止める'],caution:['家計管理や厳しいしつけが苦手','優しすぎて子供を甘やかしがち'],conc:'現実的な問題はパートナーと分担し精神的ケアで家族を支えると円満です。'}}},numerology:{1:{job:{sub:'独立・リーダー型',good:['裁量権がある環境','新規事業の立ち上げ','前に出る役割'],bad:['マニュアル通りの作業','指示待ちの環境']},money:'自ら稼ぎ出す力が強い。投資や事業で大きく増やすポテンシャルあり。'},2:{job:{sub:'サポート・調整型',good:['秘書・アシスタント','1対1の接客','チームの調整役'],bad:['強い競争やノルマ','殺伐とした環境']},money:'堅実に貯めるタイプ。人との繋がりが金運を呼び込む。'},3:{job:{sub:'クリエイティブ・表現型',good:['企画・アイデア出し','エンタメ・デザイン','人と楽しく関わる仕事'],bad:['単調なルーティン','厳格すぎるルール']},money:'楽しく使うことで巡る運気。交際費はケチらない方が吉。'},4:{job:{sub:'実務・構築型',good:['システム開発・経理','正確性が必要な業務','長期プロジェクト'],bad:['その場しのぎの対応','ルールが頻繁に変わる環境']},money:'最も堅実で貯蓄上手。長期分散投資が向いている。'},5:{job:{sub:'変化・開拓型',good:['営業・広報','旅行・海外関連','変化の激しい業界'],bad:['毎日同じ場所での作業','変化のない安定志向']},money:'出入りが激しい。経験やスキルへの投資が吉。'},6:{job:{sub:'育成・奉仕型',good:['教育・医療・福祉','人材育成','美しいものを扱う仕事'],bad:['利益だけの追求','ギスギスした職場']},money:'人のために使うと金運上昇。家族への投資が吉。'},7:{job:{sub:'探求・専門職型',good:['研究者・エンジニア','専門分析','一人で没頭できる仕事'],bad:['ワイワイしたチーム作業','浅い知識で済む仕事']},money:'専門知識がお金に変わる。無駄遣いは少ないタイプ。'},8:{job:{sub:'達成・組織運営型',good:['経営・マネジメント','金融・不動産','成果が数字で出る仕事'],bad:['ボランティア的業務','評価が曖昧な環境']},money:'稼ぐ力も使う力も大きい。ビジネスを通じた資産形成が得意。'},9:{job:{sub:'俯瞰・社会貢献型',good:['コンサル・NPO','癒やし・精神分野','全体を見渡す役職'],bad:['極端な成果主義','社会のためにならない仕事']},money:'お金への執着は薄いが必要な分は不思議と入ってくる運気。'},11:{job:{sub:'直感・メッセンジャー型',good:['スピリチュアル・芸術','インスピレーション活用','独自センスが必要な仕事'],bad:['論理だけの仕事','現実的すぎる環境']},money:'直感が冴える時にお金が入る。思わぬ幸運も。'},22:{job:{sub:'カリスマ・大構築型',good:['大規模プロジェクト','政治・社会事業','理想を現実化する仕事'],bad:['スケールの小さい業務','誰でもできる作業']},money:'桁違いの財を築くポテンシャル。大きな目標を持つことが鍵。'},33:{job:{sub:'規格外・博愛型',good:['枠に囚われない独自活動','子供・動物に関わる仕事','特殊なクリエイティブ'],bad:['常識を押し付けられる環境','普通の会社員生活']},money:'金銭感覚は独特。好きなことに全振りする傾向あり。'}}};
+// Populate birth date selectors
+(function initBirthSelectors(){
+    const yEl=document.getElementById('birth-year'),mEl=document.getElementById('birth-month'),dEl=document.getElementById('birth-day');
+    const now=new Date().getFullYear();
+    for(let y=now;y>=1930;y--){const o=document.createElement('option');o.value=y;o.textContent=y+'年';yEl.appendChild(o);}
+    for(let m=1;m<=12;m++){const o=document.createElement('option');o.value=m;o.textContent=m+'月';mEl.appendChild(o);}
+    function updateDays(){
+        const y=parseInt(yEl.value)||2000,m=parseInt(mEl.value)||1;
+        const maxD=new Date(y,m,0).getDate();
+        const cur=parseInt(dEl.value);
+        dEl.innerHTML='<option value="">日</option>';
+        for(let d=1;d<=maxD;d++){const o=document.createElement('option');o.value=d;o.textContent=d+'日';if(d===cur)o.selected=true;dEl.appendChild(o);}
+    }
+    yEl.addEventListener('change',updateDays);
+    mEl.addEventListener('change',updateDays);
+    updateDays();
+})();
+
+function getBirthDateStr(){
+    const y=document.getElementById('birth-year').value,m=document.getElementById('birth-month').value,d=document.getElementById('birth-day').value;
+    if(y&&m&&d) return `${y}-${String(m).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    return null;
+}
 
 function getZodiacId(m,d){const r=[[1,20,'capricorn'],[1,31,'aquarius'],[2,19,'aquarius'],[2,29,'pisces'],[3,20,'pisces'],[3,31,'aries'],[4,20,'aries'],[4,30,'taurus'],[5,21,'taurus'],[5,31,'gemini'],[6,21,'gemini'],[6,30,'cancer'],[7,22,'cancer'],[7,31,'leo'],[8,22,'leo'],[8,31,'virgo'],[9,22,'virgo'],[9,30,'libra'],[10,23,'libra'],[10,31,'scorpio'],[11,22,'scorpio'],[11,30,'sagittarius'],[12,21,'sagittarius'],[12,31,'capricorn']];for(let i=0;i<r.length;i+=2){if(m===r[i][0]&&d<=r[i][1])return r[i][2];if(m===r[i][0]&&d<=r[i+1][1])return r[i+1][2];}return 'capricorn';}
 function getDestinyNumber(s){let d=s.replace(/-/g,''),sum;while(d.length>1){sum=d.split('').reduce((a,b)=>a+parseInt(b),0);if([11,22,33].includes(sum))return sum;d=sum.toString();}return parseInt(d);}
@@ -206,8 +371,16 @@ function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up
 
 function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-relaxed" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
 
-let shareData={zodiacName:'',zodiacSub:'',numSub:'',nickname:''};
-function buildShareText(){return`【${shareData.nickname}さん のトリセツ】\n\n星座タイプ：${shareData.zodiacName}「${shareData.zodiacSub}」\n仕事タイプ：「${shareData.numSub}」\n\nFortuna — あなたのトリセツを読み解く`;}
+let shareData={zodiacName:'',zodiacSub:'',numSub:'',nickname:'',keywords:[],moneyHint:'',thoughtSub:'',relationSub:''};
+function buildShareText(){
+    const kw=shareData.keywords.slice(0,3).join(' / ');
+    return`【${shareData.nickname}さん のトリセツ】\n\n` +
+        `${shareData.zodiacName}「${shareData.zodiacSub}」\n` +
+        `性格キーワード：${kw}\n` +
+        `思考タイプ：${shareData.thoughtSub}\n` +
+        `仕事タイプ：${shareData.numSub}\n\n` +
+        `#Fortuna #性格占い #トリセツ`;
+}
 function buildShareUrl(){return 'https://your-domain.com/fortuna/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
@@ -216,19 +389,126 @@ document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-ig').addEventListener('click',()=>{generateShareImage();trackEvent('share',{method:'instagram_image',content_type:'fortune_result'});});
 });
 
-function generateShareImage(){const c=document.getElementById('share-canvas'),ctx=c.getContext('2d'),w=1080,h=1920;ctx.fillStyle='#F6F7F5';ctx.fillRect(0,0,w,h);const g=ctx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#3E6B62');g.addColorStop(1,'#5C8E84');ctx.fillStyle=g;ctx.fillRect(0,0,w,6);ctx.strokeStyle='#E5EBE8';ctx.lineWidth=2;ctx.strokeRect(60,60,w-120,h-120);ctx.fillStyle='#7E928C';ctx.font='600 24px sans-serif';ctx.textAlign='center';ctx.fillText('FORTUNE ANALYSIS',w/2,180);ctx.fillStyle='#3E6B62';ctx.font='700 72px sans-serif';ctx.fillText('Fortuna',w/2,300);ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(340,360);ctx.lineTo(740,360);ctx.stroke();ctx.fillStyle='#2B3830';ctx.font='700 48px sans-serif';ctx.fillText(`${shareData.nickname}さん のトリセツ`,w/2,490);ctx.fillStyle='#5C8E84';ctx.font='600 30px sans-serif';ctx.fillText('— 星座タイプ —',w/2,640);ctx.fillStyle='#2B3830';ctx.font='700 44px sans-serif';ctx.fillText(shareData.zodiacName,w/2,720);ctx.fillStyle='#3E6B62';ctx.font='700 36px sans-serif';ctx.fillText(`「${shareData.zodiacSub}」`,w/2,790);ctx.fillStyle='#E06B2A';ctx.font='600 30px sans-serif';ctx.fillText('— 仕事タイプ —',w/2,950);ctx.fillStyle='#2B3830';ctx.font='700 44px sans-serif';ctx.fillText(`「${shareData.numSub}」`,w/2,1030);ctx.strokeStyle='#E5EBE8';ctx.beginPath();ctx.moveTo(200,1180);ctx.lineTo(880,1180);ctx.stroke();ctx.fillStyle='#7E928C';ctx.font='400 28px sans-serif';ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1340);ctx.fillStyle='#5C8E84';ctx.font='500 24px monospace';ctx.fillText('fortuna-app.com',w/2,1700);c.toBlob(blob=>{const u=URL.createObjectURL(blob),a=document.createElement('a');a.href=u;a.download=`fortuna-${shareData.nickname}.png`;a.click();URL.revokeObjectURL(u);showToast('画像を保存しました');}, 'image/png');}
+function generateShareImage(){
+    const c=document.getElementById('share-canvas'),ctx=c.getContext('2d'),w=1080,h=1920;
+    // Background
+    ctx.fillStyle='#F6F7F5';ctx.fillRect(0,0,w,h);
+    // Top accent bar
+    const g=ctx.createLinearGradient(0,0,w,0);g.addColorStop(0,'#3E6B62');g.addColorStop(1,'#5C8E84');
+    ctx.fillStyle=g;ctx.fillRect(0,0,w,8);
+    // Outer frame
+    ctx.strokeStyle='#E5EBE8';ctx.lineWidth=2;ctx.strokeRect(50,50,w-100,h-100);
+    // Inner accent frame
+    ctx.strokeStyle='#5C8E8430';ctx.lineWidth=1;ctx.strokeRect(70,70,w-140,h-140);
+
+    ctx.textAlign='center';
+
+    // App branding
+    ctx.fillStyle='#7E928C';ctx.font='600 22px sans-serif';
+    ctx.fillText('FORTUNE ANALYSIS',w/2,160);
+    ctx.fillStyle='#3E6B62';ctx.font='700 64px sans-serif';
+    ctx.fillText('Fortuna',w/2,260);
+
+    // Divider
+    ctx.strokeStyle='#5C8E8460';ctx.lineWidth=1.5;
+    ctx.beginPath();ctx.moveTo(360,310);ctx.lineTo(720,310);ctx.stroke();
+
+    // Name + title
+    ctx.fillStyle='#2B3830';ctx.font='700 52px sans-serif';
+    ctx.fillText(`${shareData.nickname}さん のトリセツ`,w/2,420);
+
+    // Zodiac badge area
+    ctx.fillStyle='#EDF4F2';
+    roundRect(ctx,160,480,w-320,160,20);ctx.fill();
+    ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1.5;
+    roundRect(ctx,160,480,w-320,160,20);ctx.stroke();
+    ctx.fillStyle='#5C8E84';ctx.font='600 26px sans-serif';
+    ctx.fillText('星座タイプ',w/2,530);
+    ctx.fillStyle='#2B3830';ctx.font='700 42px sans-serif';
+    ctx.fillText(`${shareData.zodiacName}「${shareData.zodiacSub}」`,w/2,600);
+
+    // Personality keywords (the main visual hook)
+    ctx.fillStyle='#3E6B62';ctx.font='600 26px sans-serif';
+    ctx.fillText('— 性格キーワード —',w/2,730);
+
+    const kws=shareData.keywords.slice(0,4);
+    const kwY=800;
+    const kwColors=['#3E6B62','#5C8E84','#8A6030','#B36060'];
+    kws.forEach((kw,i)=>{
+        const x=w/2;const y=kwY+i*80;
+        ctx.fillStyle='#FFFFFF';
+        roundRect(ctx,180,y-30,w-360,60,30);ctx.fill();
+        ctx.strokeStyle=kwColors[i%4]+'60';ctx.lineWidth=1.5;
+        roundRect(ctx,180,y-30,w-360,60,30);ctx.stroke();
+        ctx.fillStyle=kwColors[i%4];ctx.font='700 28px sans-serif';
+        ctx.fillText(kw,x,y+10);
+    });
+
+    // Work & thinking section
+    const secY=kwY+kws.length*80+60;
+    ctx.fillStyle='#EDF4F2';
+    roundRect(ctx,120,secY,400,120,16);ctx.fill();
+    ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
+    roundRect(ctx,120,secY,400,120,16);ctx.stroke();
+    ctx.fillStyle='#7E928C';ctx.font='600 22px sans-serif';
+    ctx.fillText('思考タイプ',320,secY+45);
+    ctx.fillStyle='#2B3830';ctx.font='700 28px sans-serif';
+    ctx.fillText(shareData.thoughtSub,320,secY+90);
+
+    ctx.fillStyle='#EDF4F2';
+    roundRect(ctx,560,secY,400,120,16);ctx.fill();
+    ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
+    roundRect(ctx,560,secY,400,120,16);ctx.stroke();
+    ctx.fillStyle='#7E928C';ctx.font='600 22px sans-serif';
+    ctx.fillText('仕事タイプ',760,secY+45);
+    ctx.fillStyle='#2B3830';ctx.font='700 28px sans-serif';
+    ctx.fillText(shareData.numSub,760,secY+90);
+
+    // Money hint
+    const moneyY=secY+180;
+    ctx.fillStyle='#FDF6EE';
+    roundRect(ctx,120,moneyY,w-240,80,16);ctx.fill();
+    ctx.strokeStyle='#8A603030';ctx.lineWidth=1;
+    roundRect(ctx,120,moneyY,w-240,80,16);ctx.stroke();
+    ctx.fillStyle='#8A6030';ctx.font='600 26px sans-serif';
+    ctx.fillText(shareData.moneyHint.length>30?shareData.moneyHint.slice(0,30)+'…':shareData.moneyHint,w/2,moneyY+50);
+
+    // Bottom divider
+    ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
+    ctx.beginPath();ctx.moveTo(200,1620);ctx.lineTo(880,1620);ctx.stroke();
+
+    // Hashtags
+    ctx.fillStyle='#5C8E84';ctx.font='600 24px sans-serif';
+    ctx.fillText('#Fortuna  #性格占い  #トリセツ',w/2,1700);
+
+    // Footer
+    ctx.fillStyle='#7E928C';ctx.font='400 22px sans-serif';
+    ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1780);
+    ctx.fillStyle='#5C8E84';ctx.font='500 20px monospace';
+    ctx.fillText('fortuna-app.com',w/2,1830);
+
+    c.toBlob(blob=>{
+        const u=URL.createObjectURL(blob),a=document.createElement('a');
+        a.href=u;a.download=`fortuna-${shareData.nickname}.png`;a.click();
+        URL.revokeObjectURL(u);showToast('画像を保存しました — ストーリーに投稿できます');
+    },'image/png');
+}
+
+// Helper: rounded rect
+function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();}
 
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 
 const scanMessages=["星の配置を読み取っています...","基本性格パラメータを抽出...","思考・行動パターンを解析中...","人間関係・仕事・金運を算出...","トリセツを構築しています..."];
 
 document.getElementById('predict-btn').addEventListener('click',()=>{
-    const name=document.getElementById('name').value.trim()||'ゲスト',dateStr=document.getElementById('birthdate').value,status=document.getElementById('status').value;
+    const name=document.getElementById('name').value.trim()||'ゲスト',dateStr=getBirthDateStr(),status=document.getElementById('status').value;
     if(!dateStr){document.getElementById('error-msg').classList.remove('hidden');return;}
     document.getElementById('error-msg').classList.add('hidden');
     trackEvent('fortune_start',{status});
     const dateObj=new Date(dateStr),m=dateObj.getMonth()+1,d=dateObj.getDate(),zId=getZodiacId(m,d),nId=getDestinyNumber(dateStr),zData=db.zodiac[zId],nData=db.numerology[nId];
-    shareData={zodiacName:zData.name,zodiacSub:zData.base.sub,numSub:nData.job.sub,nickname:name};
+    shareData={zodiacName:zData.name,zodiacSub:zData.base.sub,numSub:nData.job.sub,nickname:name,keywords:zData.base.points.slice(0,4),moneyHint:nData.money,thoughtSub:zData.thought.sub,relationSub:zData.relation.sub};
+    currentUserZId=zId; currentUserNId=nId;
     const overlay=document.getElementById('scan-overlay'),scanText=document.getElementById('scan-text'),scanProgress=document.getElementById('scan-progress');
     overlay.classList.remove('hidden');overlay.classList.add('flex');overlay.style.opacity='1';
     scanProgress.style.transition='none';scanProgress.style.width='0%';
@@ -237,9 +517,513 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';},700);},10500);
 });
 
-document.getElementById('premium-btn').addEventListener('click',()=>{const m=document.getElementById('premium-modal'),i=document.getElementById('premium-modal-inner');m.classList.remove('hidden');requestAnimationFrame(()=>{m.style.opacity='1';i.style.transform='scale(1)';});trackEvent('premium_click');});
-document.getElementById('close-premium-btn').addEventListener('click',()=>{const m=document.getElementById('premium-modal'),i=document.getElementById('premium-modal-inner');m.style.opacity='0';i.style.transform='scale(0.95)';setTimeout(()=>m.classList.add('hidden'),300);});
-document.getElementById('reset-btn').addEventListener('click',()=>{document.getElementById('result-section').classList.add('hidden');document.getElementById('input-section').classList.remove('hidden');document.getElementById('cards-container').innerHTML='';window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_reset');});
+document.getElementById('reset-btn').addEventListener('click',()=>{
+    document.getElementById('result-section').classList.add('hidden');
+    document.getElementById('input-section').classList.remove('hidden');
+    document.getElementById('cards-container').innerHTML='';
+    document.getElementById('deep-dive-area').innerHTML='';
+    document.getElementById('paywall-gate').classList.add('hidden');
+    document.querySelectorAll('.premium-cat-btn').forEach(b=>{b.style.opacity='1';b.classList.remove('active-cat');});
+    window.scrollTo({top:0,behavior:'smooth'});
+    trackEvent('fortune_reset');
+});
+
+// ==========================================
+// PREMIUM: Multi-step branching deep dive
+// ==========================================
+let currentUserZId='', currentUserNId=0;
+let currentCat='', currentAnswers=[], _stepResults=[];
+
+const zodiacElement={aries:'fire',taurus:'earth',gemini:'air',cancer:'water',leo:'fire',virgo:'earth',libra:'air',scorpio:'water',sagittarius:'fire',capricorn:'earth',aquarius:'air',pisces:'water'};
+const elemJa={fire:'火',earth:'地',air:'風',water:'水'};
+function getArchetype(n){if([1,8].includes(n))return'leader';if([2,6].includes(n))return'support';if([3,5,11].includes(n))return'creative';if([4,7].includes(n))return'analyst';return'builder';}
+const archJa={leader:'リーダー',support:'サポーター',creative:'クリエイター',analyst:'アナリスト',builder:'ビルダー'};
+
+// Deep dive flow definitions — each category has steps, each step has question + options
+// Options can have: label, next (next step key), reading (shown before next step)
+function buildLoveFlow(){
+    const el=zodiacElement[currentUserZId];
+    return {
+        step1:{
+            q:'恋愛で一番気になっていることは？',icon:'heart',color:'var(--danger)',
+            opts:[
+                {label:'気になる人がいる',next:'step2_crush'},
+                {label:'今の関係を良くしたい',next:'step2_improve'},
+                {label:'なかなか出会いがない',next:'step2_meet'},
+                {label:'自分の恋愛傾向を知りたい',next:'step2_self'}
+            ]
+        },
+        step2_crush:{
+            q:'その人との関係は今どんな状態？',icon:'heart',color:'var(--danger)',
+            reading:el==='fire'?'火のエレメントのあなたは、好きになったら一直線。直感を信じて行動するタイプですが、相手のペースも意識してみましょう。':el==='earth'?'地のエレメントのあなたは、慎重に相手を観察してから動くタイプ。時間をかけて信頼を築く恋愛が向いています。':el==='air'?'風のエレメントのあなたは、知的な会話やユーモアから恋が始まることが多い。友達関係からの自然な発展がベストです。':'水のエレメントのあなたは、相手の感情を深く感じ取る共感力が武器。ただし相手に尽くしすぎて疲弊しないよう注意。',
+            opts:[
+                {label:'まだ話したことがない',next:'result',result:'まずは相手の興味ある話題をリサーチして、軽い会話から始めましょう。あなたの'+elemJa[el]+'のエレメントは、'+(el==='fire'?'情熱をストレートに見せることで相手の心を動かします。ただし、いきなり距離を詰めすぎないこと。':el==='earth'?'安定感と誠実さが魅力。焦らず、何度か会話を重ねて「安心できる人」というポジションを取りましょう。':el==='air'?'会話の面白さが最大の武器。共通の趣味やニュースの話題で知的な印象を与えて。':'"共感力"が最大の武器。相手の話をじっくり聞いて、気持ちに寄り添うところから始めて。')},
+                {label:'知り合い・友達レベル',next:'result',result:'すでに接点があるのは大きなアドバンテージ。次のステップは二人きりの時間を作ること。'+(el==='fire'?'「一緒に○○しない？」と率直に誘うのがあなたのスタイル。回りくどくするより直球が効果的。':el==='earth'?'食事や映画など「安心できる場所」での誘いが成功しやすい。相手が断りやすいカジュアルな誘い方を。':el==='air'?'「面白い場所見つけたんだけど」と好奇心をくすぐる誘い方が得意なはず。新しい体験を一緒に。':'"最近元気？"から始まる何気ない気遣いが、相手の心に深く刺さるタイプ。LINEでの日常的なやりとりを増やして。')},
+                {label:'いい感じだけど進展しない',next:'result',result:'停滞している時こそ、一歩踏み込む勇気が大切。'+(el==='fire'?'あなたの場合、「待つ」のが一番苦手なはず。気持ちを伝えるタイミングは「今だ」と感じた時。直感を信じて。':el==='earth'?'石橋を叩いて渡るあなたですが、恋愛では「完璧なタイミング」は来ません。70%の確信で動いてOK。':el==='air'?'言葉は得意なはずなのに、本当の気持ちとなると急にうまく言えなくなるタイプ。文章（手紙やLINE）で伝えるのもあり。':'相手の反応を読みすぎて動けなくなっていませんか？「傷つくかも」と考えすぎず、素直な気持ちを言葉にしてみて。')}
+            ]
+        },
+        step2_improve:{
+            q:'今の関係で一番困っていることは？',icon:'heart',color:'var(--danger)',
+            reading:'あなたの恋愛コミュニケーションタイプは「'+elemJa[el]+'」。'+(el==='fire'?'情熱的で率直な表現が持ち味ですが、時に相手を圧倒してしまうことがあります。':el==='earth'?'安定と誠実さが武器ですが、感情を言葉にするのは少し苦手かもしれません。':el==='air'?'軽やかな会話は得意ですが、深い感情を伝えるのは照れてしまうタイプかも。':'相手の気持ちを敏感に感じ取りますが、自分の感情も大きく揺れやすい面があります。'),
+            opts:[
+                {label:'マンネリ気味',next:'result',result:el==='fire'?'火のあなたは「新しい刺激」が関係の起爆剤。二人で行ったことのない場所へ行く、新しい趣味を一緒に始めるなど、ワクワクを共有しましょう。サプライズも効果的。':el==='earth'?'地のあなたは「日常の質を上げる」ことで関係が活性化。いつもの食事を少しリッチにする、インテリアを変えるなど、五感を刺激する変化を。':el==='air'?'風のあなたは「新しい話題・知識」が関係の潤滑油。一緒に映画を見て感想を語り合う、気になる場所のリサーチを二人でするなど、知的な楽しみの共有を。':'水のあなたは「感情の深い共有」で絆が回復。日記のように、今日あった嬉しかったこと・辛かったことをお互いに話す時間を作って。'},
+                {label:'価値観のすれ違い',next:'result',result:el==='fire'?'「自分が正しい」と押し通しがちな火のあなた。まずは相手の話を「5分間黙って聞く」練習を。反論したくなっても、「なるほどね」と一度受け止めてから話すだけで状況は改善します。':el==='earth'?'「こうあるべき」が強い地のあなた。相手にも同じ価値観を求めてしまいがちですが、「違うことは悪いことではない」と自分に言い聞かせて。妥協点を一緒に見つける対話を。':el==='air'?'理論的に正しいことを言いがちな風のあなた。でも恋愛は論理で解決しないことも多い。「正しさ」より「相手がどう感じているか」に意識を向けてみて。':'相手の感情に敏感すぎて、自分の気持ちを後回しにしていませんか？「私はこう思う」を伝えることは、わがままではなく健全なコミュニケーションです。'},
+                {label:'距離感がうまくいかない',next:'result',result:el==='fire'?'距離を詰めたい火のあなたと、スペースが欲しい相手——という構図かもしれません。相手が離れると追いかけたくなりますが、「信頼して待つ」ことが実は最短距離。':el==='earth'?'安定を求めるあまり、相手に「いつも一緒にいたい」プレッシャーを与えているかも。週に1日は各自の時間を作る約束をしてみて。お互いリフレッシュした状態で会うと、関係の質が上がります。':el==='air'?'自由が大切な風のあなた。もしかして相手から「もっと一緒にいたい」と言われて窮屈に感じていますか？「一人の時間＝あなたが嫌い」ではないことを、きちんと言葉で伝えて。':'距離が近すぎて相手と自分の境界線が曖昧になっていませんか？共依存のサインかも。「自分の趣味」「自分だけの友人」を意識的に持つことが、実は関係を長続きさせます。'}
+            ]
+        },
+        step2_meet:{
+            q:'出会いがない原因として心当たりは？',icon:'heart',color:'var(--danger)',
+            reading:elemJa[el]+'のエレメントのあなたの出会い傾向：'+(el==='fire'?'出会いの数は多いけど、熱しやすく冷めやすい面が…。':el==='earth'?'出会いの場に行くこと自体が少ないかも。':el==='air'?'出会いはあるけど「友達止まり」になりやすい。':'"いい人"を演じすぎて本当の自分を出せていないかも。'),
+            opts:[
+                {label:'そもそも出会いの場がない',next:'result',result:el==='fire'?'行動力のある火のあなたには、スポーツイベントやアウトドア系のコミュニティが出会いの場として最適。受け身よりも「自分で場を作る」方が性に合っています。友人を巻き込んだBBQやフットサルの企画を。':el==='earth'?'じっくり関係を築ける場がベスト。料理教室、ワイン会、定期的な読書会など「繰り返し同じ人と会える」コミュニティに参加してみて。一回で判断せず、何度か通うことで自然な出会いが生まれます。':el==='air'?'知的好奇心を刺激される場で輝くあなた。勉強会、ハッカソン、語学交流会、ボードゲームカフェなどがおすすめ。オンラインコミュニティからリアルに発展するパターンも。':'感受性を活かせる場での出会いが吉。美術館巡り、映画のファンコミュニティ、音楽フェス、ボランティア活動など。「この人の感性、好きだな」と思える出会いを大切に。'},
+                {label:'好きになれる人がいない',next:'result',result:el==='fire'?'理想が高いのは悪いことではありません。ただ、「完璧な人」を探すのではなく、「一緒にいてワクワクする人」にフォーカスしてみて。完璧じゃなくても、あなたの情熱に応えてくれる人が見つかるはず。':el==='earth'?'条件で相手を見すぎていませんか？年収・学歴・外見…チェックリストを一度捨てて、「この人と話すと安心する」という感覚を大切に。頭ではなく体と心で感じる「居心地の良さ」がサイン。':el==='air'?'「面白い人」のハードルが高いのかも。誰とでもそつなく話せるからこそ、「特別」を感じにくい。一度、自分の苦手な領域の人と話してみて。意外な化学反応が起きることがあります。':'理想が高いのではなく、「深く繋がれる予感がしない」のが正直なところかも。表面的な出会いではなく、価値観を語り合える場を選んで。少人数の集まりが吉。'},
+                {label:'恋愛に臆病になっている',next:'result',result:el==='fire'?'過去に情熱を全力で注いで傷ついた経験があるのかも。でも、あなたの最大の強みは「また燃えられる力」。一度冷えた炎も、小さなきっかけで再び燃え上がります。怖くても、気になったら近づいてみて。':el==='earth'?'「また傷つくくらいなら一人でいい」と思っていませんか？地のあなたは、一度築いた壁が高い。でも、少しずつ壁に小さな窓を開けるだけでOK。いきなり全開にしなくて大丈夫。':el==='air'?'恋愛を「リスク」として論理的に避けていませんか？損得で考えると恋愛は常に「リスクが高い」ように見える。でも、計算外のことに飛び込む経験が、あなたの人生を豊かにします。':'過去の痛みが深く刻まれているのかも。「もう傷つきたくない」という気持ちは当然。でも、あなたの優しさは誰かを幸せにできる力。まずは「自分を大切にしてくれる人」を見極める目を養って。'}
+            ]
+        },
+        step2_self:{
+            q:'恋愛で自分のどんなところが気になる？',icon:'heart',color:'var(--danger)',
+            opts:[
+                {label:'好きになりすぎてしまう',next:'result',result:elemJa[el]+'のあなたの「好きになりすぎる」パターン：\n\n'+(el==='fire'?'火のあなたは相手に全力投球するあまり、相手が引いてしまうことがあります。「追いかけすぎない」のがポイント。好きだからこそ、相手の時間も尊重する。週に1日は連絡を控えてみて。':el==='earth'?'地のあなたは相手を「所有」しようとする傾向。「この人を絶対離したくない」が行き過ぎると束縛に。相手は「あなたのもの」ではなく「一緒にいることを選んでくれている人」。':el==='air'?'風のあなたは好きになると急に「相手色」に染まることが。自分の趣味や友人関係を手放さないこと。「恋人がいてもいなくても楽しい自分」をキープして。':'水のあなたは相手と感情が完全にシンクロしてしまう。相手が辛いとあなたも辛い、相手が不機嫌だとあなたも不安。「相手の感情は相手のもの」という線引きを意識して。')},
+                {label:'なかなか好きになれない',next:'result',result:elemJa[el]+'のあなたが「好きになれない」理由：\n\n'+(el==='fire'?'「ビビッとくる出会い」を待ちすぎていませんか？実は、火のあなたの「ビビッ」は恋愛感情ではなく征服欲のこともあります。穏やかな安心感を「退屈」と勘違いしないで。':el==='earth'?'慎重に審査しすぎて、合格者がゼロになっていませんか？完璧な相手はいません。「60点だけど、一緒にいて心地よい」を合格ラインにしてみて。':el==='air'?'知的に面白くないと興味が湧かないあなた。でも「面白い人」の定義を広げてみて。口下手でも、行動で面白さを見せてくれる人もいます。':'"この人なら全部さらけ出せる"と思えないと恋愛が始まらないあなた。でも、最初から全部見せなくてOK。少しずつお互いを知っていく過程自体が恋愛。')},
+                {label:'長続きしない',next:'result',result:elemJa[el]+'のあなたの「長続きしない」傾向：\n\n'+(el==='fire'?'「新鮮さ」が薄れると途端に興味を失うのが火の特徴。でも、恋愛の本当の醍醐味は「慣れた後」にあります。飽きたと感じた時こそ、相手の新しい一面を探す好奇心を。':el==='earth'?'関係が安定すると「これが当たり前」になり、感謝を忘れがちになるのが地の特徴。月に一度でも「ありがとう」を改めて伝える習慣を作ると、関係の質が変わります。':el==='air'?'自由を制限されると逃げたくなるのが風の特徴。でも「逃げる」のではなく「調整する」を選んでみて。必要な自由は言葉で伝えれば、理解してくれる相手もいます。':'相手に尽くしすぎて疲弊するのが水の特徴。全部を差し出さなくていい。「自分のキャパシティの8割まで」をルールにして、残りの2割は自分のために取っておくこと。')}
+            ]
+        },
+        // Career flow
+    };
+}
+
+function buildCareerFlow(){
+    const arch=getArchetype(currentUserNId);
+    return {
+        step1:{
+            q:'今の仕事の状況にもっとも近いのは？',icon:'briefcase',color:'var(--primary)',
+            opts:[
+                {label:'今の仕事に概ね満足',next:'step2_ok'},
+                {label:'なんとなくモヤモヤする',next:'step2_moya'},
+                {label:'転職・独立を考えている',next:'step2_change'},
+                {label:'今は求職中・休職中',next:'step2_search'}
+            ]
+        },
+        step2_ok:{
+            q:'さらに成長するために気になることは？',icon:'briefcase',color:'var(--primary)',
+            reading:'あなたの仕事アーキタイプ「'+archJa[arch]+'」は現状に満足しやすい反面、'+(arch==='leader'?'慣れた環境に甘えてしまうリスクがあります。':arch==='support'?'「自分の成長」を後回しにしがちです。':arch==='creative'?'「もっと良いもの」を追求するあまり完成が遅れることも。':arch==='analyst'?'視野が狭くなりがちです。':'目標が大きすぎて日々の進捗を見失うことがあります。'),
+            opts:[
+                {label:'年収・待遇を上げたい',next:'result',result:archJa[arch]+'タイプのあなたの年収アップ戦略：\n\n'+(arch==='leader'?'マネジメント層へのステップアップ、または副業での独自事業が王道。「自分の実績を数字で語れるか」がポイント。上司との1on1で評価基準を確認し、次の昇格条件を明確にしましょう。':arch==='support'?'専門性を資格で証明することが待遇改善の近道。社内で「この人がいないと困る」ポジションを確立し、それを武器に交渉を。転職市場では人事・経理・秘書の専門性が高く評価されます。':arch==='creative'?'作品・実績のポートフォリオが命。副業でもいいので「自分名義の成果物」を増やしましょう。企画力とデザイン力は、フリーランス転向時に大きな武器になります。':arch==='analyst'?'ニッチな専門知識ほど高く売れます。「○○のことなら自分に聞け」と言えるだけのを持てば、転職市場での価値は跳ね上がります。技術ブログや登壇での発信も。':'大きな成果を出せるポジション（プロジェクトマネージャー、事業責任者）を狙いましょう。あなたのスケール感は、裁量が大きいほど発揮されます。')},
+                {label:'スキルアップしたい',next:'result',result:archJa[arch]+'タイプが伸ばすべきスキル：\n\n'+(arch==='leader'?'リーダーシップはすでに強み。次は「人を育てる力」と「聞く力」。コーチング研修やフィードバックの手法を学ぶと、一段上のリーダーに。英語力もグローバルなキャリアを開く鍵。':arch==='support'?'サポート力に加えて、「提案力」を磨くと評価が激変します。「言われたことをやる」から「先回りして提案する」へ。ロジカルシンキングやプレゼンスキルの強化を。':arch==='creative'?'表現力はすでに強み。次は「ビジネス視点」を身につけると差別化できます。マーケティング、データ分析、収益化の知識があるクリエイターは市場価値が2倍に。':arch==='analyst'?'分析力に加えて「伝える力」を。せっかくの洞察も、伝わらなければ価値ゼロ。データビジュアライゼーション、ストーリーテリング、プレゼン技術を磨いて。':'全体を見渡す力はすでに強み。次は「現場レベルの実務力」を一つ身につけると、理想と現実の橋渡しができるリーダーに。財務・法務・テック、どれか一つ深掘りを。')},
+                {label:'やりがいを見つけたい',next:'result',result:archJa[arch]+'タイプのやりがいの源泉：\n\n'+(arch==='leader'?'あなたは「自分の力で状況を変えた」と実感できた時にやりがいを感じます。ルーティンに飽きたら、新しいプロジェクトの立ち上げや、社内横断チームの発起人になってみて。':arch==='support'?'あなたは「誰かの役に立った」と感じた時が最高のモチベーション。でも、感謝されることを「目的」にしてしまうと疲弊します。「自分が楽しい」をベースに、結果として人の役に立つ仕事を。':arch==='creative'?'あなたは「自分のアイデアが形になった」瞬間にやりがいを感じます。今の仕事にクリエイティブな余地がなければ、個人プロジェクトでそれを満たしましょう。ブログ・YouTube・ハンドメイド何でもOK。':arch==='analyst'?'あなたは「深い理解を得た」時に最高の充実感を感じます。仕事に知的挑戦が少ないなら、業務外で学べる場（大学院、MOOCs、研究コミュニティ）に参加してみて。':'あなたは「大きな変化を生み出せた」と実感した時にやりがいを感じます。目の前の業務が小さく感じるなら、NPO活動やプロボノで「社会を動かす」体験を。')}
+            ]
+        },
+        step2_moya:{
+            q:'モヤモヤの正体に近いのは？',icon:'briefcase',color:'var(--primary)',
+            opts:[
+                {label:'評価されていない気がする',next:'result',result:archJa[arch]+'タイプの「評価されない」問題：\n\n'+(arch==='leader'?'成果は出しているのに認められない…それは「見せ方」の問題かも。あなたの実績を「数字」で上司に報告していますか？感覚ではなくデータで語ることで、評価は劇的に変わります。':arch==='support'?'縁の下の力持ちは評価されにくい構造問題。あなたの仕事が「当たり前」になっている可能性。定期的に自分の貢献を言語化して共有する習慣を。月報や1on1を活用して。':arch==='creative'?'創造的な仕事は「結果が出るまで見えにくい」のが悩みの種。プロセスの可視化（途中経過の共有、制作ログ）を意識すると、周囲の理解と評価が変わります。':arch==='analyst'?'専門性が高すぎて「何をやっているか分からない」と思われていませんか？分析結果を「経営にどうインパクトするか」に翻訳して伝える練習を。':'大きなビジョンを語るあなたと、目の前の成果を求める会社のギャップかも。短期的な成果も出しつつ、長期ビジョンを少しずつ実行する「両利きの戦略」を。')},
+                {label:'仕事内容がつまらない',next:'result',result:archJa[arch]+'タイプの「退屈」への処方箋：\n\n'+(arch==='leader'?'裁量がなくなると一気にモチベが下がるタイプ。上司に「もっと任せてほしい」と直接相談するか、社内公募制度を活用して新しいプロジェクトに挑戦を。':arch==='support'?'感謝されない単純作業が続くと疲弊するタイプ。業務の「自動化・効率化」を提案して、余った時間でやりたいことに挑戦する戦略がおすすめ。':arch==='creative'?'ルーティンは天敵。でも「ルーティンの中にクリエイティブを入れる」ことは可能。業務改善の提案、社内広報のデザイン、新しいツール導入の旗振りなど。':arch==='analyst'?'浅い仕事が続くとストレスが溜まるタイプ。一つでいいので「深掘りテーマ」を自分で設定し、業務時間の10%を使って探求してみて。':'スケールの小さい仕事に閉塞感を感じるタイプ。社外のプロジェクト（プロボノ・副業・勉強会運営）で視野を広げると、本業の見え方も変わります。')},
+                {label:'人間関係がしんどい',next:'result',result:archJa[arch]+'タイプの職場人間関係の処方箋：\n\n'+(arch==='leader'?'「自分のやり方」を押し通しすぎていませんか？チームメンバーそれぞれの強みを認めて活かす姿勢を見せると、摩擦が減ります。まず「ありがとう」を増やすことから。':arch==='support'?'人の顔色を伺いすぎて消耗していませんか？「全員に好かれる」は不可能。大切な人2-3人との関係に集中し、それ以外は「仕事上の付き合い」と割り切ってOK。':arch==='creative'?'自由な発想が「空気を読めない」と誤解されることがあるかも。アイデアを出す前に「今の流れ」を確認する一呼吸を置くだけで、受け入れられ方が変わります。':arch==='analyst'?'正論を言いすぎて敵を作っていませんか？「正しいこと」と「人が動くこと」は別。相手のプライドを守りながら伝える技術（クッション言葉）を身につけて。':'理想が高く、周囲にも同じレベルを求めてしまうことはありませんか？「この人はこの人のペースがある」と受け入れる余裕が、実は結果的にチームの成果を上げます。')}
+            ]
+        },
+        step2_change:{
+            q:'転職・独立で一番不安なことは？',icon:'briefcase',color:'var(--primary)',
+            reading:archJa[arch]+'タイプの転職適性スコア：'+(arch==='leader'?'★★★★★ 高い。どこでも力を発揮できるタイプ。':arch==='support'?'★★★☆☆ 環境選びが鍵。合う職場なら一気に開花。':arch==='creative'?'★★★★☆ フリーランス適性も高い。準備期間を十分に。':arch==='analyst'?'★★★★☆ 専門性が武器。資格があるとさらに強い。':'★★★★★ 起業家適性あり。ただしタイミングを見極めて。'),
+            opts:[
+                {label:'収入が下がるのが怖い',next:'result',result:'収入不安への'+archJa[arch]+'タイプの対策：\n\n'+(arch==='leader'?'あなたの場合、転職で年収が上がる可能性は高い。自分の市場価値を転職エージェント3社以上で確認してみて。「今の年収が適正か」を知るだけでも不安は減ります。独立の場合は6ヶ月分の生活費を貯めてから。':arch==='support'?'いきなり辞めず、まずは転職サイトに登録して「市場価値のチェック」を。あなたのスキル（調整力・気配り）は意外と高く評価される分野があります。特に人事・カスタマーサクセス・秘書は引く手あまた。':arch==='creative'?'副業から始めるのが最もリスクが低い。今の仕事を続けながら、週末や夜にクリエイティブな仕事を受ける。月5万円の副収入が安定したら、独立のタイミングです。':arch==='analyst'?'あなたの専門性は「代替不可能」なことが多い。転職市場ではむしろ年収アップのチャンス。ただし「同じ専門性で年収が高い業界」へのスライドがベスト戦略。':'まずは小さく始める。いきなり大きな起業ではなく、コンサルティングや顧問業からスタートして、顧客基盤を作ってからスケールアップ。')},
+                {label:'自分に合う仕事がわからない',next:'result',result:archJa[arch]+'タイプの天職ヒント：\n\n'+(arch==='leader'?'「自分で意思決定できる」「成果が見える」「成長を実感できる」この3つが揃う仕事があなたの天職。具体的には：営業マネージャー、プロジェクトリーダー、起業家、コンサルタント。':arch==='support'?'「人の役に立つ実感がある」「感謝される」「一人ひとりと向き合える」仕事が天職。具体的には：カウンセラー、人事、看護師、セラピスト、カスタマーサクセス。':arch==='creative'?'「自分のアイデアを形にできる」「自由な裁量がある」「新しいことに挑戦できる」仕事が天職。具体的には：デザイナー、企画職、ライター、マーケター、映像制作。':arch==='analyst'?'「深く考える時間がある」「専門性を磨ける」「正確さが求められる」仕事が天職。具体的には：データアナリスト、研究者、エンジニア、士業、品質管理。':'「社会にインパクトを与えられる」「大きなプロジェクトに関われる」「ビジョンを実現できる」仕事が天職。具体的には：経営者、NPOリーダー、政策立案、都市開発。')},
+                {label:'失敗したらどうしようと思う',next:'result',result:archJa[arch]+'タイプの「失敗」との向き合い方：\n\n'+(arch==='leader'?'あなたにとって一番の失敗は「挑戦しなかったこと」。5年後に「あの時動いておけば…」と後悔する自分を想像してみて。それが答えです。失敗しても立ち直る力は誰より強い。':arch==='support'?'「周りに迷惑をかけたくない」が失敗を恐れる本当の理由では？でも、あなたを本当に大切に思う人は、あなたの挑戦を応援してくれます。まずは一番信頼できる人に相談を。':arch==='creative'?'完璧な準備を待っていたら一生動けません。「60%の準備で走り出して、走りながら修正する」がクリエイタータイプの成功パターン。小さく始めて、反応を見ながら調整を。':arch==='analyst'?'リスク分析ばかりしていませんか？分析は大事ですが、「やらないリスク」も計算に入れて。3ヶ月の期限を決めて、小さな実験をしてみましょう。データが集まれば次の判断ができます。':'あなたのスケールでは「小さな失敗」は失敗にカウントされません。大きな目標に向かう途中の試行錯誤は全て「学び」。歴史上の偉大な事業家も、何度も失敗しています。')}
+            ]
+        },
+        step2_search:{
+            q:'今一番必要だと感じていることは？',icon:'briefcase',color:'var(--primary)',
+            opts:[
+                {label:'自信を取り戻したい',next:'result',result:archJa[arch]+'タイプの自信回復法：\n\n'+(arch==='leader'?'小さくてもいいから「自分で決めて、自分でやり遂げる」体験を。ボランティアのリーダー、イベントの幹事、何でもOK。「自分は人を動かせる」という実感が自信を取り戻す最短ルート。':arch==='support'?'誰かの力になることがあなたの自信の源泉。無料でもいいから、困っている人をサポートする経験を。「ありがとう」の言葉が、あなたの心を回復させます。':arch==='creative'?'作品を一つ完成させましょう。質は問わない。「完成させた」という事実が自信になります。SNSに上げてリアクションをもらえれば、さらに加速。':arch==='analyst'?'新しいスキルを一つ習得してみて。資格でもプログラミングでも語学でも。「学べる自分」を確認することが、自信回復の第一歩。':'あなたの視野の広さは大きな武器。今の状況を「一時的な充電期間」と捉え、この時間でしかできない学び（読書、旅行、ボランティア）に投資して。')},
+                {label:'方向性を定めたい',next:'result',result:archJa[arch]+'タイプのキャリア方向性の見つけ方：\n\n考えるだけでは方向性は見つかりません。以下の3ステップを試してみて：\n\n① 「これだけは嫌だ」リストを書き出す（消去法で方向性を絞る）\n② 興味のある業界の人に3人会って話を聞く（リアルな情報を得る）\n③ 1ヶ月間、週1で新しいことを試す（行動から気づきを得る）\n\n'+(arch==='leader'?'あなたは「やってみないとわからない」タイプ。考えすぎず、行動量を増やして。':arch==='support'?'あなたは「人との関わり」から方向性が見えるタイプ。一人で悩まず、キャリアカウンセラーやメンターに相談を。':arch==='creative'?'あなたは「ワクワクする直感」を信じてOK。論理的に正しくなくても、心が動く方向に進んで。':arch==='analyst'?'あなたは「情報を集めて分析する」ことで方向性が見えるタイプ。業界レポートや転職市場のデータを徹底的に調べて。':'あなたは「大きなビジョン」から逆算するタイプ。「5年後に社会がどうなっているか」を考え、そこに自分がどう貢献できるかを。')},
+                {label:'経済的な不安を解消したい',next:'result',result:'求職中の経済不安への対策：\n\n① まず公的支援を確認（失業給付、住居確保給付金、緊急小口資金など）\n② 固定費を最低限に見直す（サブスク解約、格安SIMへの変更、食費の最適化）\n③ 短期的な収入源を確保（単発バイト、クラウドソーシング、スキル売り）\n\n'+archJa[arch]+'タイプの'+(arch==='leader'?'あなたは、マネジメント経験を活かした短期コンサルやメンタリングで収入を得られる可能性があります。':'あなたのスキルは必ず必要とされます。焦らず、でも止まらず、一歩ずつ。')}
+            ]
+        }
+    };
+}
+
+function buildMoneyFlow(){
+    const arch=getArchetype(currentUserNId);
+    return {
+        step1:{
+            q:'お金について一番気になっていることは？',icon:'coins',color:'var(--warning-text)',
+            opts:[
+                {label:'貯金を増やしたい',next:'step2_save'},
+                {label:'投資を始めたい・見直したい',next:'step2_invest'},
+                {label:'支出を抑えたい',next:'step2_cut'},
+                {label:'収入を増やしたい',next:'step2_earn'}
+            ]
+        },
+        step2_save:{
+            q:'貯金が難しいと感じる理由は？',icon:'coins',color:'var(--warning-text)',
+            reading:archJa[arch]+'タイプの貯蓄傾向：'+(arch==='leader'?'稼ぐ力は強いが、見栄で出費が増えがち。':arch==='support'?'人のためにお金を使いがちで自分の分が残らない。':arch==='creative'?'衝動買いや趣味への投資が止められない。':arch==='analyst'?'実は貯蓄得意。でも「最適解」を求めすぎて始められないことも。':'大きな目標はあるが、日々の管理は苦手。'),
+            opts:[
+                {label:'そもそも余裕がない',next:'result',result:archJa[arch]+'タイプの「余裕がない」への処方箋：\n\nまず「先取り貯金」を始めましょう。月収の10%でも5%でもOK。給料日翌日に自動振替で別口座に移す仕組みを作れば、「残ったら貯金」の罠から抜け出せます。\n\n'+(arch==='leader'?'あなたは大きな目標があると動けるタイプ。「1年後に○○万円貯めて○○する」と具体的なゴールを設定して。':arch==='support'?'家族や大切な人のためなら頑張れるあなた。「この貯金は家族旅行のため」など、誰かの笑顔を目標にすると続きます。':arch==='creative'?'貯金アプリのゲーミフィケーション要素（達成バッジ等）を活用して。「つまらない節約」は続かないので「楽しい仕組み」を。':arch==='analyst'?'家計簿アプリで全支出を可視化しましょう。データを見れば、無駄が自然と見えてくるのがあなたの強み。':'「月○万円」より「年間○万円」で考えるのが合うタイプ。長期スパンで計画を立てて、月々の細かい変動は気にしすぎないで。')},
+                {label:'つい使ってしまう',next:'result',result:archJa[arch]+'タイプの「つい使ってしまう」対策：\n\n'+(arch==='leader'?'見栄やステータスの出費を減らすだけで大きく変わります。「誰に見せるための出費か？」と自問して。本当に自分が楽しむための出費だけ残しましょう。':arch==='support'?'人付き合いの出費（飲み会、プレゼント、おごり）が多くありませんか？「月の交際費上限」を決めて、それを超えたら丁寧に断る練習を。':arch==='creative'?'「欲しい！」と思ったら24時間待つルール。翌日も欲しかったらOK。この一呼吸で衝動買いの7割は防げます。クレジットカードを財布から抜くのも有効。':arch==='analyst'?'あなたの場合、「いいものを長く使う」思考が高額出費に繋がりがち。上限を決めた上で、コスパ分析をしてから購入する習慣を。':'「将来のため」という大義名分で大きな買い物をしがち。でも今必要かどうかを冷静に。「3ヶ月後も必要か？」テストを。')},
+                {label:'貯金の目標がない',next:'result',result:'目標がないと貯金は続きません。以下の3段階で目標を設定してみて：\n\n🥉 まず生活費3ヶ月分の「安心貯金」\n🥈 次に「やりたいこと貯金」（旅行・趣味・引越し等）\n🥇 最後に「未来貯金」（老後・教育・独立資金等）\n\n'+archJa[arch]+'タイプのあなたは'+(arch==='leader'?'「これを貯めたら○○できる」という明確な報酬があると走れます。':arch==='support'?'「この貯金で家族に○○してあげたい」というモチベーションが最強。':arch==='creative'?'「貯金が○○万円になったら新しいことに挑戦できる」と冒険の種としてを位置付けて。':arch==='analyst'?'エクセルやアプリで貯金シミュレーションを作るところから始めて。数字が積み上がる快感が原動力に。':'「将来の大きな目標」と紐づけると、日々の小さな我慢にも意味が生まれます。')}
+            ]
+        },
+        step2_invest:{q:'投資で気になっていることは？',icon:'coins',color:'var(--warning-text)',
+            opts:[
+                {label:'何から始めればいいかわからない',next:'result',result:archJa[arch]+'タイプの投資スタートガイド：\n\n'+(arch==='leader'?'まずはつみたてNISAで全世界株式インデックスファンドから。あなたは慣れてきたら個別株にも挑戦したくなるはず。その時は「投資は月収の20%まで」のルールを。':arch==='support'?'リスクが怖いあなたには、つみたてNISAの全世界分散型が最適。月1万円からでOK。「ほったらかし投資」が精神的にも合います。':arch==='creative'?'直感が鋭いあなたですが、投資では直感より仕組みが大事。つみたてNISA＋iDeCoの自動積立を設定して、「考えずに増やす」仕組みを。':arch==='analyst'?'あなたは自分で調べて納得したい派。まずは投資本を3冊読んで、つみたてNISAから実践。データ分析が得意なので、ファンドの比較も楽しめるはず。':'スケールの大きい不動産投資や事業投資に興味があるかもしれませんが、まずはインデックス投資で「市場の動き」を体感することから。基礎なくして応用なし。')},
+                {label:'リスクが怖い',next:'result',result:'投資のリスクを理解するための'+archJa[arch]+'タイプ向けアドバイス：\n\n大前提：「生活費6ヶ月分の現金」を確保してから投資を始めること。これが心理的安全の土台。\n\n'+(arch==='leader'?'あなたは「自分でコントロールしたい」タイプ。投資は「コントロールできないことを受け入れる練習」でもあります。下がっても売らない。長期で持つ。これだけ守れば歴史的にプラス。':arch==='support'?'誰かに勧められるがまま投資するのは危険。自分で理解したものだけに投資を。わからなければFPに相談。あなたは「安心できるアドバイザー」がいると強い。':arch==='creative'?'「全額突っ込む」は絶対NG。投資は総資産の30%以内に。残りは現金で安心を確保。':arch==='analyst'?'データ的には、全世界株式の20年リターンはほぼプラス。過去のデータを分析して、自分なりに「これなら大丈夫」と思える根拠を作ることが、あなたにとっての最良のリスク対策。':'リスクを取ること自体は得意なはず。問題は「一発勝負」を好む傾向。分散投資を基本に、「夢枠」として総資産の10%だけ自由に使うルールが最適。')},
+                {label:'もっと効率的に運用したい',next:'result',result:archJa[arch]+'タイプの運用効率化：\n\n現在の運用状況を確認しましょう：\n① NISA枠を使い切っているか？\n② iDeCoに加入しているか？\n③ 不要な保険に入っていないか？\n\nこの3つを最適化するだけで、年間数万〜数十万円の差が出ます。\n\n'+(arch==='leader'||arch==='builder'?'余裕資金があるなら、不動産クラウドファンディングや未上場企業投資も選択肢に。ただし総資産の10%以内で。':arch==='analyst'?'あなたなら自分でポートフォリオのリバランスができるはず。年に1回、資産配分を見直す習慣を。':'プロの力を借りるのも一つ。手数料の安いロボアドバイザーは忙しいあなたの味方です。')}
+            ]
+        },
+        step2_cut:{q:'支出で一番大きいのは？',icon:'coins',color:'var(--warning-text)',
+            opts:[
+                {label:'固定費（家賃・通信・保険等）',next:'result',result:'固定費見直しチェックリスト：\n\n□ スマホ → 格安SIMで年間5万円以上削減可能\n□ 保険 → 掛け捨て生命保険+火災保険で十分な場合が多い（医療保険は高額療養費制度で大半カバー）\n□ サブスク → 使っていないサービスを全て解約（平均で月3,000円ムダあり）\n□ 電気・ガス → 新電力への切替で年間1〜2万円削減\n□ 家賃 → 収入の25%以内が理想。超えているなら引越しも検討を。\n\nここまで全部やると月1〜3万円の削減は十分可能です。'},
+                {label:'食費・日用品',next:'result',result:'食費の適正化（一人暮らし目安：月3〜4万円）：\n\n'+(arch==='leader'?'外食・コンビニの回数を減らすだけで大きく変わります。「平日は自炊、週末は好きなものを」のメリハリルール。':arch==='support'?'人へのお土産や差し入れの出費も多いかも。気持ちは大切にしつつ、頻度を月1回に絞る。':arch==='creative'?'「今日はこれが食べたい！」で毎回買い物すると高くつく。週1回のまとめ買いを試して。献立アプリが強い味方に。':arch==='analyst'?'あなたなら、食費の記録→分析→改善のPDCAが回せるはず。どのカテゴリが多いかデータで把握して。':'細かい出費管理は苦手なタイプ。週の食費を封筒に入れて、その中でやりくりする「封筒管理法」がシンプルでおすすめ。')},
+                {label:'趣味・娯楽',next:'result',result:'趣味の出費は「心の栄養」。ゼロにする必要はありません。\n\nおすすめは「趣味予算」を決めること：月収の10%以内を目安に、その中で自由に使う。予算内なら罪悪感ゼロで楽しめます。\n\n'+archJa[arch]+'タイプのあなたは'+(arch==='leader'?'「見栄の出費」と「本当に楽しい出費」を分けて。ブランド品を減らして体験（旅行・アクティビティ）に。':arch==='support'?'人との食事やプレゼント費が多いかも。自分の趣味にも予算を確保して。':arch==='creative'?'クリエイティブ系の支出は自己投資にもなる。ただし「積ん読」「使わないツール」の棚卸しも定期的に。':arch==='analyst'?'ガジェットや書籍の出費が多いかも。「1つ買ったら1つ手放す」ルールで。':'大きい趣味（車・旅行等）は年間予算で管理。月々の積立方式にすると無理がない。')}
+            ]
+        },
+        step2_earn:{q:'収入を増やす方法で気になるのは？',icon:'coins',color:'var(--warning-text)',
+            opts:[
+                {label:'本業の年収アップ',next:'result',result:'年収アップの3ステップ：\n\n① 自分の市場価値を知る（転職サイトに登録してオファー年収を確認）\n② 会社の評価基準を明確に把握する（上司に直接聞く）\n③ 評価基準に沿った成果を3ヶ月で出す\n\n'+archJa[arch]+'タイプの強みを活かした交渉：'+(arch==='leader'?'数字で実績を示して堂々と交渉。「これだけ貢献した」を明確に。':arch==='support'?'「いなくなったら困る」ポジションを確立した上で、控えめに但し確実に交渉。':arch==='creative'?'ポートフォリオで実力を証明。「他社からこの条件でオファーが来ている」が最強のカード。':arch==='analyst'?'業界の給与データを調べて「適正年収」を根拠に交渉。ロジカルに。':'大きなプロジェクトの成果をベースに交渉。「次はこれを実現したい。そのための条件を」という未来志向で。')},
+                {label:'副業を始めたい',next:'result',result:archJa[arch]+'タイプにおすすめの副業：\n\n'+(arch==='leader'?'コンサルティング・メンタリング・講師。あなたの経験や判断力を直接マネタイズ。時給単価が高い。':arch==='support'?'オンライン秘書・事務代行・カスタマーサポート。安定した需要があり、あなたの丁寧さが活きる。':arch==='creative'?'デザイン・ライティング・動画制作。クラウドソーシングから始めて実績を積み、直接取引に移行。':arch==='analyst'?'データ分析・リサーチ代行・技術ブログ。専門知識をそのままお金に変えられる。':'プロジェクト管理・事業コンサル・NPO支援。スケールの大きな案件を選ぶのがモチベーション維持の鍵。')+'\n\nまずは月3万円を目標に、週5時間から始めてみましょう。'},
+                {label:'投資収入を増やしたい',next:'result',result:'投資収入（配当・キャピタルゲイン）を増やすための基本：\n\n① まだ始めていないなら → つみたてNISAで月3.3万円から\n② すでに運用中なら → 新NISA成長投資枠（年240万円）の活用を検討\n③ 配当狙いなら → 高配当ETF（VYM, HDV等）を検討\n\n注意：投資収入だけで生活費をカバーするには数千万円規模の元本が必要。まずは「本業+副業」で元本を増やす段階を経て、徐々にシフト。'}
+            ]
+        }
+    };
+}
+
+function buildRelationFlow(){
+    const el=zodiacElement[currentUserZId];
+    return {
+        step1:{
+            q:'人間関係で一番悩んでいるのは？',icon:'users',color:'#7C6FA0',
+            opts:[
+                {label:'家族との関係',next:'step2_family'},
+                {label:'友人関係',next:'step2_friend'},
+                {label:'職場の人間関係',next:'step2_work'},
+                {label:'孤独感がある',next:'step2_lonely'}
+            ]
+        },
+        step2_family:{
+            q:'家族との関係で具体的に困っていることは？',icon:'users',color:'#7C6FA0',
+            reading:elemJa[el]+'のエレメントの家族観：'+(el==='fire'?'情熱的で率直。家族にも遠慮なくぶつかれる反面、衝突も多い。':el==='earth'?'安定を重視。伝統的な家族像を大切にするが、変化に弱い面も。':el==='air'?'自由を大切にし、家族にも個人の自由を認めたい。でも距離を置きすぎることも。':'感情の絆を何より重視。家族への愛情が深いが、感情に振り回されることも。'),
+            opts:[
+                {label:'親との関係',next:'result',result:elemJa[el]+'のあなたの親子関係の処方箋：\n\n'+(el==='fire'?'親の期待と自分の生き方が違うと衝突しがち。大切なのは「感謝の気持ちは持ちつつ、自分の人生は自分で決める」と穏やかに伝えること。怒りではなく、落ち着いた言葉で境界線を引きましょう。':el==='earth'?'「親の期待に応えなければ」というプレッシャーを感じやすいタイプ。でも、親を幸せにする一番の方法は、あなた自身が幸せでいること。完璧な子供を演じる必要はありません。':el==='air'?'親との価値観の違いに戸惑うかも。でも、理解してもらえなくても「説明する努力」は続けて。全てを分かり合えなくても、対話の姿勢自体が関係を維持します。':'親の感情に敏感すぎて、自分の感情と区別がつかなくなることはありませんか？「親が悲しいから私も悲しい」ではなく、「親は悲しんでいるけど、私は私の感情を持っていい」と。')},
+                {label:'パートナーの家族との関係',next:'result',result:'義理の家族との距離感ガイド：\n\n基本方針：「好かれようとしすぎない」「でも礼儀は守る」\n\n'+(el==='fire'?'思ったことを口にしがちなあなた。義理の家族の前では「3秒考えてから話す」ルールを。良い関係は長期戦。最初に印象を悪くすると修復コストが高い。':el==='earth'?'伝統や慣習を大切にするあなたは義理の家族受けが良いタイプ。ただし「自分たち夫婦のスタイル」も大切に。全てに合わせる必要はありません。':el==='air'?'距離を置きすぎると「冷たい」と思われるかも。年に数回、自分から連絡する姿勢を見せるだけで印象が変わります。':'"いい嫁/婿"を演じすぎて消耗していませんか？あなたは人の感情を吸収しやすいので、訪問後は必ず一人の時間を確保して。')},
+                {label:'きょうだいとの関係',next:'result',result:elemJa[el]+'のあなたときょうだいの関係：\n\n'+(el==='fire'?'競争心が強く出やすい関係かも。「勝ち負け」ではなく「それぞれの道がある」と認め合えると関係が楽に。比較をやめることが第一歩。':el==='earth'?'「長男/長女だから」「年下だから」と役割に縛られすぎていませんか？大人になった今、対等な関係を再構築しましょう。':el==='air'?'深い絆というより、お互い自由にやっている関係かも。それでOK。必要な時に助け合えるのが理想。':'"あの子ばかり可愛がられた"という感情が残っていませんか？過去の感情を手放すには、今の自分が幸せであることが一番の薬。')}
+            ]
+        },
+        step2_friend:{q:'友人関係でどんなことが気になる？',icon:'users',color:'#7C6FA0',
+            opts:[
+                {label:'友達が少ない・いない',next:'result',result:elemJa[el]+'のあなたの友人作り戦略：\n\n'+(el==='fire'?'行動あるのみ。スポーツ、イベント、ボランティアなど、一緒に「何かをする」場に行けば自然と仲間ができます。受け身では火のあなたの良さは伝わりません。':el==='earth'?'無理に広げなくてOK。「一人でいいから信頼できる人」を見つけることに集中して。趣味のコミュニティに定期的に通うと、自然な関係が育ちます。焦らないこと。':el==='air'?'知り合いは多いけど友達は少ない…という悩みかも。SNSやオンラインコミュニティは得意なはず。次のステップは「オフラインで会う」こと。食事に誘ってみて。':'深い関係を求めるあなたには、小規模な集まりやワークショップがおすすめ。大人数のパーティーは消耗するだけかも。3-5人の少人数グループを探して。')},
+                {label:'友人との距離感がわからない',next:'result',result:elemJa[el]+'のあなたの友人との距離感ガイド：\n\n'+(el==='fire'?'熱くなりすぎると相手が引くことがあります。「毎日連絡」より「適度に会ってその時全力で楽しむ」が長続きの秘訣。':el==='earth'?'親しくなると「変化」を嫌うあまり相手を束縛しがちかも。友人にも友人の世界があることを受け入れて。':el==='air'?'広く浅くが得意だけど、「たまには深い話もしたい」と思っていませんか？自分から一歩踏み込む勇気を。「実はさ…」と本音を話すだけで関係の質が変わります。':'「全部わかってほしい」は重荷になることも。友人ごとに「この人とはここまで」の境界線を持つと、お互いに楽になれます。')},
+                {label:'友人に振り回されている',next:'result',result:elemJa[el]+'のあなたが友人に振り回されない方法：\n\n'+(el==='fire'?'「NO」を言えるのはあなたの強み。でも言い方がキツくなりがち。「ごめん、今はちょっと無理なんだ」と柔らかく断る表現をストックしておいて。':el==='earth'?'義理堅さから、嫌なことも引き受けてしまう傾向。でも「いつも助けてくれる人」＝「都合のいい人」にならないよう注意。断ることも大切な友情のスキル。':el==='air'?'「いい人」を演じるのをやめましょう。本音を言って離れる人は、最初からあなたの友人ではなかったということ。':'"この人が困っているから助けなきゃ"が強すぎるかも。あなたは相手の感情を背負いやすいタイプ。「助けたい」と「助けなければ」は違います。義務感からの行動は自分を壊します。')}
+            ]
+        },
+        step2_work:{q:'職場でどんな人間関係に困っている？',icon:'users',color:'#7C6FA0',
+            opts:[
+                {label:'上司との関係',next:'result',result:elemJa[el]+'のあなたの上司との付き合い方：\n\n'+(el==='fire'?'「自分のやり方」を主張しがちですが、まずは上司の期待を正確に把握して。「何をどの基準で評価していますか？」と直接聞く勇気を。その上で成果を出せば、自然と裁量が増えます。':el==='earth'?'真面目に取り組むあなたは上司受けが良いはず。でも「理不尽な指示」にも従ってしまいがち。違和感を感じたら、感情ではなく事実ベースで異議を伝えましょう。':el==='air'?'コミュニケーション力は十分。ただ、上司のタイプ（論理型・感情型・成果型）を見極めて、報告の仕方を変えると関係がさらに良くなります。':'上司の機嫌に敏感すぎて疲弊していませんか？上司の感情はあなたの責任ではありません。「仕事の関係」と「感情の関係」を分けて考えましょう。')},
+                {label:'同僚との関係',next:'result',result:elemJa[el]+'のあなたの同僚との付き合い方：\n\n'+(el==='fire'?'競争心をプラスに活かせれば最強ですが、「俺が一番」感が出すぎると孤立します。同僚の成果も素直に「すごいね」と言える余裕を持つと、味方が増えます。':el==='earth'?'「人は人、自分は自分」を保ちながら、必要な時に助け合える関係が理想。ランチや雑談は無理に参加しなくてもOK。ただし挨拶だけは欠かさずに。':el==='air'?'誰とでもうまくやれる反面、「本音の付き合い」が少ないかも。仕事で信頼できる2-3人と、もう少し深い関係を築いてみて。':'"職場の空気"に敏感すぎるあなた。ギスギスした雰囲気を自分で何とかしようとしない。環境を変えるのもスキルです。')},
+                {label:'部下・後輩との関係',next:'result',result:elemJa[el]+'のあなたのマネジメントスタイル：\n\n'+(el==='fire'?'情熱的に引っ張るカリスマ型。ただし全員が同じ熱量ではないことを忘れずに。「なぜこれが大事か」を丁寧に伝えると、ついてくる人が増えます。':el==='earth'?'安定した指導力が持ち味。手順をきっちり教え、ミスを減らすマネジメントが得意。ただし「失敗してもOK」の余白も部下に与えてあげて。':el==='air'?'自由にやらせるスタイルが持ち味。ただし放任しすぎると部下は不安になります。週1の5分チェックインだけでも安心感が全然違います。':'部下の感情に寄り添える優しい上司。でも「嫌われたくない」から厳しいフィードバックを避けていませんか？指摘もcareの一つ。成長のために伝えるべきことは伝えて。')}
+            ]
+        },
+        step2_lonely:{q:'孤独を感じるのはどんな時？',icon:'users',color:'#7C6FA0',
+            reading:elemJa[el]+'のあなたの孤独感の特徴：'+(el==='fire'?'賑やかな場にいても心が満たされない…それは「量」ではなく「質」の問題かも。':el==='earth'?'一人で大丈夫なフリをしていませんか？あなたも人の温もりが必要です。':el==='air'?'知り合いは多いのに、本当の友達がいない感覚…。深い繋がりへの渇望かも。':'他の誰にもわかってもらえない…その孤独感は、あなたの感受性の深さの裏返し。'),
+            opts:[
+                {label:'周りに理解者がいない',next:'result',result:elemJa[el]+'のあなたが理解者を見つけるには：\n\n'+(el==='fire'?'あなたの情熱を「すごいね！」と受け止めてくれる人は必ずいます。同じ目標を持つコミュニティ（スポーツ・起業・クリエイター系）に参加してみて。「同じ方向を向いている仲間」が一番の理解者になります。':el==='earth'?'信頼を築くには時間がかかるタイプ。だからこそ、定期的に同じメンバーと会える場が大切。月1の趣味の集まり、地域のコミュニティなど、「継続的な接点」がある場を選んで。':el==='air'?'オンラインコミュニティがあなたの居場所かも。同じ興味を持つ人とのDiscordやSlack、Twitterでの繋がりから「深い友人」が生まれることも。まずは発信することから。':'同じ感受性を持つ人との出会いが鍵。読書会、映画ファンミーティング、創作系のコミュニティなど、感性を共有できる場がおすすめ。少人数・静かな空間が安心できるはず。')},
+                {label:'一人の時間が怖い',next:'result',result:'一人の時間が怖いのは自然なこと。でも「孤独」と「ぼっち」は違います。\n\n'+elemJa[el]+'のあなたへのアドバイス：\n\n'+(el==='fire'?'「一人＝退屈」と感じているなら、一人でもワクワクする予定を。映画館、ジム、カフェでの読書…「能動的な一人時間」を作ると、孤独感が充実感に変わります。':el==='earth'?'ルーティンの中に「自分を整える時間」を組み込んで。料理、掃除、ガーデニングなど、手を動かすことで心が安定するのが地のタイプ。':el==='air'?'一人でも「知的刺激」があれば大丈夫なはず。ポッドキャスト、オーディブル、オンライン講座など、一人でも学べる環境を整えて。':'"一人の時間"を"自分と対話する時間"と捉え直してみて。日記を書く、音楽を聴く、自然の中を散歩する。あなたの内側には豊かな世界があります。')},
+                {label:'人と繋がる方法がわからない',next:'result',result:'繋がりを作る3ステップ：\n\n① まず「挨拶」から。店員さん、ご近所さん、同僚…小さな声かけが繋がりの種。\n② 次に「定期的な場」に参加。週1で同じ場所に通うだけで顔見知りができる。\n③ 最後に「一歩踏み込む」。「今度一緒に○○しませんか？」の一言が関係を変える。\n\n'+elemJa[el]+'のあなたは'+(el==='fire'?'恥ずかしがらず声をかければ、最初の壁はすぐ越えられます。行動力を活かして。':el==='earth'?'「何度か会って安心してから」でOK。急がず、定期的に通える場を見つけて。':el==='air'?'オンラインから始めてもOK。趣味のコミュニティが入り口として最適。':'"この人なら大丈夫"と感じる直感を信じて。少人数の集まりや1対1の関係から始めましょう。')}
+            ]
+        }
+    };
+}
+
+// Step rendering engine
+// Single event delegation handler for ALL deep dive interactions
+document.getElementById('deep-dive-area').addEventListener('click',function(e){
+    // Find the closest button
+    const optBtn=e.target.closest('.deep-opt-btn');
+    const againBtn=e.target.closest('.deep-again-btn');
+    const otherBtn=e.target.closest('.deep-other-btn');
+    
+    if(optBtn && !optBtn.dataset.done){
+        optBtn.dataset.done='1';
+        optBtn.style.background='var(--primary-light)';
+        optBtn.style.borderColor='var(--primary)';
+        optBtn.parentElement.querySelectorAll('.deep-opt-btn').forEach(b=>{
+            b.style.pointerEvents='none';
+            if(b!==optBtn) b.style.opacity='.4';
+        });
+        const label=optBtn.querySelector('span:last-child').textContent;
+        currentAnswers.push(label);
+        const next=optBtn.dataset.next;
+        const ridx=parseInt(optBtn.dataset.ridx);
+        const result=_stepResults[ridx]||'';
+        trackEvent('deep_dive_answer',{category:currentCat,step:currentAnswers.length,answer:label});
+        if(next==='result'&&result){
+            showMiniScan(currentCat, ()=>{ renderFinalResult(result); }, 2000);
+        } else {
+            const flow=getFlowForCategory(currentCat);
+            renderStep(flow,next);
+        }
+    }
+    if(againBtn){
+        this.innerHTML='';currentAnswers=[];_stepResults=[];
+        showMiniScan(currentCat, ()=>{
+            renderStep(getFlowForCategory(currentCat),'step1');
+        });
+    }
+    if(otherBtn){
+        this.innerHTML='';currentAnswers=[];_stepResults=[];currentCat='';
+        document.querySelectorAll('.premium-cat-btn').forEach(b=>b.classList.remove('active-cat'));
+        document.getElementById('premium-categories').scrollIntoView({behavior:'smooth',block:'center'});
+    }
+});
+
+function renderStep(flow,stepKey){
+    const step=flow[stepKey];
+    if(!step)return;
+    const area=document.getElementById('deep-dive-area');
+    const baseIdx=_stepResults.length;
+    step.opts.forEach(opt=>_stepResults.push(opt.result||''));
+    
+    let html=`<div class="fortune-card p-5 fade-up">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${step.color},transparent);opacity:.4;"></div>
+        <div class="flex items-center gap-2.5 mb-3 pt-1">
+            <i data-lucide="${step.icon}" class="w-4 h-4 shrink-0" style="color:${step.color};"></i>
+            <span class="t-card-title" style="color:var(--text-sub);">Step ${currentAnswers.length+1}</span>
+        </div>`;
+    if(step.reading){
+        html+=`<div class="rounded-lg p-3.5 mb-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);">
+            <p class="t-body leading-relaxed" style="color:var(--text-main);">${step.reading}</p>
+        </div>`;
+    }
+    html+=`<p class="t-body font-semibold mb-4" style="color:var(--text-main);">${step.q}</p>
+        <div class="space-y-2">`;
+    step.opts.forEach((opt,i)=>{
+        html+=`<button class="deep-opt-btn w-full text-left flex items-center gap-3 p-3.5 rounded-xl transition-all" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);cursor:pointer;" data-next="${opt.next}" data-ridx="${baseIdx+i}">
+            <span class="w-6 h-6 rounded-full flex items-center justify-center shrink-0 t-caption font-semibold" style="background:${step.color}20;color:${step.color};pointer-events:none;">${String.fromCharCode(65+i)}</span>
+            <span class="t-body" style="color:var(--text-main);pointer-events:none;">${opt.label}</span>
+        </button>`;
+    });
+    html+=`</div></div>`;
+    area.insertAdjacentHTML('beforeend',html);
+    lucide.createIcons();
+    setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'});},100);
+}
+
+function renderFinalResult(text){
+    const area=document.getElementById('deep-dive-area');
+    const catMeta={
+        love:{icon:'heart',color:'var(--danger)',label:'恋愛のトリセツ'},
+        career:{icon:'briefcase',color:'var(--primary)',label:'仕事のトリセツ'},
+        money:{icon:'coins',color:'var(--warning-text)',label:'お金のトリセツ'},
+        relation:{icon:'users',color:'#7C6FA0',label:'人間関係のトリセツ'}
+    };
+    const m=catMeta[currentCat]||catMeta.love;
+    const nick=shareData.nickname||'ゲスト';
+    const formatted=text.replace(/\n/g,'<br>');
+    const html=`<div class="fortune-card p-5 fade-up">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${m.color},transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-2 pt-1">
+            <i data-lucide="${m.icon}" class="w-4 h-4 shrink-0" style="color:${m.color};"></i>
+            <span class="t-card-title" style="color:${m.color};">${nick}さんの${m.label}</span>
+        </div>
+        <p class="t-caption mb-4" style="color:var(--text-muted);">${shareData.zodiacName} / ${archJa[getArchetype(currentUserNId)]}タイプ</p>
+        <div class="rounded-lg p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);">
+            <p class="t-body leading-loose" style="color:var(--text-main);">${formatted}</p>
+        </div>
+        <div class="flex gap-2 mt-4">
+            <button class="deep-again-btn btn-ghost flex-1 text-sm" style="pointer-events:auto;"><i data-lucide="refresh-cw" class="w-3.5 h-3.5" style="pointer-events:none;"></i><span style="pointer-events:none;">もう一度</span></button>
+            <button class="deep-other-btn btn-ghost flex-1 text-sm" style="pointer-events:auto;"><i data-lucide="layout-grid" class="w-3.5 h-3.5" style="pointer-events:none;"></i><span style="pointer-events:none;">他のテーマ</span></button>
+        </div>
+    </div>`;
+    area.insertAdjacentHTML('beforeend',html);
+    lucide.createIcons();
+    setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'});},100);
+    trackEvent('deep_dive_complete',{category:currentCat,steps:currentAnswers.length});
+}
+
+function getFlowForCategory(cat){
+    if(cat==='love') return buildLoveFlow();
+    if(cat==='career') return buildCareerFlow();
+    if(cat==='money') return buildMoneyFlow();
+    if(cat==='relation') return buildRelationFlow();
+    return {};
+}
+
+// Mini scan messages per category
+const deepScanMsg={
+    love:['恋愛パターンを解析中...','相性データを照合しています...','鑑定結果を生成中...'],
+    career:['適職パラメータを解析中...','キャリアパスを算出しています...','鑑定結果を生成中...'],
+    money:['金運パターンを解析中...','資産タイプを照合しています...','鑑定結果を生成中...'],
+    relation:['対人パターンを解析中...','コミュニケーション傾向を算出...','鑑定結果を生成中...']
+};
+const resultScanMsg={
+    love:['回答を分析しています...','あなた専用の鑑定書を作成中...'],
+    career:['キャリアデータを統合中...','パーソナル鑑定書を生成中...'],
+    money:['金運データを統合中...','パーソナル鑑定書を生成中...'],
+    relation:['対人データを統合中...','パーソナル鑑定書を生成中...']
+};
+
+function showMiniScan(cat, onComplete, duration){
+    const dur=duration||3000;
+    const area=document.getElementById('deep-dive-area');
+    const msgs=dur<=2000?(resultScanMsg[cat]||resultScanMsg.love):(deepScanMsg[cat]||deepScanMsg.love);
+    area.insertAdjacentHTML('beforeend',`
+    <div class="fortune-card p-6 fade-up" id="mini-scan-card">
+        <div class="flex flex-col items-center py-4">
+            <div class="relative w-14 h-14 mb-5">
+                <div class="orbit-ring" style="width:56px;height:56px;top:0;left:0;animation-duration:3s;">
+                    <div class="orbit-dot" style="top:-2px;left:50%;transform:translateX(-50%);"></div>
+                </div>
+                <div class="absolute inset-0 flex items-center justify-center">
+                    <div class="w-2 h-2 rounded-full" style="background:var(--primary);box-shadow:0 0 10px var(--primary);animation:pulse-ring 1.5s infinite;"></div>
+                </div>
+            </div>
+            <p id="mini-scan-text" class="mono-font t-caption text-center transition-all duration-400" style="color:var(--text-sub);letter-spacing:.05em;">${msgs[0]}</p>
+            <div class="progress-track mt-4" style="width:140px;">
+                <div id="mini-scan-progress" class="progress-fill" style="width:0%;transition:width ${dur}ms linear;"></div>
+            </div>
+        </div>
+    </div>`);
+    setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'});},50);
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+        const p=document.getElementById('mini-scan-progress');if(p)p.style.width='100%';
+    });});
+    const textEl=()=>document.getElementById('mini-scan-text');
+    const interval=Math.floor(dur/msgs.length);
+    msgs.forEach((msg,i)=>{
+        if(i===0)return;
+        setTimeout(()=>{if(textEl()){textEl().style.opacity='0';setTimeout(()=>{if(textEl()){textEl().textContent=msg;textEl().style.opacity='1';}},250);}},interval*i);
+    });
+    setTimeout(()=>{
+        const card=document.getElementById('mini-scan-card');
+        if(card){card.style.opacity='0';card.style.transition='opacity .3s';}
+        setTimeout(()=>{if(card)card.remove();onComplete();},300);
+    },dur);
+}
+
+// Category button handlers
+document.querySelectorAll('.premium-cat-btn').forEach(btn=>{
+    btn.addEventListener('click',function(){
+        currentCat=this.dataset.cat;
+        currentAnswers=[];_stepResults=[];
+        document.getElementById('deep-dive-area').innerHTML='';
+        document.querySelectorAll('.premium-cat-btn').forEach(b=>b.classList.remove('active-cat'));
+        this.classList.add('active-cat');
+        // Show mini scan, then step 1
+        showMiniScan(currentCat, ()=>{
+            const flow=getFlowForCategory(currentCat);
+            renderStep(flow,'step1');
+        });
+        trackEvent('premium_category_tap',{category:currentCat});
+    });
+});
+
+// Paywall button
+document.getElementById('paywall-btn').addEventListener('click',()=>{
+    showToast('プレミアム機能は準備中です');
+    trackEvent('paywall_tap');
+});
+
+// ==========================================
+// DRAWER
+// ==========================================
+function openDrawer(){
+    document.getElementById('drawer').classList.add('open');
+    document.getElementById('drawer-overlay').classList.remove('hidden');
+}
+function closeDrawer(){
+    document.getElementById('drawer').classList.remove('open');
+    document.getElementById('drawer-overlay').classList.add('hidden');
+}
+
+// Safe localStorage wrapper
+function lsGet(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+
+// ==========================================
+// THEME TOGGLE
+// ==========================================
+(function initTheme(){
+    const saved=lsGet('fortuna-theme');
+    if(saved==='light'){
+        document.documentElement.setAttribute('data-theme','light');
+        const t=document.getElementById('theme-toggle');if(t)t.checked=false;
+    }
+    // default is dark (set in HTML)
+})();
+document.getElementById('theme-toggle').addEventListener('change',function(){
+    if(this.checked){
+        document.documentElement.setAttribute('data-theme','dark');
+        lsSet('fortuna-theme','dark');
+    } else {
+        document.documentElement.setAttribute('data-theme','light');
+        lsSet('fortuna-theme','light');
+    }
+});
+
+// ==========================================
+// ONBOARDING
+// ==========================================
+let obSlide=0;
+function showOnboarding(){
+    obSlide=0;
+    document.getElementById('onboarding').style.display='block';
+    updateObSlide();
+}
+function hideOnboarding(){
+    document.getElementById('onboarding').style.display='none';
+}
+function updateObSlide(){
+    document.querySelectorAll('.ob-slide').forEach((s,i)=>{
+        s.style.opacity=i===obSlide?'1':'0';
+        s.style.pointerEvents=i===obSlide?'auto':'none';
+    });
+    document.querySelectorAll('.ob-dot').forEach((d,i)=>{
+        if(i===obSlide){d.style.background='#5C8E84';d.style.width='16px';d.style.borderRadius='4px';}
+        else{d.style.background='#2E3E3A';d.style.width='8px';d.style.borderRadius='50%';}
+    });
+    const btn=document.getElementById('ob-next-btn');
+    if(obSlide===2){btn.textContent='はじめる';btn.style.background='#5C8E84';btn.style.boxShadow='0 0 20px rgba(92,142,132,.4)';}
+    else{btn.textContent='次へ';btn.style.background='#3E6B62';btn.style.boxShadow='none';}
+}
+document.getElementById('ob-next-btn').addEventListener('click',()=>{
+    if(obSlide<2){obSlide++;updateObSlide();}
+    else hideOnboarding();
+});
+document.getElementById('ob-skip-btn').addEventListener('click',hideOnboarding);
+// Touch swipe
+(function(){
+    let sx=0;const el=document.getElementById('onboarding');
+    el.addEventListener('touchstart',e=>{sx=e.touches[0].clientX;},{passive:true});
+    el.addEventListener('touchend',e=>{
+        const dx=e.changedTouches[0].clientX-sx;
+        if(Math.abs(dx)>50){
+            if(dx<0&&obSlide<2){obSlide++;updateObSlide();}
+            if(dx>0&&obSlide>0){obSlide--;updateObSlide();}
+        }
+    },{passive:true});
+})();
+
+// Tutorial toggle
+(function initTutorialToggle(){
+    const saved=lsGet('fortuna-tutorial');
+    const toggle=document.getElementById('tutorial-toggle');
+    // Default: ON (show every time)
+    if(saved==='off'){
+        toggle.checked=false;
+    } else {
+        toggle.checked=true;
+    }
+    toggle.addEventListener('change',function(){
+        lsSet('fortuna-tutorial',this.checked?'on':'off');
+    });
+})();
+
+// Show onboarding on app open (unless tutorial is turned off)
+(function(){
+    const tutorialOff=lsGet('fortuna-tutorial')==='off';
+    if(!tutorialOff){
+        showOnboarding();
+    }
+})();
+
 lucide.createIcons();
 if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
 </script>
