@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Fortuna — あなたの本質を読み解く</title>
+    <meta name="description" content="生年月日から性格・仕事運・恋愛運を読み解く本格占いアプリ">
+    <meta name="theme-color" content="#1A1E1C">
+
+    <!-- PWA -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="apple-touch-icon" href="icon-192.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- Google Analytics (GA4) — replace G-XXXXXXXXXX with your Measurement ID -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXXXXX"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-XXXXXXXXXX');
+
+        // Custom GA event helper
+        function trackEvent(eventName, params = {}) {
+            gtag('event', eventName, params);
+        }
+    </script>
+
+    <!-- OGP for SNS sharing -->
+    <meta property="og:title" content="Fortuna — 性格占い結果">
+    <meta property="og:description" content="あなたの本質を星と数秘で読み解く">
+    <meta property="og:type" content="website">
+    <meta property="og:image" content="og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Zen+Kaku+Gothic+New:wght@400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-deep: #0D0F0E;
+            --bg-card: #161A18;
+            --bg-card-hover: #1C211F;
+            --bg-accent: #1E2824;
+            --text-primary: #E8EDE9;
+            --text-secondary: #7A8C83;
+            --text-muted: #4A5C54;
+            --border: #252E2A;
+            --border-light: #2E3A35;
+            --gold: #C4A265;
+            --gold-dim: #8B7445;
+            --gold-glow: rgba(196, 162, 101, 0.15);
+            --teal: #5C9E8F;
+            --teal-dim: #3D7568;
+            --rose: #C47878;
+            --rose-dim: #8B5555;
+            --amber: #C4A055;
+            --indigo: #7888B8;
+            --radius: 12px;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.3);
+            --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+            --font-display: 'Cormorant Garamond', serif;
+            --font-body: 'Zen Kaku Gothic New', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            min-height: 100dvh;
+            overflow-x: hidden;
+        }
+
+        /* Background atmosphere */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(ellipse 600px 600px at 20% 20%, rgba(92,158,143,0.04) 0%, transparent 70%),
+                radial-gradient(ellipse 500px 500px at 80% 80%, rgba(196,162,101,0.03) 0%, transparent 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .display-font { font-family: var(--font-display); }
+        .mono-font { font-family: var(--font-mono); }
+
+        /* Animations */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(16px);
+            animation: fadeUp 0.7s ease-out forwards;
+        }
+        .d1 { animation-delay: 0.05s; }
+        .d2 { animation-delay: 0.1s; }
+        .d3 { animation-delay: 0.15s; }
+        .d4 { animation-delay: 0.2s; }
+        .d5 { animation-delay: 0.25s; }
+        .d6 { animation-delay: 0.3s; }
+        .d7 { animation-delay: 0.35s; }
+        .d8 { animation-delay: 0.4s; }
+
+        @keyframes fadeUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        @keyframes orbit {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.4; }
+            50% { transform: scale(1.15); opacity: 0.8; }
+        }
+
+        @keyframes scan-down {
+            0% { top: -4px; opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { top: calc(100% + 4px); opacity: 0; }
+        }
+
+        @keyframes text-reveal {
+            from { opacity: 0; filter: blur(4px); }
+            to { opacity: 1; filter: blur(0); }
+        }
+
+        /* Scan overlay */
+        #scan-overlay {
+            background: rgba(13, 15, 14, 0.97);
+            backdrop-filter: blur(20px);
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            box-shadow: 0 0 20px var(--gold), 0 0 60px rgba(196,162,101,0.3);
+            animation: scan-down 3.5s ease-in-out infinite;
+        }
+
+        .orbit-ring {
+            position: absolute;
+            border: 1px solid var(--border);
+            border-radius: 50%;
+            animation: orbit linear infinite;
+        }
+
+        .orbit-dot {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 6px var(--gold);
+        }
+
+        /* Card styles */
+        .fortune-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+        .fortune-card:hover {
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .card-accent-line {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+        }
+
+        /* Form inputs */
+        .form-input {
+            background: var(--bg-accent);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 14px 16px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 15px;
+            width: 100%;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            outline: none;
+            -webkit-appearance: none;
+        }
+        .form-input:focus {
+            border-color: var(--gold-dim);
+            box-shadow: 0 0 0 3px var(--gold-glow);
+        }
+        .form-input::placeholder { color: var(--text-muted); }
+        
+        select.form-input { cursor: pointer; }
+        input[type="date"] { color-scheme: dark; }
+
+        /* Buttons */
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-dim), var(--gold));
+            color: #1A1E1C;
+            font-weight: 700;
+            padding: 16px 24px;
+            border-radius: var(--radius);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 15px;
+            transition: opacity 0.3s, transform 0.15s;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary:hover { opacity: 0.9; }
+        .btn-primary:active { transform: scale(0.98); }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 12px 20px;
+            cursor: pointer;
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: background 0.3s, color 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+        }
+        .btn-ghost:hover {
+            background: var(--bg-accent);
+            color: var(--text-primary);
+        }
+
+        /* Share buttons */
+        .share-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            background: var(--bg-accent);
+            color: var(--text-primary);
+            font-size: 12px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            font-family: var(--font-body);
+        }
+        .share-btn:hover { border-color: var(--border-light); background: var(--bg-card-hover); }
+        .share-btn-x:hover { border-color: #536471; }
+        .share-btn-line:hover { border-color: #06C755; }
+        .share-btn-ig:hover { border-color: #E1306C; }
+
+        /* Progress bar */
+        .progress-track {
+            width: 200px;
+            height: 2px;
+            background: var(--border);
+            border-radius: 1px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: var(--gold);
+            width: 0%;
+            transition: width linear;
+        }
+
+        /* Badge / tag */
+        .insight-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 500;
+            letter-spacing: 0.02em;
+        }
+
+        /* Section divider */
+        .section-divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+            margin: 8px 0;
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+        /* Canvas for Instagram image generation */
+        #share-canvas { display: none; }
+
+        /* Toasts */
+        .toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-card);
+            border: 1px solid var(--border-light);
+            color: var(--text-primary);
+            padding: 12px 24px;
+            border-radius: var(--radius);
+            font-size: 13px;
+            box-shadow: var(--shadow-lg);
+            opacity: 0;
+            transition: all 0.4s;
+            z-index: 200;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+    </style>
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        fortune: {
+                            deep: 'var(--bg-deep)',
+                            card: 'var(--bg-card)',
+                            accent: 'var(--bg-accent)',
+                            text: 'var(--text-primary)',
+                            sub: 'var(--text-secondary)',
+                            muted: 'var(--text-muted)',
+                            border: 'var(--border)',
+                            gold: 'var(--gold)',
+                            golddim: 'var(--gold-dim)',
+                            teal: 'var(--teal)',
+                            rose: 'var(--rose)',
+                            amber: 'var(--amber)',
+                            indigo: 'var(--indigo)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body>
+
+<!-- ===== SCAN OVERLAY ===== -->
+<div id="scan-overlay" class="fixed inset-0 z-50 hidden flex-col items-center justify-center overflow-hidden transition-opacity duration-700">
+    <div class="scan-line"></div>
+    
+    <div class="relative z-10 flex flex-col items-center px-6 text-center">
+        <!-- Orbit animation -->
+        <div class="relative w-24 h-24 mb-10">
+            <div class="orbit-ring" style="width:96px;height:96px;top:0;left:0;animation-duration:8s;">
+                <div class="orbit-dot" style="top:-2px;left:50%;transform:translateX(-50%);"></div>
+            </div>
+            <div class="orbit-ring" style="width:64px;height:64px;top:16px;left:16px;animation-duration:5s;animation-direction:reverse;">
+                <div class="orbit-dot" style="bottom:-2px;left:50%;transform:translateX(-50%);"></div>
+            </div>
+            <div class="absolute inset-0 flex items-center justify-center">
+                <div class="w-3 h-3 rounded-full" style="background:var(--gold);box-shadow:0 0 12px var(--gold),0 0 24px rgba(196,162,101,0.4);animation:pulse-ring 2s infinite;"></div>
+            </div>
+        </div>
+
+        <p class="text-xs tracking-[0.3em] uppercase mb-8" style="color:var(--gold);font-family:var(--font-mono);">
+            Reading your stars
+        </p>
+        
+        <div class="h-12 flex items-center justify-center">
+            <p id="scan-text" class="text-sm transition-all duration-500" style="color:var(--text-secondary);font-family:var(--font-mono);font-size:12px;letter-spacing:0.05em;">
+                Initializing...
+            </p>
+        </div>
+        
+        <div class="progress-track mt-6">
+            <div id="scan-progress" class="progress-fill"></div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== PREMIUM MODAL ===== -->
+<div id="premium-modal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4 opacity-0 transition-opacity duration-300">
+    <div id="premium-modal-inner" class="fortune-card p-8 max-w-sm w-full text-center transform scale-95 transition-transform duration-300">
+        <div class="w-14 h-14 rounded-full flex items-center justify-center mx-auto mb-5" style="background:var(--gold-glow);border:1px solid var(--gold-dim);">
+            <i data-lucide="lock" class="w-6 h-6" style="color:var(--gold);"></i>
+        </div>
+        <h3 class="display-font text-xl font-semibold mb-2" style="color:var(--gold);">Premium Reading</h3>
+        <p class="text-sm leading-relaxed mb-6" style="color:var(--text-secondary);">
+            「人生の転機」「金運ピーク期」「真の相性」などの詳細鑑定は、現在プロトタイプ版のためロック中です。
+        </p>
+        <button id="close-premium-btn" class="btn-ghost w-full">閉じる</button>
+    </div>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div id="toast" class="toast"></div>
+
+<!-- ===== MAIN ===== -->
+<main class="relative z-10 w-full max-w-md mx-auto px-4 py-8 pb-20" style="min-height:100dvh;">
+
+    <!-- ======= INPUT SECTION ======= -->
+    <section id="input-section">
+        <header class="text-center mb-10 fade-up">
+            <p class="mono-font text-xs tracking-[0.25em] uppercase mb-3" style="color:var(--gold-dim);">Fortune Analysis</p>
+            <h1 class="display-font text-4xl font-semibold italic tracking-wide mb-3" style="color:var(--gold);">Fortuna</h1>
+            <p class="text-sm" style="color:var(--text-secondary);">あなたの星と数秘が語る、本当の姿</p>
+        </header>
+
+        <div class="fortune-card p-6 fade-up d2">
+            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--gold-dim),transparent);"></div>
+            
+            <div class="space-y-5 pt-2">
+                <!-- Nickname -->
+                <div>
+                    <label class="block text-xs font-medium mb-2" style="color:var(--text-secondary);">ニックネーム</label>
+                    <input type="text" id="name" placeholder="例: リコ" class="form-input" maxlength="20">
+                </div>
+
+                <!-- Birthdate -->
+                <div>
+                    <label class="block text-xs font-medium mb-2" style="color:var(--text-secondary);">生年月日</label>
+                    <input type="date" id="birthdate" value="1990-06-15" class="form-input">
+                </div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <!-- Gender — 回答しない first -->
+                    <div>
+                        <label class="block text-xs font-medium mb-2" style="color:var(--text-secondary);">性別</label>
+                        <select id="gender" class="form-input">
+                            <option value="unspecified">回答しない</option>
+                            <option value="female">女性</option>
+                            <option value="male">男性</option>
+                        </select>
+                    </div>
+                    <!-- Status -->
+                    <div>
+                        <label class="block text-xs font-medium mb-2" style="color:var(--text-secondary);">現在の状況</label>
+                        <select id="status" class="form-input">
+                            <option value="single_free">フリー</option>
+                            <option value="single_partnered">パートナー有</option>
+                            <option value="married">既婚</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button id="predict-btn" class="btn-primary mt-4">
+                    <i data-lucide="sparkles" class="w-4 h-4"></i>
+                    <span>占いを開始する</span>
+                </button>
+                <p id="error-msg" class="text-xs text-center font-medium hidden" style="color:var(--rose);">生年月日を入力してください</p>
+            </div>
+        </div>
+
+        <p class="text-center text-xs mt-6 fade-up d3" style="color:var(--text-muted);">
+            入力データは端末内でのみ処理されます
+        </p>
+    </section>
+
+    <!-- ======= RESULT SECTION ======= -->
+    <section id="result-section" class="hidden">
+
+        <!-- Result header -->
+        <header class="text-center mb-6 fade-up">
+            <p class="mono-font text-xs tracking-[0.25em] uppercase mb-2" style="color:var(--gold-dim);">Analysis Complete</p>
+            <h2 class="display-font text-3xl font-semibold italic" style="color:var(--gold);">
+                <span id="result-name"></span> の鑑定書
+            </h2>
+            <p class="text-xs mt-2 mono-font" style="color:var(--text-muted);" id="result-type-label"></p>
+        </header>
+
+        <!-- Dynamic cards -->
+        <div id="cards-container" class="space-y-4"></div>
+
+        <!-- SNS Share Section -->
+        <div class="fortune-card p-5 mt-6 fade-up d7">
+            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--teal-dim),transparent);"></div>
+            <div class="flex items-center gap-2 mb-4 pt-1">
+                <i data-lucide="share-2" class="w-4 h-4" style="color:var(--teal);"></i>
+                <p class="text-xs font-medium tracking-wider" style="color:var(--text-secondary);">結果をシェア</p>
+            </div>
+            <p class="text-xs mb-4" style="color:var(--text-muted);">個人情報は含まれません。性格タイプのみ共有されます。</p>
+            <div class="flex gap-3">
+                <button id="share-x" class="share-btn share-btn-x" title="Xでシェア">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span>X</span>
+                </button>
+                <button id="share-line" class="share-btn share-btn-line" title="LINEでシェア">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.813 2 10.5c0 3.727 3.058 6.856 7.19 7.853.28.06.66.184.756.423.087.216.057.555.028.773l-.122.734c-.037.224-.174.876.768.477.942-.4 5.087-2.995 6.94-5.127C19.48 13.578 22 12.18 22 10.5 22 5.813 17.52 2 12 2z"/></svg>
+                    <span>LINE</span>
+                </button>
+                <button id="share-ig" class="share-btn share-btn-ig" title="画像を保存">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg>
+                    <span>画像保存</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Premium hook -->
+        <div class="fortune-card p-6 mt-6 fade-up d8 relative overflow-hidden" style="border-color:var(--gold-dim);">
+            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--gold),transparent);"></div>
+            <div class="absolute -right-8 -bottom-8 opacity-5">
+                <i data-lucide="star" class="w-40 h-40" style="color:var(--gold);"></i>
+            </div>
+            <div class="relative z-10">
+                <p class="mono-font text-xs tracking-[0.2em] uppercase mb-4" style="color:var(--gold-dim);">Premium</p>
+                <p class="text-sm leading-relaxed mb-5" style="color:var(--text-secondary);">
+                    この星の配置を持つ方に多い特徴が、まだいくつか見つかっています。
+                </p>
+                <ul class="space-y-2 mb-6">
+                    <li class="flex items-center gap-2 text-sm" style="color:var(--text-primary);">
+                        <i data-lucide="calendar-clock" class="w-4 h-4" style="color:var(--gold);"></i>
+                        <span>人生の転機となる年</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm" style="color:var(--text-primary);">
+                        <i data-lucide="trending-up" class="w-4 h-4" style="color:var(--gold);"></i>
+                        <span>金運がピークになる時期</span>
+                    </li>
+                    <li class="flex items-center gap-2 text-sm" style="color:var(--text-primary);">
+                        <i data-lucide="heart-handshake" class="w-4 h-4" style="color:var(--gold);"></i>
+                        <span>本当に相性の良いタイプ</span>
+                    </li>
+                </ul>
+                <button id="premium-btn" class="btn-primary w-full">
+                    <i data-lucide="lock-open" class="w-4 h-4"></i>
+                    <span>もっと深く占う</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Reset -->
+        <div class="mt-6 fade-up d8">
+            <button id="reset-btn" class="btn-ghost w-full">
+                <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                <span>別の占いをする</span>
+            </button>
+        </div>
+    </section>
+</main>
+
+<!-- Hidden canvas for Instagram image generation -->
+<canvas id="share-canvas" width="1080" height="1920"></canvas>
+
+<script>
+// ==========================================
+// Fortune Database (Full zodiac × numerology)
+// ==========================================
+const db = {
+    zodiac: {
+        aries: {
+            name: '牡羊座', icon: 'flame',
+            base: { sub: '情熱的なパイオニア', points: ['思い立ったら即行動する直感タイプ', '嘘がつけず裏表のない性格', '新しい挑戦に対して恐れがない', '負けず嫌いで上昇志向が強い'], conc: '周囲からは「エネルギッシュで裏表のない人」として映る傾向があります。' },
+            thought: { sub: '直感と決断力', points: ['迷うよりまず動く行動派', '最初の直感を強く信じる', '過去より未来に目が向きやすい'], conc: 'ゼロからイチを生み出す開拓者の資質を持っています。' },
+            relation: { sub: '素直でストレート', points: ['回りくどい表現が苦手', '気の合う仲間と熱く語り合える', '怒りの持続時間が短い'], conc: '建前より本音で関わり合える関係を好むタイプです。' },
+            romance_free: { points: ['直感で恋に落ちやすい', '自分から積極的にアプローチする', '駆け引きを面倒に感じる'], caution: ['熱しやすく冷めやすい面に注意', '相手のペースを置き去りにしやすい'], conc: '一緒にアクティブな体験を楽しめる相手との出会いが鍵です。' },
+            romance_pair: { points: ['愛情表現がストレートで伝わりやすい', 'デートはアクティブ派', '相手をリードしたい気持ちが強い'], caution: ['たまには相手の意見に耳を傾けること', '関係のマンネリ化に注意'], conc: 'お互いに新しい挑戦を共有することで関係が活性化します。' },
+            romance_married: { points: ['家族を引っ張るリーダー気質', '休日は外出派', '明るく風通しの良い家庭を作る'], caution: ['自分のペースを家族に押し付けない', '家事の分担を明確にすること'], conc: '適度な自由と家族イベントの両立が円満の秘訣です。' }
+        },
+        taurus: {
+            name: '牡牛座', icon: 'mountain',
+            base: { sub: '穏やかな堅実主義者', points: ['落ち着いた雰囲気で信頼を集める', 'コツコツ積み上げることが得意', '一度決めたことは長く継続できる', '感情より安定・現実を重視する'], conc: '周囲からは「安心感のある人」として映る傾向があります。' },
+            thought: { sub: '慎重で現実的', points: ['リスクを十分に検討する', '勢いではなく納得してから動く', '長期的な視点で判断する'], conc: '資産形成・計画・仕組みづくりに適性があります。' },
+            relation: { sub: '狭く深い信頼関係', points: ['信頼できる人を大切にする', '穏やかな表面を保つ', '本音は簡単に出さない'], conc: '無理な付き合いより安心できる関係を好むタイプです。' },
+            romance_free: { points: ['駆け引きより信頼関係を重視', '一度好きになると長く続く', '慎重に相手を見極める'], caution: ['一人の時間も大切にしすぎる面', '恋愛を後回しにしがち'], conc: '自分の生活を大切にしながら、自然体で出会える関係が吉です。' },
+            romance_pair: { points: ['浮気の心配が少なく誠実', '美味しい食事や空間の共有が好き', '安定感のある関係を築く'], caution: ['頑固になって意見を譲らない時がある', '変化を嫌う傾向'], conc: '一緒に美味しいものを楽しむ時間が最高の愛情表現になります。' },
+            romance_married: { points: ['家族の基盤をしっかり守る', '経済観念がしっかりしている', '住環境へのこだわりが強い'], caution: ['所有欲が強くなりすぎないこと', '「こうあるべき」を押し付けないこと'], conc: '五感を満たす快適な家づくりが家族の幸福度に直結します。' }
+        },
+        gemini: {
+            name: '双子座', icon: 'messages-square',
+            base: { sub: '好奇心旺盛な情報通', points: ['頭の回転が速く機転が利く', '話題が豊富でコミュニケーション上手', '同時進行で複数をこなすマルチタスク派', '一つの場所に留まるのが苦手'], conc: '周囲からは「話していて面白い多才な人」として映る傾向があります。' },
+            thought: { sub: '論理的で客観的', points: ['感情論よりデータ・事実を好む', '常に新しい情報を取り入れる', '一つの考えに固執しない柔軟さ'], conc: '情報収集やトレンド分析に優れた資質があります。' },
+            relation: { sub: '広く風通しの良い関係', points: ['誰とでもすぐに打ち解ける', '深刻な悩み相談は少し苦手', 'ネットワークを広げるのが上手い'], conc: '軽やかで楽しい関係を好むタイプです。' },
+            romance_free: { points: ['会話のテンポを重視する', '友達から恋愛に発展しやすい', '束縛されると距離を置く'], caution: ['飽きっぽい面がある', '深刻なムードが苦手'], conc: '知的な会話が弾み、自由を尊重し合える相手が吉です。' },
+            romance_pair: { points: ['友達のような恋人関係', '一緒にいて飽きない会話力', '新しい話題を常に提供できる'], caution: ['連絡頻度にムラがある', '深い感情表現を照れ隠ししやすい'], conc: 'お互いの趣味・一人の時間を尊重する関係が長続きの鍵です。' },
+            romance_married: { points: ['会話が絶えない明るい家庭', 'フットワークの軽い行動派', '夫婦というより親友のような関係'], caution: ['家族行事より自分の予定を優先しがち', '小言が多くならないこと'], conc: '夫婦で共通の趣味や学びを持つと新鮮さが続きます。' }
+        },
+        cancer: {
+            name: '蟹座', icon: 'shield',
+            base: { sub: '愛情深い守護者', points: ['共感力が非常に高い', '身内や仲間を全力で守る', '記憶力が良く過去を大切にする', '警戒心が強く最初は人見知り'], conc: '周囲からは「優しくて面倒見の良い人」として映る傾向があります。' },
+            thought: { sub: '感情と直感がベース', points: ['理屈より「どう感じるか」を大切にする', '場の空気を瞬時に読み取る', '安心・安全を第一に考える'], conc: '人のサポートや快適な環境づくりに優れた資質があります。' },
+            relation: { sub: '深い絆の構築者', points: ['心を開いた相手にはとことん尽くす', '冷たい人・攻撃的な人が苦手', '共感をベースに絆を深める'], conc: 'アットホームなコミュニティを好むタイプです。' },
+            romance_free: { points: ['相手の世話を焼くのが好き', '外見より安心感・包容力を重視', '過去の恋愛を引きずりやすい'], caution: ['傷つくのを恐れて奥手になりがち', '相手の顔色を伺いすぎる'], conc: 'あなたの優しさに感謝してくれる誠実な相手が吉です。' },
+            romance_pair: { points: ['包み込むような深い愛情表現', '手料理や生活面で尽くす', '一緒にいる時間を何より大切にする'], caution: ['感情の起伏が激しくなる時がある', '束縛・干渉しすぎに注意'], conc: '言葉で愛情を確かめ合うと情緒が安定します。' },
+            romance_married: { points: ['家族を最優先にする', '温かく居心地の良い家庭を築く才能', '子供・配偶者への愛情が深い'], caution: ['心配が過干渉になりがち', '不満を突然爆発させる'], conc: '「自分のための時間」も意識的に確保することが大切です。' }
+        },
+        leo: {
+            name: '獅子座', icon: 'crown',
+            base: { sub: '華やかな主役タイプ', points: ['自己表現が得意で堂々としている', '頼られると期待以上の力を出す', 'ドラマチックで楽しいことが好き', 'プライドが高く弱音は見せない'], conc: '周囲からは「明るく頼りになるリーダー」として映る傾向があります。' },
+            thought: { sub: 'スケールが大きく前向き', points: ['細かいことより全体像を重視', '「どう輝くか」を常に意識', 'ポジティブで逆境に強い'], conc: '人前に立つこと、プロジェクトの牽引に適性があります。' },
+            relation: { sub: '場の中心で盛り上げる', points: ['気前が良くおもてなし好き', '褒められると大きく伸びる', '無視や軽い扱いには傷つく'], conc: '自分を認めてくれる人たちと楽しく華やかに過ごすのを好みます。' },
+            romance_free: { points: ['情熱的でドラマチックな展開を好む', 'サプライズで相手を喜ばせたい', '理想が高く誇れる相手を探す'], caution: ['見栄を張ってしまいがち', '自分の話が中心になりやすい'], conc: 'あなたを主役として立ててくれる相手が吉です。' },
+            romance_pair: { points: ['恋人には一途で甘い', '華やかなデートやプレゼントを好む', '相手を守る正義感が強い'], caution: ['自己中心的にならないこと', '相手の都合も考慮すること'], conc: '感謝と日常の小さな幸せも大切にすると絆が深まります。' },
+            romance_married: { points: ['家族の誇り・大黒柱', '子供のように無邪気に遊べる親', '記念日を盛大にお祝いする'], caution: ['家庭内でも主導権を握りたがる', '見栄っ張りな出費に注意'], conc: '「ありがとう」「すごいね」の言葉が円満の原動力です。' }
+        },
+        virgo: {
+            name: '乙女座', icon: 'scan-search',
+            base: { sub: '几帳面な完璧主義者', points: ['細部まで気がつきミスが少ない', '実用的で役立つことを好む', '清潔感と秩序を大切にする', '自分にも他人にも厳しい面がある'], conc: '周囲からは「有能でしっかり者」として映る傾向があります。' },
+            thought: { sub: '論理的でデータ重視', points: ['曖昧さより事実と数字を信頼する', '物事を整理・分析して最適化する', '計画を立ててから実行に移す'], conc: 'データ管理・品質チェック・実務処理に優れた資質があります。' },
+            relation: { sub: '誠実で細やかな気配り', points: ['困っている人を放っておけない', '約束や時間は厳守する', 'ルーズな人が苦手'], conc: 'お互いを尊重できる誠実な関係を好むタイプです。' },
+            romance_free: { points: ['相手の人間性・生活態度をよく観察する', '清潔感やマナーを重視する', '徐々に知ってから好きになる'], caution: ['減点方式で見てしまいがち', '理想が高すぎて発展しにくい'], conc: '誠実で地に足のついた尊敬できる相手が吉です。' },
+            romance_pair: { points: ['体調や気分の変化に細やかに気づく', 'デートの計画・手配が完璧', '真面目で浮気の心配が少ない'], caution: ['批判的に相手の欠点を指摘しがち', '細かいことを気にしすぎる'], conc: '相手の欠点も「個性」として大目に見る余裕が鍵です。' },
+            romance_married: { points: ['家計管理や家事がきっちりしている', '家族の健康管理を徹底する', '効率的な役割分担を設計する'], caution: ['自分のルールを押し付けがち', '神経質になりすぎること'], conc: '完璧を目指しすぎず、多少の余白を笑って許せると円満です。' }
+        },
+        libra: {
+            name: '天秤座', icon: 'scale',
+            base: { sub: 'バランス感覚の社交家', points: ['人当たりが良く誰に対しても公平', '争いを避け平和を愛する', '美意識が高くセンスが良い', '決断に時間がかかりやすい'], conc: '周囲からは「洗練されて付き合いやすい人」として映る傾向があります。' },
+            thought: { sub: '客観的で多角的な視点', points: ['常にバランスを取ろうとする', '相手の立場で考えられる', '極端な思想・行動を嫌う'], conc: '交渉・デザイン・人と人を繋ぐ調整役に適性があります。' },
+            relation: { sub: 'スマートな距離感', points: ['誰とでも適度に付き合える', '場の空気を読んで話を合わせる', '泥臭い感情のぶつかり合いは苦手'], conc: '知的でスマートな会話が楽しめる平和な関係を好みます。' },
+            romance_free: { points: ['外見やファッションセンスを重視しがち', 'ロマンチックなシチュエーションに弱い', '受け身になりやすく押しに弱い'], caution: ['八方美人で誤解を招く', '自分から決断するのが苦手'], conc: 'リードしてくれて美的センスを共有できる相手が吉です。' },
+            romance_pair: { points: ['喧嘩を避け穏やかな関係を維持する', 'いつもオシャレに気を遣う', '相手の意見を尊重して合わせる'], caution: ['本音を我慢してストレスを溜める', '優柔不断で相手を困らせる'], conc: 'たまには本音でぶつかる勇気を持つことも大切です。' },
+            romance_married: { points: ['おしゃれで生活感のない理想の家庭', '夫婦喧嘩が少なく会話で解決する', 'パートナーを対等に扱う'], caution: ['面倒な問題から目を背けがち', '外面を良くすることに注力しすぎ'], conc: 'ありのままを見せ合える関係づくりが大切です。' }
+        },
+        scorpio: {
+            name: '蠍座', icon: 'eye',
+            base: { sub: '洞察力の鋭い探求者', points: ['物事の裏側や本質を見抜く直感', '並外れた集中力を発揮する', '秘密主義で本心は滅多に見せない', '最後までやり遂げる執念がある'], conc: '周囲からは「ミステリアスで芯の強い人」として映る傾向があります。' },
+            thought: { sub: '深く狭く徹底的に', points: ['中途半端を嫌い白黒ハッキリさせる', '興味ある分野は専門家レベルまで調べる', '表面的な情報に惑わされない'], conc: '研究・調査・専門職など深く掘り下げる仕事に適性があります。' },
+            relation: { sub: '嘘を見抜く深い絆', points: ['裏切りを絶対に許さない', 'ごく少数の人を深く愛する', '上辺だけの付き合いは時間の無駄'], conc: '魂レベルで共鳴し合える絶対的な信頼関係を求めます。' },
+            romance_free: { points: ['直感で相手の本質を見抜き一途に想う', 'ミステリアスな色気で人を惹きつける', '軽い関係には興味がない'], caution: ['嫉妬深く独占欲が強くなりやすい', '相手のすべてを知りたがる'], conc: '深い愛情を受け止め裏切らない誠実な相手が吉です。' },
+            romance_pair: { points: ['全身全霊で相手を愛する', '二人の世界を大切にし秘密を共有する', '頼りになる強さがある'], caution: ['些細な言動を深読みしすぎる', '一度怒ると長期間根に持つ'], conc: '信頼して少し放任する余裕を持つことが大切です。' },
+            romance_married: { points: ['家族を外敵から守る強い意志', '夫婦の絆を非常に重視する', '困難な状況でも逃げ出さない'], caution: ['秘密を抱え込みやすい', '執着心が強すぎる面'], conc: '「それぞれの世界」を認め合うと風通しが良くなります。' }
+        },
+        sagittarius: {
+            name: '射手座', icon: 'compass',
+            base: { sub: '自由を愛する冒険家', points: ['常に未知の世界や新しい知識を求める', '束縛を極端に嫌い自分のペースで動く', 'おおらかで楽天的な性格', '目標を見つけると真っ直ぐ突き進む'], conc: '周囲からは「行動力があり楽しそうな人」として映る傾向があります。' },
+            thought: { sub: '直感的で未来志向', points: ['常に「次は何をするか」を考える', '哲学的な問いや大きなビジョンが好き', '衝動と直感で動く行動派'], conc: '海外関連やアイデアを形にする企画職に適性があります。' },
+            relation: { sub: 'オープンで裏表なし', points: ['誰に対してもフレンドリーで偏見がない', '思ったことをストレートに言う', 'ベタベタした依存関係は苦手'], conc: '自由を尊重し合いフランクに語れる関係を好みます。' },
+            romance_free: { points: ['恋愛も一種の冒険として楽しむ', '束縛してくる相手は即対象外', '国境も年齢も気にしない大胆さ'], caution: ['熱しやすく冷めやすいハンター気質', '追いかける恋のほうが燃える'], conc: '自由を理解し共に未知を楽しめる相手が吉です。' },
+            romance_pair: { points: ['旅行や新体験の共有が好き', '寛容で細かいことを気にしない', '恋人であり親友のような関係'], caution: ['デリカシーに欠ける発言に注意', '放置気味になりやすい'], conc: '相手の話を最後まで聞く姿勢が信頼を深めます。' },
+            romance_married: { points: ['自由で明るい型破りな家庭', '子供にも多様な体験をさせたい', '細かいルールを嫌う'], caution: ['地味なルーティン作業から逃げがち', '金銭面がどんぶり勘定に'], conc: '最低限のルールを共有しつつ週末は冒険に出るのが円満の鍵です。' }
+        },
+        capricorn: {
+            name: '山羊座', icon: 'target',
+            base: { sub: '目標達成型の努力家', points: ['掲げた目標は必ず達成しようとする', '無駄を嫌い時間・お金を効率的に使う', '伝統やルールを重んじる真面目さ', '年齢とともに魅力が増す大器晩成型'], conc: '周囲からは「頼りがいのあるしっかり者」として映る傾向があります。' },
+            thought: { sub: '現実的で長期計画型', points: ['未来の安定を優先する', '実利と結果を重視する', '常にプランBを用意している'], conc: '組織マネジメントや時間をかけた事業構築に適性があります。' },
+            relation: { sub: '信頼と実績を重視', points: ['軽薄な人・口だけの人が一番苦手', '有益か尊敬できるかを無意識に判断する', '一度信頼した相手には義理堅い'], conc: '落ち着いた大人の付き合いを好むタイプです。' },
+            romance_free: { points: ['恋愛にも将来性・現実的メリットを求める', '時間をかけて相手を審査する', 'アプローチは非常に慎重'], caution: ['条件で人を選びがち', '仕事が忙しいと恋愛を後回しにする'], conc: '野心を理解し精神的にも自立した相手が吉です。' },
+            romance_pair: { points: ['浮気の心配が少なく一途', '記念日はきっちり計画してお祝い', '将来に向けた現実的な話ができる'], caution: ['愛情表現が不器用で言葉不足', '相手にも同レベルの努力を求めがち'], conc: '結果だけでなく一緒に過ごす過程も楽しむことが長続きの鍵です。' },
+            romance_married: { points: ['家族を経済的・社会的に守る責任感', '家計管理と老後の備えが万全', '子供にしっかりした教育を受けさせたい'], caution: ['仕事人間でコミュニケーション不足', '理想の家庭像を押し付けがち'], conc: '計画を忘れて家族とダラダラする余裕も大切です。' }
+        },
+        aquarius: {
+            name: '水瓶座', icon: 'lightbulb',
+            base: { sub: '独創的な自由人', points: ['常識にとらわれない独自の世界観', '誰に対してもフラットで平等', '感情的になるのが苦手でクール', '最新テクノロジーや未来的なものに興味'], conc: '周囲からは「個性的で天才肌の人」として映る傾向があります。' },
+            thought: { sub: '未来志向で俯瞰的', points: ['「普通」という前提を疑う', '全体の合理性を個人の感情より優先', '閃きと論理を組み合わせる'], conc: 'IT・企画・フリーランスなど裁量のある仕事に適性があります。' },
+            relation: { sub: '自立したネットワーク', points: ['年齢・性別・国籍を問わず幅広い交友', '自分のテリトリーへの侵入を嫌う', '多様性を本気で尊重する'], conc: '個性を認め合い干渉しない自立した関係を好みます。' },
+            romance_free: { points: ['恋愛感情より人間的な面白さを重視', '友達からいつの間にか恋に発展', 'ドロドロした感情が苦手'], caution: ['恋人にも友達と同じ態度を取りがち', '変わり者すぎて一般的アプローチが通じない'], conc: '知的で自立しお互いの時間を尊重し合える相手が吉です。' },
+            romance_pair: { points: ['恋人を一人の人間として尊重する', '既存の枠にとらわれない付き合い方', '趣味・仕事の話で盛り上がれる'], caution: ['ロマンチックな演出は期待できない', '突然距離を置くことがある'], conc: '二人に合ったオリジナルな関係性を築くことが大切です。' },
+            romance_married: { points: ['伝統的な役割分担にこだわらない', 'お互いの生き方を尊重する風通しの良さ', '子供を一人の人間として対等に扱う'], caution: ['現実問題から逃げがち', 'ドライすぎて寂しい思いをさせる'], conc: '家族の非合理的な感情にも寄り添う努力が必要です。' }
+        },
+        pisces: {
+            name: '魚座', icon: 'waves',
+            base: { sub: '共感力の高いロマンチスト', points: ['他者の感情をスポンジのように吸収する共感力', '誰にでも優しく寄り添える境界線のなさ', '想像力が豊かで空想の世界が好き', '直感や目に見えないものを信じる'], conc: '周囲からは「癒し系で不思議な魅力のある人」として映る傾向があります。' },
+            thought: { sub: '直感的で柔軟', points: ['「何となくそう感じる」で動く直感型', '水のように状況に適応する柔軟さ', '芸術的センスやインスピレーションに優れる'], conc: '芸術・クリエイティブ・医療福祉など人を癒やす仕事に適性があります。' },
+            relation: { sub: '自己犠牲的な優しさ', points: ['困っている人を放っておけない', '押しに弱くNOと言えない', '厳しい現実や争いから逃避する癖'], conc: '穏やかな人に囲まれた平和な関係を好むタイプです。' },
+            romance_free: { points: ['恋愛体質で常に誰かに恋していたい', '相手の色に染まることに喜びを感じる', '同情が愛情に変わることが多い'], caution: ['ダメな人を引き寄せ依存しやすい', '雰囲気に流されやすい'], conc: '優しさを利用せず守ってくれる現実感覚のある相手が吉です。' },
+            romance_pair: { points: ['相手の求めることを察知し献身的に尽くす', 'ロマンチックな雰囲気を大切にする', '深い精神的な繋がりを求める'], caution: ['相手との境界線が曖昧になりがち', '悲劇のヒロインを演じてしまう'], conc: '自分の「嫌なこと」もしっかり伝える強さが長続きの鍵です。' },
+            romance_married: { points: ['家族に無償の愛を注ぐ優しい親', '家に芸術的な癒やしの空間を作る', 'パートナーの痛みを受け止める'], caution: ['家計管理や厳しいしつけが苦手', '優しすぎて子供を甘やかしがち'], conc: '現実的な問題はパートナーと分担し精神的ケアで家族を支えると円満です。' }
+        }
+    },
+    numerology: {
+        1: { job: { sub: '独立・リーダー型', good: ['裁量権がある環境', '新規事業の立ち上げ', '前に出る役割'], bad: ['マニュアル通りの作業', '指示待ちの環境'] }, money: '自ら稼ぎ出す力が強い。投資や事業で大きく増やすポテンシャルあり。' },
+        2: { job: { sub: 'サポート・調整型', good: ['秘書・アシスタント', '1対1の接客', 'チームの調整役'], bad: ['強い競争やノルマ', '殺伐とした環境'] }, money: '堅実に貯めるタイプ。人との繋がりが金運を呼び込む。' },
+        3: { job: { sub: 'クリエイティブ・表現型', good: ['企画・アイデア出し', 'エンタメ・デザイン', '人と楽しく関わる仕事'], bad: ['単調なルーティン', '厳格すぎるルール'] }, money: '楽しく使うことで巡る運気。交際費はケチらない方が吉。' },
+        4: { job: { sub: '実務・構築型', good: ['システム開発・経理', '正確性が必要な業務', '長期プロジェクト'], bad: ['その場しのぎの対応', 'ルールが頻繁に変わる環境'] }, money: '最も堅実で貯蓄上手。長期分散投資が向いている。' },
+        5: { job: { sub: '変化・開拓型', good: ['営業・広報', '旅行・海外関連', '変化の激しい業界'], bad: ['毎日同じ場所での作業', '変化のない安定志向'] }, money: '出入りが激しい。経験やスキルへの投資が吉。' },
+        6: { job: { sub: '育成・奉仕型', good: ['教育・医療・福祉', '人材育成', '美しいものを扱う仕事'], bad: ['利益だけの追求', 'ギスギスした職場'] }, money: '人のために使うと金運上昇。家族への投資が吉。' },
+        7: { job: { sub: '探求・専門職型', good: ['研究者・エンジニア', '専門分析', '一人で没頭できる仕事'], bad: ['ワイワイしたチーム作業', '浅い知識で済む仕事'] }, money: '専門知識がお金に変わる。無駄遣いは少ないタイプ。' },
+        8: { job: { sub: '達成・組織運営型', good: ['経営・マネジメント', '金融・不動産', '成果が数字で出る仕事'], bad: ['ボランティア的業務', '評価が曖昧な環境'] }, money: '稼ぐ力も使う力も大きい。ビジネスを通じた資産形成が得意。' },
+        9: { job: { sub: '俯瞰・社会貢献型', good: ['コンサル・NPO', '癒やし・精神分野', '全体を見渡す役職'], bad: ['極端な成果主義', '社会のためにならない仕事'] }, money: 'お金への執着は薄いが必要な分は不思議と入ってくる運気。' },
+        11: { job: { sub: '直感・メッセンジャー型', good: ['スピリチュアル・芸術', 'インスピレーション活用', '独自センスが必要な仕事'], bad: ['論理だけの仕事', '現実的すぎる環境'] }, money: '直感が冴える時にお金が入る。思わぬ幸運も。' },
+        22: { job: { sub: 'カリスマ・大構築型', good: ['大規模プロジェクト', '政治・社会事業', '理想を現実化する仕事'], bad: ['スケールの小さい業務', '誰でもできる作業'] }, money: '桁違いの財を築くポテンシャル。大きな目標を持つことが鍵。' },
+        33: { job: { sub: '規格外・博愛型', good: ['枠に囚われない独自活動', '子供・動物に関わる仕事', '特殊なクリエイティブ'], bad: ['常識を押し付けられる環境', '普通の会社員生活'] }, money: '金銭感覚は独特。好きなことに全振りする傾向あり。' }
+    }
+};
+
+// ==========================================
+// Zodiac & Numerology Calculation
+// ==========================================
+function getZodiacId(m, d) {
+    const ranges = [
+        [1,20,'capricorn'],[1,31,'aquarius'],
+        [2,19,'aquarius'],[2,29,'pisces'],
+        [3,20,'pisces'],[3,31,'aries'],
+        [4,20,'aries'],[4,30,'taurus'],
+        [5,21,'taurus'],[5,31,'gemini'],
+        [6,21,'gemini'],[6,30,'cancer'],
+        [7,22,'cancer'],[7,31,'leo'],
+        [8,22,'leo'],[8,31,'virgo'],
+        [9,22,'virgo'],[9,30,'libra'],
+        [10,23,'libra'],[10,31,'scorpio'],
+        [11,22,'scorpio'],[11,30,'sagittarius'],
+        [12,21,'sagittarius'],[12,31,'capricorn']
+    ];
+    for (let i = 0; i < ranges.length; i += 2) {
+        const [m1,d1,z1] = ranges[i];
+        const [m2,d2,z2] = ranges[i+1];
+        if (m === m1 && d <= d1) return z1;
+        if (m === m1 && d <= d2) return z2;
+    }
+    return 'capricorn';
+}
+
+function getDestinyNumber(dateStr) {
+    let digits = dateStr.replace(/-/g, '');
+    let sum;
+    while (digits.length > 1) {
+        sum = digits.split('').reduce((a, b) => a + parseInt(b), 0);
+        if ([11, 22, 33].includes(sum)) return sum;
+        digits = sum.toString();
+    }
+    return parseInt(digits);
+}
+
+// ==========================================
+// Card Renderers (no emoji, Lucide icons only)
+// ==========================================
+function renderCard({ icon, iconColor, title, subtitle, points, conclusion, conclusionColor, delay }) {
+    return `
+    <div class="fortune-card p-5 fade-up d${delay}">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${iconColor}40,transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-3 pt-1">
+            <i data-lucide="${icon}" class="w-4 h-4 shrink-0" style="color:${iconColor};"></i>
+            <span class="text-xs font-medium tracking-wider" style="color:var(--text-secondary);">${title}</span>
+        </div>
+        <p class="text-base font-semibold mb-3" style="color:var(--text-primary);">${subtitle}</p>
+        <ul class="space-y-2 mb-4">
+            ${points.map(p => `
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color:var(--text-secondary);">
+                    <span class="w-1 h-1 rounded-full shrink-0 mt-2" style="background:var(--text-muted);"></span>
+                    <span>${p}</span>
+                </li>
+            `).join('')}
+        </ul>
+        ${conclusion ? `
+        <div class="rounded-lg p-3.5" style="background:var(--bg-accent);border:1px solid var(--border);">
+            <p class="text-sm font-medium text-center leading-relaxed" style="color:${conclusionColor};">${conclusion}</p>
+        </div>` : ''}
+    </div>`;
+}
+
+function renderWorkCard(data, delay) {
+    return `
+    <div class="fortune-card p-5 fade-up d${delay}">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--indigo)40,transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-3 pt-1">
+            <i data-lucide="briefcase" class="w-4 h-4 shrink-0" style="color:var(--indigo);"></i>
+            <span class="text-xs font-medium tracking-wider" style="color:var(--text-secondary);">仕事運</span>
+        </div>
+        <p class="text-base font-semibold mb-4" style="color:var(--text-primary);">${data.sub}</p>
+        <p class="text-xs font-medium mb-2" style="color:var(--teal);">向いている環境</p>
+        <ul class="space-y-2 mb-4">
+            ${data.good.map(p => `
+                <li class="flex items-start gap-2 text-sm leading-relaxed" style="color:var(--text-secondary);">
+                    <i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--teal);"></i>
+                    <span>${p}</span>
+                </li>
+            `).join('')}
+        </ul>
+        <p class="text-xs font-medium mb-2" style="color:var(--rose-dim);">避けたい環境</p>
+        <ul class="space-y-2">
+            ${data.bad.map(p => `
+                <li class="flex items-start gap-2 text-sm leading-relaxed" style="color:var(--text-secondary);">
+                    <i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--rose-dim);"></i>
+                    <span>${p}</span>
+                </li>
+            `).join('')}
+        </ul>
+    </div>`;
+}
+
+function renderMoneyCard(text, delay) {
+    return `
+    <div class="fortune-card p-5 fade-up d${delay}">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--amber)40,transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-3 pt-1">
+            <i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--amber);"></i>
+            <span class="text-xs font-medium tracking-wider" style="color:var(--text-secondary);">金運</span>
+        </div>
+        <div class="rounded-lg p-4" style="background:var(--bg-accent);border:1px solid var(--border);">
+            <p class="text-sm font-medium text-center leading-relaxed" style="color:var(--amber);">${text}</p>
+        </div>
+    </div>`;
+}
+
+function renderRomanceCard(zodiacData, status, delay) {
+    const keyMap = { single_free: 'romance_free', single_partnered: 'romance_pair', married: 'romance_married' };
+    const titleMap = { single_free: '恋愛運', single_partnered: 'パートナー運', married: '家庭・夫婦運' };
+    const rData = zodiacData[keyMap[status]];
+    const title = titleMap[status];
+
+    return `
+    <div class="fortune-card p-5 fade-up d${delay}">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--rose)40,transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-3 pt-1">
+            <i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--rose);"></i>
+            <span class="text-xs font-medium tracking-wider" style="color:var(--text-secondary);">${title}</span>
+        </div>
+        <ul class="space-y-2 mb-4">
+            ${rData.points.map(p => `
+                <li class="flex items-start gap-2.5 text-sm leading-relaxed" style="color:var(--text-secondary);">
+                    <span class="w-1 h-1 rounded-full shrink-0 mt-2" style="background:var(--text-muted);"></span>
+                    <span>${p}</span>
+                </li>
+            `).join('')}
+        </ul>
+        <p class="text-xs font-medium mb-2" style="color:var(--amber);">気をつけたいポイント</p>
+        <ul class="space-y-2 mb-4">
+            ${rData.caution.map(p => `
+                <li class="flex items-start gap-2 text-sm leading-relaxed" style="color:var(--text-secondary);">
+                    <i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--amber);"></i>
+                    <span>${p}</span>
+                </li>
+            `).join('')}
+        </ul>
+        <div class="rounded-lg p-3.5" style="background:var(--bg-accent);border:1px solid var(--border);">
+            <p class="text-sm font-medium text-center leading-relaxed" style="color:var(--rose);">${rData.conc}</p>
+        </div>
+    </div>`;
+}
+
+// ==========================================
+// Share Data (privacy-safe — no personal info)
+// ==========================================
+let shareData = { zodiacName: '', zodiacSub: '', numSub: '', nickname: '' };
+
+function buildShareText() {
+    return `【${shareData.nickname} の性格占い結果】\n\n` +
+           `星座タイプ：${shareData.zodiacName}「${shareData.zodiacSub}」\n` +
+           `仕事タイプ：「${shareData.numSub}」\n\n` +
+           `Fortuna — あなたの本質を読み解く`;
+}
+
+function buildShareUrl() {
+    // Replace with your actual deployed URL
+    return 'https://your-domain.com/fortuna/';
+}
+
+// X (Twitter) share
+document.addEventListener('DOMContentLoaded', () => {
+    document.getElementById('share-x').addEventListener('click', () => {
+        const text = encodeURIComponent(buildShareText());
+        const url = encodeURIComponent(buildShareUrl());
+        window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank');
+        trackEvent('share', { method: 'x', content_type: 'fortune_result' });
+    });
+
+    // LINE share
+    document.getElementById('share-line').addEventListener('click', () => {
+        const text = encodeURIComponent(buildShareText() + '\n' + buildShareUrl());
+        window.open(`https://social-plugins.line.me/lineit/share?text=${text}`, '_blank');
+        trackEvent('share', { method: 'line', content_type: 'fortune_result' });
+    });
+
+    // Instagram — generate image for Stories
+    document.getElementById('share-ig').addEventListener('click', () => {
+        generateShareImage();
+        trackEvent('share', { method: 'instagram_image', content_type: 'fortune_result' });
+    });
+});
+
+// ==========================================
+// Instagram Share Image Generator (Canvas)
+// ==========================================
+function generateShareImage() {
+    const canvas = document.getElementById('share-canvas');
+    const ctx = canvas.getContext('2d');
+    const w = 1080, h = 1920;
+
+    // Background
+    ctx.fillStyle = '#0D0F0E';
+    ctx.fillRect(0, 0, w, h);
+
+    // Subtle gradient overlay
+    const grad = ctx.createRadialGradient(w/2, h/3, 100, w/2, h/3, 600);
+    grad.addColorStop(0, 'rgba(196,162,101,0.08)');
+    grad.addColorStop(1, 'transparent');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
+
+    // Decorative border
+    ctx.strokeStyle = '#252E2A';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(60, 60, w-120, h-120);
+
+    // Inner border
+    ctx.strokeStyle = '#C4A26540';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(80, 80, w-160, h-160);
+
+    // Title
+    ctx.fillStyle = '#8B7445';
+    ctx.font = '500 28px "JetBrains Mono", monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText('FORTUNE ANALYSIS', w/2, 200);
+
+    // App name
+    ctx.fillStyle = '#C4A265';
+    ctx.font = 'italic 72px "Cormorant Garamond", serif';
+    ctx.fillText('Fortuna', w/2, 320);
+
+    // Divider
+    ctx.strokeStyle = '#C4A26540';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(340, 380);
+    ctx.lineTo(740, 380);
+    ctx.stroke();
+
+    // Nickname
+    ctx.fillStyle = '#E8EDE9';
+    ctx.font = '700 48px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(`${shareData.nickname} の鑑定書`, w/2, 500);
+
+    // Zodiac type
+    ctx.fillStyle = '#5C9E8F';
+    ctx.font = '500 32px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText('— 星座タイプ —', w/2, 650);
+
+    ctx.fillStyle = '#E8EDE9';
+    ctx.font = '700 44px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(shareData.zodiacName, w/2, 730);
+
+    ctx.fillStyle = '#C4A265';
+    ctx.font = '600 36px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(`「${shareData.zodiacSub}」`, w/2, 810);
+
+    // Work type
+    ctx.fillStyle = '#7888B8';
+    ctx.font = '500 32px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText('— 仕事タイプ —', w/2, 970);
+
+    ctx.fillStyle = '#E8EDE9';
+    ctx.font = '700 44px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText(`「${shareData.numSub}」`, w/2, 1050);
+
+    // Divider
+    ctx.strokeStyle = '#252E2A';
+    ctx.beginPath();
+    ctx.moveTo(200, 1200);
+    ctx.lineTo(880, 1200);
+    ctx.stroke();
+
+    // Footer
+    ctx.fillStyle = '#4A5C54';
+    ctx.font = '400 28px "Zen Kaku Gothic New", sans-serif';
+    ctx.fillText('あなたの本質を星と数秘が語る', w/2, 1350);
+
+    ctx.fillStyle = '#8B7445';
+    ctx.font = '500 24px "JetBrains Mono", monospace';
+    ctx.fillText('fortuna-app.com', w/2, 1700);
+
+    // Download
+    canvas.toBlob((blob) => {
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `fortuna-${shareData.nickname}.png`;
+        a.click();
+        URL.revokeObjectURL(url);
+        showToast('画像を保存しました — Instagramストーリーに投稿できます');
+    }, 'image/png');
+}
+
+// ==========================================
+// Toast notification
+// ==========================================
+function showToast(msg) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.classList.add('show');
+    setTimeout(() => el.classList.remove('show'), 3000);
+}
+
+// ==========================================
+// Scan Animation Messages
+// ==========================================
+const scanMessages = [
+    "星の配置を読み取っています...",
+    "基本性格パラメータを抽出...",
+    "思考・行動パターンを解析中...",
+    "人間関係・仕事・金運を算出...",
+    "鑑定書を構築しています..."
+];
+
+// ==========================================
+// Main Event: Predict button
+// ==========================================
+document.getElementById('predict-btn').addEventListener('click', () => {
+    const name = document.getElementById('name').value.trim() || 'あなた';
+    const dateStr = document.getElementById('birthdate').value;
+    const status = document.getElementById('status').value;
+    
+    if (!dateStr) {
+        document.getElementById('error-msg').classList.remove('hidden');
+        return;
+    }
+    document.getElementById('error-msg').classList.add('hidden');
+
+    // GA event
+    trackEvent('fortune_start', { status: status });
+
+    const dateObj = new Date(dateStr);
+    const m = dateObj.getMonth() + 1;
+    const d = dateObj.getDate();
+    const zId = getZodiacId(m, d);
+    const nId = getDestinyNumber(dateStr);
+    const zData = db.zodiac[zId];
+    const nData = db.numerology[nId];
+
+    // Set share data (privacy-safe, no birthdate/gender)
+    shareData = {
+        zodiacName: zData.name,
+        zodiacSub: zData.base.sub,
+        numSub: nData.job.sub,
+        nickname: name
+    };
+
+    // Show scan overlay
+    const overlay = document.getElementById('scan-overlay');
+    const scanText = document.getElementById('scan-text');
+    const scanProgress = document.getElementById('scan-progress');
+    
+    overlay.classList.remove('hidden');
+    overlay.classList.add('flex');
+    overlay.style.opacity = '1';
+
+    // Reset progress
+    scanProgress.style.transition = 'none';
+    scanProgress.style.width = '0%';
+    requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+            scanProgress.style.transition = 'width 10s linear';
+            scanProgress.style.width = '100%';
+        });
+    });
+
+    // Scan text rotation
+    let step = 0;
+    const textInterval = setInterval(() => {
+        scanText.style.opacity = '0';
+        scanText.style.filter = 'blur(4px)';
+        setTimeout(() => {
+            if (step < scanMessages.length) {
+                scanText.textContent = scanMessages[step];
+                scanText.style.opacity = '1';
+                scanText.style.filter = 'blur(0)';
+                step++;
+            }
+        }, 400);
+        if (step >= scanMessages.length) clearInterval(textInterval);
+    }, 2000);
+
+    // After scan, show results
+    setTimeout(() => {
+        overlay.style.opacity = '0';
+        
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            
+            document.getElementById('input-section').classList.add('hidden');
+            document.getElementById('result-name').textContent = name;
+            
+            // Type label shows zodiac + destiny number (no personal info)
+            document.getElementById('result-type-label').textContent = `${zData.name} / 運命数 ${nId}`;
+
+            // Build result cards
+            const container = document.getElementById('cards-container');
+            container.innerHTML = 
+                renderCard({
+                    icon: zData.icon, iconColor: 'var(--gold)',
+                    title: '基本性格', subtitle: zData.base.sub,
+                    points: zData.base.points, conclusion: zData.base.conc,
+                    conclusionColor: 'var(--gold)', delay: 1
+                }) +
+                renderCard({
+                    icon: 'brain', iconColor: 'var(--teal)',
+                    title: '思考タイプ', subtitle: zData.thought.sub,
+                    points: zData.thought.points, conclusion: zData.thought.conc,
+                    conclusionColor: 'var(--teal)', delay: 2
+                }) +
+                renderCard({
+                    icon: 'users', iconColor: 'var(--text-secondary)',
+                    title: '人間関係', subtitle: zData.relation.sub,
+                    points: zData.relation.points, conclusion: zData.relation.conc,
+                    conclusionColor: 'var(--text-secondary)', delay: 3
+                }) +
+                renderRomanceCard(zData, status, 4) +
+                renderWorkCard(nData.job, 5) +
+                renderMoneyCard(nData.money, 6);
+
+            document.getElementById('result-section').classList.remove('hidden');
+            lucide.createIcons();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // GA event
+            trackEvent('fortune_complete', {
+                zodiac: zId,
+                destiny_number: nId,
+                status: status
+            });
+
+            // Reset scan for next use
+            scanProgress.style.transition = 'none';
+            scanProgress.style.width = '0%';
+            scanText.textContent = 'Initializing...';
+            scanText.style.opacity = '1';
+            scanText.style.filter = 'blur(0)';
+        }, 700);
+    }, 10500);
+});
+
+// ==========================================
+// Premium modal
+// ==========================================
+document.getElementById('premium-btn').addEventListener('click', () => {
+    const m = document.getElementById('premium-modal');
+    const inner = document.getElementById('premium-modal-inner');
+    m.classList.remove('hidden');
+    requestAnimationFrame(() => {
+        m.style.opacity = '1';
+        inner.style.transform = 'scale(1)';
+    });
+    trackEvent('premium_click');
+});
+
+document.getElementById('close-premium-btn').addEventListener('click', () => {
+    const m = document.getElementById('premium-modal');
+    const inner = document.getElementById('premium-modal-inner');
+    m.style.opacity = '0';
+    inner.style.transform = 'scale(0.95)';
+    setTimeout(() => m.classList.add('hidden'), 300);
+});
+
+// ==========================================
+// Reset
+// ==========================================
+document.getElementById('reset-btn').addEventListener('click', () => {
+    document.getElementById('result-section').classList.add('hidden');
+    document.getElementById('input-section').classList.remove('hidden');
+    document.getElementById('cards-container').innerHTML = '';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+    trackEvent('fortune_reset');
+});
+
+// ==========================================
+// Init Lucide icons
+// ==========================================
+lucide.createIcons();
+
+// ==========================================
+// PWA Service Worker Registration
+// ==========================================
+if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('sw.js').catch(() => {});
+    });
+}
+</script>
+</body>
+</html>
