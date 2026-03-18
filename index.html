@@ -170,17 +170,6 @@
                 <i data-lucide="file-text" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">利用規約</span>
             </a>
             <div class="my-2" style="height:1px;background:var(--border-color);"></div>
-            <!-- Dark mode toggle -->
-            <div class="flex items-center justify-between p-3 rounded-xl" style="color:var(--text-main);">
-                <div class="flex items-center gap-3">
-                    <i data-lucide="moon" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">ダークモード</span>
-                </div>
-                <label class="relative inline-block w-11 h-6 cursor-pointer">
-                    <input type="checkbox" id="theme-toggle" class="sr-only peer" checked>
-                    <span class="absolute inset-0 rounded-full transition-colors duration-300 peer-checked:bg-[#5C8E84]" style="background:var(--border-color);"></span>
-                    <span class="absolute left-0.5 top-0.5 w-5 h-5 rounded-full bg-white shadow transition-transform duration-300 peer-checked:translate-x-5"></span>
-                </label>
-            </div>
             <!-- Tutorial toggle -->
             <div class="flex items-center justify-between p-3 rounded-xl" style="color:var(--text-main);">
                 <div class="flex items-center gap-3">
@@ -203,8 +192,8 @@
 </nav>
 
 <!-- HAMBURGER BUTTON (fixed top-left) -->
-<button id="hamburger-btn" onclick="openDrawer()" style="position:fixed;top:16px;left:16px;z-index:50;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--bg-card);border:1.5px solid var(--border-color);box-shadow:0 2px 10px rgba(0,0,0,.2);cursor:pointer;">
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-sub)" stroke-width="2" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+<button id="hamburger-btn" onclick="openDrawer()" style="position:fixed;top:16px;left:16px;z-index:50;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--bg-card);border:1.5px solid var(--primary);box-shadow:0 2px 12px rgba(0,0,0,.25);cursor:pointer;">
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="16" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
 </button>
 
 <!-- SCAN OVERLAY -->
@@ -266,6 +255,7 @@
             <p class="mono-font t-card-title mb-2" style="color:var(--primary);">ANALYSIS COMPLETE</p>
             <h2 class="t-amount-lg" style="color:var(--primary-dark);"><span id="result-name"></span>さん のトリセツ</h2>
             <p class="t-caption mt-2 mono-font" style="color:var(--text-muted);" id="result-type-label"></p>
+            <p class="t-caption mt-1" style="color:var(--text-muted);font-size:11px;line-height:1.6;" id="result-method-note">※ 西洋占星術（星座）と数秘術（運命数）を組み合わせた鑑定です</p>
         </header>
         <div id="cards-container" class="space-y-4"></div>
 
@@ -379,6 +369,14 @@ function renderCard({icon,iconColor,title,subtitle,points,conclusion,conclusionC
 function renderWorkCard(data,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-tool)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="briefcase" class="w-4 h-4 shrink-0" style="color:var(--cat-tool);"></i><span class="t-card-title" style="color:var(--text-sub);">仕事運</span></div><p class="t-service mb-4" style="color:var(--text-main);">${data.sub}</p><p class="t-label mb-2" style="color:var(--cat-music);">向いている環境</p><ul class="space-y-2 mb-4">${data.good.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--cat-music);"></i><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--danger);">避けたい環境</p><ul class="space-y-2">${data.bad.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--danger);"></i><span>${p}</span></li>`).join('')}</ul></div>`;}
 
 function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">金運</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-loose" style="color:var(--warning-text);">${text}</p></div></div>`;}
+
+// Famous people by zodiac
+const famousByZodiac={aries:['レディー・ガガ','本田圭佑','エマ・ワトソン'],taurus:['ザッカーバーグ','アデル','ヒカキン'],gemini:['ジョニー・デップ','中田敦彦','アンジェリーナ・ジョリー'],cancer:['イーロン・マスク','メッシ','松本人志'],leo:['バラク・オバマ','米津玄師','ココ・シャネル'],virgo:['ビヨンセ','ウォーレン・バフェット','石橋貴明'],libra:['ジョン・レノン','キム・カーダシアン','イチロー'],scorpio:['ビル・ゲイツ','レオナルド・ディカプリオ','手塚治虫'],sagittarius:['テイラー・スウィフト','ウォルト・ディズニー','羽生結弦'],capricorn:['スティーブ・ジョブズ','ジェフ・ベゾス','キング牧師'],aquarius:['オプラ・ウィンフリー','エジソン','ハリー・スタイルズ'],pisces:['スティーブ・ジョブズ','アインシュタイン','Rihanna']};
+
+function renderFamousCard(zId,delay){
+    const people=famousByZodiac[zId]||['データなし'];
+    return `<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,#7C6FA040,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="star" class="w-4 h-4 shrink-0" style="color:#7C6FA0;"></i><span class="t-card-title" style="color:var(--text-sub);">同じ星座の有名人</span></div><div class="flex flex-wrap gap-2">${people.map(p=>`<span class="px-3 py-1.5 rounded-full t-caption font-semibold" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">${p}</span>`).join('')}</div><p class="t-caption mt-3" style="color:var(--text-muted);">同じ星座を持つ方々。共通する資質があるかもしれませんね。</p></div>`;
+}
 
 function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-loose" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
 
@@ -525,7 +523,7 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     scanProgress.style.transition='none';scanProgress.style.width='0%';
     requestAnimationFrame(()=>{requestAnimationFrame(()=>{scanProgress.style.transition='width 10s linear';scanProgress.style.width='100%';});});
     let step=0;const ti=setInterval(()=>{scanText.style.opacity='0';scanText.style.filter='blur(4px)';setTimeout(()=>{if(step<scanMessages.length){scanText.textContent=scanMessages[step];scanText.style.opacity='1';scanText.style.filter='blur(0)';step++;}},400);if(step>=scanMessages.length)clearInterval(ti);},2000);
-    setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';},700);},10500);
+    setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';},700);},10500);
 });
 
 document.getElementById('reset-btn').addEventListener('click',()=>{
@@ -761,9 +759,9 @@ document.getElementById('deep-dive-area').addEventListener('click',function(e){
         optBtn.dataset.done='1';
         optBtn.style.background='var(--primary-light)';
         optBtn.style.borderColor='var(--primary)';
+        // Dim siblings but keep them clickable for redo
         optBtn.parentElement.querySelectorAll('.deep-opt-btn').forEach(b=>{
-            b.style.pointerEvents='none';
-            if(b!==optBtn) b.style.opacity='.4';
+            if(b!==optBtn){b.style.opacity='.4';b.dataset.dimmed='1';}
         });
         const label=optBtn.querySelector('span:last-child').textContent;
         currentAnswers.push(label);
@@ -777,6 +775,19 @@ document.getElementById('deep-dive-area').addEventListener('click',function(e){
             const flow=getFlowForCategory(currentCat);
             renderStep(flow,next);
         }
+    }
+    // Redo: click a dimmed sibling to go back to that step
+    if(optBtn && optBtn.dataset.dimmed==='1'){
+        const card=optBtn.closest('.fortune-card');
+        // Remove all cards after this one
+        let next=card.nextElementSibling;
+        while(next){const rm=next;next=next.nextElementSibling;rm.remove();}
+        // Reset this step's buttons
+        card.querySelectorAll('.deep-opt-btn').forEach(b=>{
+            b.style.opacity='1';b.style.background='var(--bg-page)';b.style.borderColor='var(--border-color)';
+            delete b.dataset.done;delete b.dataset.dimmed;
+        });
+        currentAnswers.pop();
     }
     if(againBtn){
         this.innerHTML='';currentAnswers=[];_stepResults=[];
@@ -891,8 +902,9 @@ function showMiniScan(cat, onComplete, duration){
     const dur=duration||3000;
     const area=document.getElementById('deep-dive-area');
     const msgs=dur<=2000?(resultScanMsg[cat]||resultScanMsg.love):(deepScanMsg[cat]||deepScanMsg.love);
+    const uid='ms'+Date.now();
     area.insertAdjacentHTML('beforeend',`
-    <div class="fortune-card p-6 fade-up" id="mini-scan-card">
+    <div class="fortune-card p-6 fade-up" id="${uid}">
         <div class="flex flex-col items-center py-4">
             <div class="relative w-14 h-14 mb-5">
                 <div class="orbit-ring" style="width:56px;height:56px;top:0;left:0;animation-duration:3s;">
@@ -902,24 +914,24 @@ function showMiniScan(cat, onComplete, duration){
                     <div class="w-2 h-2 rounded-full" style="background:var(--primary);box-shadow:0 0 10px var(--primary);animation:pulse-ring 1.5s infinite;"></div>
                 </div>
             </div>
-            <p id="mini-scan-text" class="mono-font t-caption text-center transition-all duration-400" style="color:var(--text-sub);letter-spacing:.05em;">${msgs[0]}</p>
+            <p id="${uid}-text" class="mono-font t-caption text-center" style="color:var(--text-sub);letter-spacing:.05em;transition:opacity .25s;min-height:20px;">${msgs[0]}</p>
             <div class="progress-track mt-4" style="width:140px;">
-                <div id="mini-scan-progress" class="progress-fill" style="width:0%;transition:width ${dur}ms linear;"></div>
+                <div id="${uid}-bar" class="progress-fill" style="width:0%;transition:width ${dur}ms linear;"></div>
             </div>
         </div>
     </div>`);
-    setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'});},50);
+    setTimeout(()=>{const el=document.getElementById(uid);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});},50);
     requestAnimationFrame(()=>{requestAnimationFrame(()=>{
-        const p=document.getElementById('mini-scan-progress');if(p)p.style.width='100%';
+        const p=document.getElementById(uid+'-bar');if(p)p.style.width='100%';
     });});
-    const textEl=()=>document.getElementById('mini-scan-text');
+    const textEl=()=>document.getElementById(uid+'-text');
     const interval=Math.floor(dur/msgs.length);
     msgs.forEach((msg,i)=>{
         if(i===0)return;
-        setTimeout(()=>{if(textEl()){textEl().style.opacity='0';setTimeout(()=>{if(textEl()){textEl().textContent=msg;textEl().style.opacity='1';}},250);}},interval*i);
+        setTimeout(()=>{const t=textEl();if(t){t.style.opacity='0';setTimeout(()=>{if(t){t.textContent=msg;t.style.opacity='1';}},250);}},interval*i);
     });
     setTimeout(()=>{
-        const card=document.getElementById('mini-scan-card');
+        const card=document.getElementById(uid);
         if(card){card.style.opacity='0';card.style.transition='opacity .3s';}
         setTimeout(()=>{if(card)card.remove();onComplete();},300);
     },dur);
@@ -1152,23 +1164,7 @@ function lsSet(k,v){try{localStorage.setItem(k,v);}catch(e){}}
 // ==========================================
 // THEME TOGGLE
 // ==========================================
-(function initTheme(){
-    const saved=lsGet('fortuna-theme');
-    if(saved==='light'){
-        document.documentElement.setAttribute('data-theme','light');
-        const t=document.getElementById('theme-toggle');if(t)t.checked=false;
-    }
-    // default is dark (set in HTML)
-})();
-document.getElementById('theme-toggle').addEventListener('change',function(){
-    if(this.checked){
-        document.documentElement.setAttribute('data-theme','dark');
-        lsSet('fortuna-theme','dark');
-    } else {
-        document.documentElement.setAttribute('data-theme','light');
-        lsSet('fortuna-theme','light');
-    }
-});
+// Dark mode is fixed (no toggle needed)
 
 // ==========================================
 // ONBOARDING
