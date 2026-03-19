@@ -88,7 +88,7 @@
         .orbit-dot{position:absolute;width:5px;height:5px;background:var(--primary);border-radius:50%;box-shadow:0 0 8px var(--primary);}
         .fortune-card{background:var(--bg-card);border:var(--border-w) solid var(--border-color);border-radius:var(--radius);box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:border-color .3s,box-shadow .3s;}
         .fortune-card:hover{box-shadow:var(--shadow-lg);}
-        .premium-cat-btn.active-cat{border-color:var(--primary);box-shadow:0 0 0 2px var(--primary)20;}
+        .premium-cat-btn.active-cat{border-color:var(--text-main);box-shadow:0 0 0 1.5px var(--text-main);}
         .card-accent-line{position:absolute;top:0;left:0;right:0;height:2px;}
         .form-input{background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);padding:13px 16px;color:var(--text-main);font-family:var(--font-body);font-size:15px;width:100%;transition:border-color .3s,box-shadow .3s;outline:none;-webkit-appearance:none;}
         .form-input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(92,142,132,.15);}
@@ -316,7 +316,7 @@
                 </button>
             </div>
             <!-- Compatibility special category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="compat" style="border-color:var(--danger)40;">
+            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="compat">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,var(--danger-light),#F5E8EF);"><i data-lucide="heart-handshake" class="w-5 h-5" style="color:var(--danger);"></i></div>
                 <div>
                     <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">気になる相手との相性</p>
@@ -324,7 +324,7 @@
                 </div>
             </button>
             <!-- Future category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future" style="border-color:#6366F140;">
+            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#EEF0FF,#E8E0F5);"><i data-lucide="telescope" class="w-5 h-5" style="color:#6366F1;"></i></div>
                 <div>
                     <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">未来をのぞいてみる</p>
@@ -332,7 +332,7 @@
                 </div>
             </button>
             <!-- Lifetime category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime" style="border-color:#EC489940;">
+            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);"><i data-lucide="hourglass" class="w-5 h-5" style="color:#EC4899;"></i></div>
                 <div>
                     <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの寿命を見てみる</p>
@@ -1389,8 +1389,8 @@ function showLifetimeCountdown(){
         :el==='air'?nick+'さんの好奇心は、残りの日々を冒険に変える力を持っています。まだ行ったことのない場所、会ったことのない人が待っていますよ。'
         :nick+'さんの深い感性は、残りの日々を美しく彩る力を持っています。「幸せだな」と感じる瞬間を、一つでも多く重ねてくださいね。';
     const card=`<div class="fortune-card fade-up" id="lifetime-card" style="padding:0;overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);padding:28px 20px 24px;color:#fff;position:relative;overflow:hidden;">
-            <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(236,72,153,.15),transparent 70%);border-radius:50%;"></div>
+        <div style="background:linear-gradient(135deg,#0a1a14,#122a20,#1a3a2a);padding:28px 20px 24px;color:#fff;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(107,169,159,.2),transparent 70%);border-radius:50%;"></div>
             <div class="flex justify-center mb-5"><div style="position:relative;width:140px;height:140px;">
                 <svg width="140" height="140" style="transform:rotate(-90deg);"><circle cx="70" cy="70" r="42" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/><circle cx="70" cy="70" r="42" fill="none" stroke="${ringColor}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/></svg>
                 <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span id="lf-y" style="font-size:42px;font-weight:800;line-height:1;font-family:'Roboto Mono',monospace;">0</span><span style="font-size:12px;opacity:.5;margin-top:2px;">年</span></div>
@@ -1409,14 +1409,13 @@ function showLifetimeCountdown(){
         <div style="padding:0 20px 20px;">
             
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/7).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの週末</p></div>
-                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays*24).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの時間</p></div>
-                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/30.44).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの満月</p></div>
-                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/365.25)}</p><p style="font-size:11px;color:var(--text-muted);">残りの桜の季節</p></div>
+                <div class="rounded-xl p-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:22px;">${Math.floor(remainDays*24).toLocaleString()}</p><p class="t-caption mt-1" style="color:var(--text-muted);">あなたに残された時間</p></div>
+                <div class="rounded-xl p-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:#F472B6;font-size:22px;">${Math.floor(remainDays/365.25)}</p><p class="t-caption mt-1" style="color:var(--text-muted);">桜を見られる回数</p></div>
             </div>
-            <div id="lf-quote" class="rounded-xl p-5 mb-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);min-height:70px;transition:opacity .5s;position:relative;">
-                <span style="position:absolute;top:6px;left:14px;font-size:28px;color:var(--primary);opacity:.2;font-family:serif;">"</span>
-                <p class="t-caption leading-relaxed" style="color:var(--text-sub);font-style:italic;">${_lfCurrentQuote}</p>
+            <div id="lf-quote" class="rounded-xl p-6 mb-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s;position:relative;">
+                <span style="position:absolute;top:10px;left:16px;font-size:36px;color:var(--primary);opacity:.15;font-family:serif;">"</span>
+                <p class="t-body leading-loose" style="color:var(--text-sub);font-style:italic;font-size:14px;">${_lfCurrentQuote}</p>
+                <span style="position:absolute;bottom:10px;right:16px;font-size:36px;color:var(--primary);opacity:.15;font-family:serif;">"</span>
             </div>
             <div class="rounded-xl p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="t-caption leading-loose" style="color:var(--text-main);">${elMsg}</p></div>
             <div class="flex gap-2 mt-4">
