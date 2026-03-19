@@ -63,6 +63,35 @@
         }
         :root[data-theme="dark"] input[type="date"]{color-scheme:dark;}
         :root[data-theme="dark"] .birth-select{color-scheme:dark;}
+        /* Pastel Watercolor Theme */
+        :root[data-theme="pastel"]{
+            --primary:#E8A0BF;--primary-dark:#D4789E;--primary-light:#FFF0F5;
+            --bg-page:#F8F4F9;--bg-card:#FFFFFF;
+            --text-main:#4A3B5C;--text-sub:#8A7A9A;--text-muted:#B8AACA;
+            --border-color:#E8DDF0;
+            --danger:#E08080;--danger-light:#FFF0F0;
+            --warning-bg:#FFF8EE;--warning-text:#B8864A;
+            --shadow-sm:0 2px 12px rgba(180,140,200,0.10);--shadow-lg:0 6px 24px rgba(180,140,200,0.15);
+        }
+        :root[data-theme="pastel"] body{
+            background:linear-gradient(180deg,#F0E8F5 0%,#E8F0FA 30%,#F5EDF0 60%,#F8F4F9 100%);
+            background-attachment:fixed;
+        }
+        :root[data-theme="pastel"] .fortune-card{
+            background:rgba(255,255,255,.85);backdrop-filter:blur(10px);border-color:#E8DDF0;
+        }
+        :root[data-theme="pastel"] .premium-cat-btn{
+            background:rgba(255,255,255,.8);backdrop-filter:blur(8px);
+        }
+        :root[data-theme="pastel"] .premium-cat-btn.active-cat{
+            border-color:#D4789E;box-shadow:0 0 0 1.5px #D4789E;
+        }
+        :root[data-theme="pastel"] .deep-opt-btn{
+            background:rgba(255,255,255,.6)!important;
+        }
+        :root[data-theme="pastel"] #hamburger-btn{
+            background:rgba(255,255,255,.85);border-color:#E8A0BF;
+        }
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;}
         .mono-font{font-family:var(--font-mono);}
@@ -170,7 +199,27 @@
                 <i data-lucide="file-text" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">利用規約</span>
             </button>
             <div class="my-2" style="height:1px;background:var(--border-color);"></div>
-            <!-- Tutorial toggle -->
+            <!-- Theme switcher -->
+            <div class="p-3">
+                <div class="flex items-center gap-3 mb-3">
+                    <i data-lucide="palette" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body" style="color:var(--text-main);">テーマ変更</span>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="setAppTheme('dark');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="dark">
+                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#121816,#1E2622);margin:0 auto 4px;border:1px solid #2E3E3A;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);">ダーク</span>
+                    </button>
+                    <button onclick="setAppTheme('pastel');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="pastel">
+                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#F0E8F5,#E8F0FA,#FFF0F5);margin:0 auto 4px;border:1px solid #E8DDF0;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);">パステル</span>
+                    </button>
+                    <button onclick="setAppTheme('light');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="light">
+                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#F6F7F5,#EDF4F2);margin:0 auto 4px;border:1px solid #E5EBE8;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);">ライト</span>
+                    </button>
+                </div>
+            </div>
+            <div class="my-2" style="height:1px;background:var(--border-color);"></div>
             <div class="flex items-center justify-between p-3 rounded-xl" style="color:var(--text-main);">
                 <div class="flex items-center gap-3">
                     <i data-lucide="sparkles" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">起動時チュートリアル</span>
@@ -1617,10 +1666,36 @@ document.getElementById('paywall-btn').addEventListener('click',()=>{
 // ==========================================
 // DRAWER
 // ==========================================
+// Theme management
+function setAppTheme(theme){
+    document.documentElement.setAttribute('data-theme',theme);
+    try{localStorage.setItem('fortuna_theme',theme);}catch(e){}
+    // Update active theme button border
+    document.querySelectorAll('.theme-btn').forEach(b=>{
+        b.style.borderColor=b.dataset.themeVal===theme?'var(--primary)':'var(--border-color)';
+    });
+    trackEvent('theme_change',{theme});
+}
+function initTheme(){
+    let saved=null;
+    try{saved=localStorage.getItem('fortuna_theme');}catch(e){}
+    if(saved){document.documentElement.setAttribute('data-theme',saved);}
+    else{
+        // Default to dark
+        document.documentElement.setAttribute('data-theme','dark');
+    }
+}
+initTheme();
+
 function openDrawer(){
     document.getElementById('drawer').classList.add('open');
     document.getElementById('drawer-overlay').classList.remove('hidden');
     document.getElementById('hamburger-btn').style.display='none';
+    // Highlight current theme
+    const cur=document.documentElement.getAttribute('data-theme')||'dark';
+    document.querySelectorAll('.theme-btn').forEach(b=>{
+        b.style.borderColor=b.dataset.themeVal===cur?'var(--primary)':'var(--border-color)';
+    });
 }
 function closeDrawer(){
     document.getElementById('drawer').classList.remove('open');
