@@ -132,8 +132,8 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6BA99F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
         </div>
         <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#5C8E84;margin-bottom:28px;">Your Energy</p>
-        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">あなたの中にある<br>見えない力を感じてください</h2>
-        <p style="font-size:14px;line-height:2.2;color:#7A9A91;">生年月日には、あなただけの<br>エネルギーが刻まれています。<br>それを、一緒に読み解いていきましょう。</p>
+        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">1,600通り以上の中から<br>あなただけの鑑定を</h2>
+        <p style="font-size:14px;line-height:2.2;color:#7A9A91;">12の星座 × 13の運命数 × 5つの性格タイプ。<br>同じ結果は、二つとありません。<br><br>生年月日に刻まれたエネルギーを<br>一緒に読み解いていきましょう。</p>
     </div>
     <div class="ob-slide" data-slide="2" style="position:absolute;top:0;left:0;right:0;bottom:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;transition:opacity .5s;opacity:0;pointer-events:none;">
         <div style="width:72px;height:72px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin-bottom:36px;background:rgba(92,142,132,.08);border:1px solid rgba(92,142,132,.25);">
@@ -1244,79 +1244,93 @@ function buildCompatFlow(){
     const pName=compatPartner.name;
     const myZ=db.zodiac[currentUserZId].name;
     const pZ=compatPartner.zodiacName;
+    const myArch=getArchetype(currentUserNId);
+    const pArch=compatPartner.archetype;
     
-    // Element compatibility matrix
-    const elCompat={
-        fire:{fire:'high_energy',earth:'complement',air:'exciting',water:'challenge'},
-        earth:{fire:'complement',earth:'stable',air:'free_spirit',water:'nurture'},
-        air:{fire:'exciting',earth:'free_spirit',air:'intellectual',water:'mysterious'},
-        water:{fire:'challenge',earth:'nurture',air:'mysterious',water:'deep_bond'}
-    };
+    const elCompat={fire:{fire:'high_energy',earth:'complement',air:'exciting',water:'challenge'},earth:{fire:'complement',earth:'stable',air:'free_spirit',water:'nurture'},air:{fire:'exciting',earth:'free_spirit',air:'intellectual',water:'mysterious'},water:{fire:'challenge',earth:'nurture',air:'mysterious',water:'deep_bond'}};
     const matchType=elCompat[myEl][pEl];
-    
-    const matchLabels={
-        high_energy:'情熱的でエネルギッシュな関係',
-        complement:'お互いに補い合える関係',
-        exciting:'刺激的で成長し合える関係',
-        challenge:'惹かれ合うが乗り越える壁もある関係',
-        stable:'安定感抜群の堅実な関係',
-        free_spirit:'自由さと安定のバランスが鍵',
-        nurture:'深い癒やしと安心の関係',
-        intellectual:'知的で風通しの良い関係',
-        mysterious:'ミステリアスに惹かれ合う関係',
-        deep_bond:'魂レベルで繋がる深い絆'
-    };
-    
-    // Reading per match type
-    const matchReading={
-        high_energy:`${myName}さんと${pName}さんは、ともに${elemJa[myEl]}のエネルギーを持っています。お互いの情熱が共鳴し合い、一緒にいると活力が湧いてくる組み合わせ。ただし、2人とも譲らない場面では衝突が起きやすい面もあります。`,
-        complement:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、お互いが持っていないものを補い合える理想的な組み合わせ。最初は価値観の違いに戸惑うこともありますが、その違いこそが2人の関係を豊かにします。`,
-        exciting:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、知的な刺激と行動力が重なり合う好相性。一緒にいて退屈することがない組み合わせです。新しい挑戦を共有することで絆が深まります。`,
-        challenge:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、深く惹かれ合いながらも理解し合うのに時間がかかる組み合わせ。でもそれは成長のチャンス。お互いの違いを「問題」ではなく「学び」と捉えられたら、誰よりも深い絆を築けます。`,
-        stable:`${myName}さんと${pName}さんは、同じ${elemJa[myEl]}の安定感を共有しています。安心して一緒にいられる関係ですが、変化が少ないとマンネリに陥ることも。意識的に新しい体験を共有すると◎。`,
-        free_spirit:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、自由さと安定の絶妙なバランスが求められる関係。お互いのペースを尊重しつつ、共有する時間の質を高めることがポイントです。`,
-        nurture:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、深い安心感と癒やしを与え合える素敵な組み合わせ。お互いの感情に寄り添える力があります。ただし、依存関係にならないよう「それぞれの時間」も大切に。`,
-        intellectual:`${myName}さんと${pName}さんは、ともに${elemJa[myEl]}の知性を持つ同志。会話が尽きることのない関係ですが、感情面でのやりとりが薄くなりがち。たまには「考える」より「感じる」時間を一緒に過ごしてみて。`,
-        mysterious:`${myName}さん（${elemJa[myEl]}）と${pName}さん（${elemJa[pEl]}）は、言葉にできない不思議な引力で結ばれる関係。お互いの深層にある感性が共鳴します。理解し合うまでに時間がかかりますが、その分だけ関係は深くなります。`,
-        deep_bond:`${myName}さんと${pName}さんは、ともに${elemJa[myEl]}の深い感受性を持っています。魂のレベルで通じ合える特別な組み合わせ。ただし、お互いの感情を吸収しやすいので、「自分は自分、相手は相手」の境界線を意識することが大切です。`
-    };
+    const matchLabels={high_energy:'情熱的でエネルギッシュな関係',complement:'お互いに補い合える関係',exciting:'刺激的で成長し合える関係',challenge:'惹かれ合うが乗り越える壁もある関係',stable:'安定感抜群の堅実な関係',free_spirit:'自由さと安定のバランスが鍵',nurture:'深い癒やしと安心の関係',intellectual:'知的で風通しの良い関係',mysterious:'ミステリアスに惹かれ合う関係',deep_bond:'魂レベルで繋がる深い絆'};
 
     return {
-        step1:{
-            q:`${myZ}の${myName}さんと、${pZ}の${pName}さん。\n2人について何を知りたいですか？`,
-            icon:'heart-handshake',color:'var(--danger)',
+        step1:{q:`${myZ}の${myName}さんと、${pZ}の${pName}さん。\n2人について何を知りたいですか？`,icon:'heart-handshake',color:'var(--danger)',
             reading:`相性タイプ：「${matchLabels[matchType]}」`,
-            opts:[
-                {label:'恋愛の相性',next:'step2_love'},
-                {label:'仕事パートナーとしての相性',next:'step2_work'},
-                {label:'コミュニケーションの傾向',next:'step2_comm'},
-                {label:'2人の注意点を知りたい',next:'result',result:`${myName}さんと${pName}さんが気をつけたいこと：\n\n${matchReading[matchType]}\n\n`+(matchType==='high_energy'?`${myName}さんへのアドバイス：「自分が正しい」と思った時こそ、一度立ち止まって${pName}さんの言葉に耳を傾けてみて。2人の情熱が同じ方向を向いた時、どんなことも乗り越えられます。`:matchType==='challenge'?`${myName}さんへのアドバイス：${pName}さんの反応が理解できない時は、責めるのではなく「教えて」と聞いてみて。違いを楽しめるようになった時、この関係は最強になります。`:matchType==='stable'?`${myName}さんへのアドバイス：安定しているからこそ、感謝の言葉を忘れがち。月に一度「ありがとう」を改めて伝える日を作ってみて。`:matchType==='deep_bond'?`${myName}さんへのアドバイス：深く繋がれるからこそ、共依存のリスクも。「一人でも大丈夫」な自分を保ちつつ、「でも一緒にいたい」と選び続ける関係が理想です。`:`${myName}さんへのアドバイス：${pName}さんとの違いを「面白い」と思えたら、この関係は長く続きます。完璧な相性より、成長し合える相性の方がずっと価値があります。`)}
-            ]
+            opts:[{label:'恋愛の相性',next:'s2_love'},{label:'仕事パートナーとしての相性',next:'s2_work'},{label:'コミュニケーションの傾向',next:'s2_comm'},{label:'2人の注意点を知りたい',next:'s2_caution'}]
         },
-        step2_love:{
-            q:'恋愛面で特に気になることは？',icon:'heart-handshake',color:'var(--danger)',
-            reading:matchReading[matchType],
-            opts:[
-                {label:'付き合ったらうまくいく？',next:'result',result:`${myName}さん（${myZ}）と${pName}さん（${pZ}）の恋愛相性：\n\n`+(matchType==='high_energy'||matchType==='exciting'?`情熱的で刺激のある関係になりやすい2人。一緒にいると気持ちが高まり、新しいことに挑戦したくなります。ただし${myName}さんは、燃え上がった後の「日常」も大切にすること。${pName}さんとの穏やかな時間にも価値を見いだせたら、長く幸せな関係を築けます。`:matchType==='stable'||matchType==='nurture'?`安定感のある温かい関係を築ける2人。一緒にいるとホッとする安心感があり、長く付き合うほど絆が深まるタイプです。${myName}さんは、その安心感を「退屈」と勘違いしないで。${pName}さんとの穏やかな幸せは、とても貴重なものです。`:matchType==='challenge'?`惹かれ合うのに、なぜかすれ違いやすい2人。でもそれは「合わない」のではなく、お互いを深く理解するまでの過程。${myName}さんは焦らず、${pName}さんのペースも尊重してあげて。時間をかけて信頼を築けば、誰よりも強い絆になります。`:`知的で自由な関係を楽しめる2人。お互いの個性を尊重できる大人な付き合い方ができます。${myName}さんは、たまには恥ずかしくても素直な気持ちを言葉にしてあげて。${pName}さんはきっと嬉しいはずです。`)},
-                {label:'距離の縮め方を知りたい',next:'result',result:`${pName}さん（${pZ}・${elemJa[pEl]}のエレメント）との距離の縮め方：\n\n`+(pEl==='fire'?`${pName}さんは直感とスピード感を大切にする人。回りくどいアプローチより、ストレートに「一緒に○○しよう」と誘う方が響きます。${pName}さんの挑戦や夢を応援する姿勢を見せると、心を開いてくれます。`:pEl==='earth'?`${pName}さんは時間をかけて信頼を築くタイプ。焦って距離を詰めるのは逆効果。何度か穏やかに会話を重ね、「この人は安心できる」と感じてもらうことが第一歩。美味しいお店に誘うのが鉄板です。`:pEl==='air'?`${pName}さんは会話の面白さで人を判断するタイプ。知的な話題や新しい情報をシェアすると興味を持ってくれます。「束縛しない人」だと分かった瞬間、心を開いてくれるでしょう。`:`${pName}さんは感情の繋がりを何より大切にする人。「あなたのことをちゃんと見ているよ」と態度で示すことが最大のアプローチ。${pName}さんの話を、最後まで共感しながら聞いてあげて。`)},
-                {label:'長続きの秘訣は？',next:'result',result:`${myName}さんと${pName}さんが長続きするための3つのルール：\n\n① 「ありがとう」を毎日伝える\n当たり前に感じることこそ、言葉にする価値があります。\n\n② 週に一度、2人だけの時間を作る\nスマホを置いて、ちゃんと向き合う30分。\n\n③ 喧嘩したら24時間以内に仲直りする\n怒りを翌日に持ち越さないルール。\n\n`+(matchType==='high_energy'?`特に${myName}さんは、頭に血が上った時に言いすぎる傾向が。「6秒ルール」（怒りのピークは6秒で過ぎる）を活用して。`:matchType==='stable'?`特に${myName}さんは、マンネリを感じたら「相手を変える」のではなく「一緒にやることを変える」意識を。新しい趣味を一緒に始めてみて。`:matchType==='challenge'?`特に${myName}さんは、${pName}さんを「変えよう」としないこと。「この人はこういう人」と受け入れた上で、自分がどう関わるかを考えて。`:matchType==='deep_bond'?`特に${myName}さんは、${pName}さんと「全部一緒」にしようとしないこと。それぞれの趣味や友人関係を持つことが、逆に2人の関係を豊かにします。`:`特に${myName}さんは、言わなくても分かるだろうと思わないこと。${pName}さんには${pName}さんの世界がある。伝えないと伝わりません。`)}
-            ]
+        // === 恋愛の相性 ===
+        s2_love:{q:'恋愛面で特に気になることは？',icon:'heart-handshake',color:'var(--danger)',
+            reading:`${elemJa[myEl]}の${myName}さんと${elemJa[pEl]}の${pName}さん——${matchType==='high_energy'||matchType==='exciting'?'情熱的な組み合わせ。一緒にいると心が動きます。':matchType==='stable'||matchType==='nurture'?'安心感のある温かい関係を築けるお二人です。':matchType==='challenge'?'深く惹かれ合うぶん、理解に時間がかかることも。でもそれは成長のチャンスです。':'不思議な引力で結ばれるお二人ですね。'}`,
+            opts:[{label:'付き合ったらうまくいく？',next:'s3_love_future'},{label:'距離の縮め方',next:'s3_love_closer'},{label:'長続きの秘訣',next:'s3_love_long'}]
         },
-        step2_work:{
-            q:'仕事パートナーとして知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
-            reading:`${myName}さん（${archJa[getArchetype(currentUserNId)]}タイプ）と${pName}さん（${archJa[compatPartner.archetype]}タイプ）の仕事相性。`,
-            opts:[
-                {label:'役割分担のベストバランス',next:'result',result:`${myName}さん × ${pName}さんの最適な役割分担：\n\n`+(getArchetype(currentUserNId)===compatPartner.archetype?`2人は同じ「${archJa[getArchetype(currentUserNId)]}」タイプ。強みが重なるので、同じ領域で力を発揮できます。ただし、苦手な部分も同じになりがち。意識的に役割を分けて、片方が苦手分野を担当する仕組みを。`:`${myName}さんの「${archJa[getArchetype(currentUserNId)]}」としての強みと、${pName}さんの「${archJa[compatPartner.archetype]}」としての強みは、組み合わせると非常にバランスが良い。${myName}さんは${getArchetype(currentUserNId)==='leader'?'方向性の決定と推進力':getArchetype(currentUserNId)==='support'?'チームの調和とフォロー':getArchetype(currentUserNId)==='creative'?'アイデアと発想力':getArchetype(currentUserNId)==='analyst'?'分析と品質管理':'全体設計と長期戦略'}を担当し、${pName}さんは${compatPartner.archetype==='leader'?'意思決定のスピード感':compatPartner.archetype==='support'?'細やかなサポート':compatPartner.archetype==='creative'?'クリエイティブな解決策':compatPartner.archetype==='analyst'?'データに基づいた判断':'大きなビジョンの設計'}を担当すると最高のチームに。`)},
-                {label:'一緒に仕事する時の注意点',next:'result',result:`${myName}さんと${pName}さんが仕事で衝突しやすいポイント：\n\n`+(myEl===pEl?`同じ${elemJa[myEl]}のエレメント同士。共感しやすい反面、同じところで行き詰まりやすい。第三者の視点を取り入れる仕組みを作っておくと◎。`:`${elemJa[myEl]}の${myName}さんは${myEl==='fire'?'スピード重視':myEl==='earth'?'確実性重視':myEl==='air'?'柔軟性重視':'感覚重視'}。${elemJa[pEl]}の${pName}さんは${pEl==='fire'?'スピード重視':pEl==='earth'?'確実性重視':pEl==='air'?'柔軟性重視':'感覚重視'}。この優先順位の違いが摩擦の原因になりやすい。事前に「何を最優先にするか」を共有しておくだけで、多くの衝突は防げます。`)}
-            ]
+        s3_love_future:{q:'2人の関係で一番気になるポイントは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'価値観が合うか',next:'result',result:`${myName}さんと${pName}さんの価値観の相性：\n\n${myEl===pEl?'同じ「'+elemJa[myEl]+'」のエネルギーを持つお二人。根っこの部分で共感しやすい反面、同じところで行き詰まることも。第三者の視点を取り入れると良いですよ。':myEl==='fire'&&pEl==='earth'||myEl==='earth'&&pEl==='fire'?'行動派と慎重派——真逆に見えますが、実はお互いにないものを持っている理想的な補完関係。違いを「面白い」と思えたら最強ですよ。':myEl==='air'&&pEl==='water'||myEl==='water'&&pEl==='air'?'論理と感情——すれ違いやすいポイントですが、お互いから学べることが多い組み合わせ。「わかろうとする姿勢」が橋渡しになりますよ。':'違いがあるからこそ、二人の世界が広がります。完全に一致する必要はないですよ。「ここだけは同じ」を見つけてみてくださいね。'}\n\n${myName}さんへ：${pName}さんの考え方を「変えよう」とせず「知ろう」としてみてくださいね。その姿勢が、${pName}さんの心を開く鍵ですよ。`},
+            {label:'一緒にいて楽しいか',next:'result',result:`${myName}さんと${pName}さんの「楽しさ」の相性：\n\n${matchType==='high_energy'||matchType==='exciting'?'一緒にいて退屈することがないお二人。新しい体験を共有することで、さらにワクワクが増していきます。アクティブなデートが特におすすめですよ。':matchType==='stable'||matchType==='nurture'?'穏やかで温かい時間を共有できるお二人。一緒にいるだけで心が安らぐ——そんな関係を築けますよ。家での時間が特に充実しそうです。':matchType==='intellectual'?'知的な会話で何時間でも過ごせるお二人。一緒に映画を観て感想を語り合ったり、新しい場所を探検したり。「考える楽しさ」を共有できる貴重な相性ですよ。':'不思議な引力で惹かれ合うお二人。最初は探り合いになるかもしれませんが、理解し合えた時の喜びは格別。時間をかけて、ゆっくりと。'}\n\n${myName}さんへ：${pName}さんが喜ぶ「楽しい」の形を知ることが大切。${pEl==='fire'?'アクティブな体験':pEl==='earth'?'美味しいものや居心地の良い空間':pEl==='air'?'知的な刺激や新しい発見':'感情を共有できる静かな時間'}を意識してみてくださいね。`},
+            {label:'将来を一緒に考えられるか',next:'result',result:`${myName}さんと${pName}さんの将来の相性：\n\n${myArch===pArch?'同じ「'+archJa[myArch]+'」タイプのお二人。価値観の根っこが近いので、将来のビジョンも共有しやすいですよ。ただし同じところで迷いやすい面も。':'「'+archJa[myArch]+'」タイプの'+myName+'さんと「'+archJa[pArch]+'」タイプの'+pName+'さん。異なる強みを持つ二人だからこそ、お互いにないものを補い合えます。'}\n\n将来を一緒に考えるためのステップ：\n① お互いの「5年後の理想」を話してみる\n② 「絶対に譲れないこと」を3つずつ共有する\n③ 共通の目標を一つ見つける\n\n完全に一致する必要はありません。「お互いの夢を応援し合える関係」——それが最高の相性ですよ。`}]
         },
-        step2_comm:{
-            q:'コミュニケーションで知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
-            opts:[
-                {label:'相手が喜ぶ言葉・行動',next:'result',result:`${pName}さん（${pZ}・${elemJa[pEl]}）が喜ぶコミュニケーション：\n\n`+(pEl==='fire'?`「すごいね！」「さすがだね」——${pName}さんは素直に褒められるのが一番嬉しい人。努力や成果を具体的に言葉にしてあげて。サプライズも大好き。\n\n逆にNG：無視する、軽く扱う、否定から入る`:pEl==='earth'?`「いつもありがとう」「安心する」——${pName}さんは日々の積み重ねを認めてもらえると喜びます。一緒に美味しいものを食べる時間も最高のプレゼント。\n\n逆にNG：急な変更、約束を破る、雑な対応`:pEl==='air'?`「面白い考えだね」「もっと聞かせて」——${pName}さんは知的な会話を楽しめる人が好き。新しい情報やアイデアをシェアすると目が輝きます。\n\n逆にNG：束縛する、重い話ばかり、退屈な空気`:`「大丈夫？」「気持ちわかるよ」——${pName}さんは気持ちに寄り添ってもらえるだけで満たされます。言葉より態度で示す愛情が響くタイプ。\n\n逆にNG：感情を否定する、「考えすぎ」と言う、冷たい態度`)},
-                {label:'喧嘩した時の仲直り方法',next:'result',result:`${myName}さんと${pName}さんの仲直りガイド：\n\n`+(myEl==='fire'?`${myName}さんは怒ると勢いで言いすぎるタイプ。まずクールダウンの時間を。`:myEl==='earth'?`${myName}さんは怒ると黙り込むタイプ。でも沈黙は解決しない。`:myEl==='air'?`${myName}さんは論理で解決しようとするタイプ。でも感情の問題は論理では解けない。`:`${myName}さんは傷つくと殻に閉じこもるタイプ。でも${pName}さんはあなたを傷つけたくてやったわけじゃない。`)+`\n\n${pName}さんへの最適な仲直り方法：\n`+(pEl==='fire'?`さっぱりと「さっきはごめん」と一言。${pName}さんは根に持たないタイプなので、素直に謝ればすぐ元通りに。`:pEl==='earth'?`時間を置いてから、落ち着いた場所で話す。${pName}さんは急かされるのが苦手。「ちゃんと話したい」と伝えて。`:pEl==='air'?`LINEやメッセージで冷静に気持ちを伝える。${pName}さんは感情的な場面が苦手なので、テキストの方が受け入れやすいかも。`:`「あなたの気持ちを傷つけてごめんね」——${pName}さんには「何をしたか」より「相手の気持ちをわかっている」と示すことが大切。`)+`\n\n大切なのは：勝ち負けではなく、2人の関係を選ぶこと。`},
-                {label:'もっと仲良くなるには？',next:'result',result:`${myName}さんと${pName}さんがもっと仲良くなるための処方箋：\n\n① 「2人だけの習慣」を一つ作る\n毎週日曜の朝カフェ、月1の映画デー、寝る前の5分通話…なんでもOK。「続けること」が絆になります。\n\n② 相手の「好き」に興味を持つ\n${pName}さんが好きなもの、趣味、推し。全部理解できなくても「聞く姿勢」が嬉しいのです。\n\n③ 「ありがとう」を具体的に伝える\n「いつもありがとう」ではなく「○○してくれて嬉しかった」と具体的に。\n\n`+(matchType==='high_energy'?`${myName}さんと${pName}さんは一緒に何かに挑戦する時、最高のチームになる2人。ぜひ一緒にスポーツや旅行を。`:matchType==='stable'?`${myName}さんと${pName}さんは「いつもの場所」で「いつもの時間」を過ごすことで絆が深まる2人。お気に入りのレストランを見つけて。`:matchType==='intellectual'?`${myName}さんと${pName}さんは知的な体験を共有すると絆が深まる2人。美術館、読書会、謎解き…一緒に「考える」体験を。`:`${myName}さんと${pName}さんは、お互いの「違い」を楽しめたら最強の2人。「そういう考え方もあるんだ」を口癖にしてみて。`)}
-            ]
+        s3_love_closer:{q:'距離を縮めるために、一番知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:`${pName}さんが喜ぶアプローチ`,next:'result',result:`${pName}さん（${pZ}・${elemJa[pEl]}）が喜ぶアプローチ方法：\n\n${pEl==='fire'?pName+'さんは率直さを好みます。回りくどいアプローチより「一緒に○○しよう」とストレートに。'+pName+'さんの挑戦や夢を応援する姿勢を見せると、心を開いてくれますよ。':pEl==='earth'?pName+'さんは時間をかけて信頼を築くタイプ。焦って距離を詰めるのは逆効果です。「安心できる人」と思ってもらうことが第一歩。美味しいお店への食事のお誘いが鉄板ですよ。':pEl==='air'?pName+'さんは会話の面白さで人を判断するタイプ。知的な話題や新しい情報をシェアすると興味を持ってくれます。「束縛しない人」だと伝わると、心を開いてくれますよ。':pName+'さんは感情の繋がりを何より大切にする方。「あなたのことをちゃんと見ているよ」と態度で示すことが最大のアプローチ。'+pName+'さんの話を、共感しながら最後まで聞いてあげてくださいね。'}\n\n${myName}さんへ：焦らなくて大丈夫。${pName}さんのペースを尊重しながら、少しずつ距離を縮めていきましょうね。`},
+            {label:'避けるべきNG行動',next:'result',result:`${pName}さんに対するNG行動（知っておくだけで全然違います）：\n\n${pEl==='fire'?'✕ 無視する、軽く扱う、否定から入る\n✕ 優柔不断な態度（イライラさせてしまいます）\n○ 素直に褒める、一緒に楽しむ':pEl==='earth'?'✕ 急な変更、約束を破る、雑な対応\n✕ お金や時間にルーズな態度\n○ 約束を守る、丁寧に接する、安心感を与える':pEl==='air'?'✕ 束縛する、重い話ばかりする、退屈な空気\n✕ 行動を監視するような態度\n○ 自由を尊重する、面白い話題を持つ':pEl==='water'?'✕ 感情を否定する、「考えすぎ」と言う、冷たい態度\n✕ 約束を忘れる、気持ちを軽視する\n○ 寄り添う、共感する、安心させる':''}\n\n${myName}さんへ：これらを意識するだけで、${pName}さんとの関係がぐっとスムーズになりますよ。`},
+            {label:'効果的な愛情表現',next:'result',result:`${pName}さんに響く愛情の伝え方：\n\n${pEl==='fire'?'「すごいね！」「さすが！」——'+pName+'さんは素直に褒められるのが一番嬉しいタイプ。サプライズも大好き。'+myName+'さんの率直な気持ちをそのまま伝えてあげてくださいね。':pEl==='earth'?'「いつもありがとう」「安心する」——'+pName+'さんは日々の積み重ねを認めてもらえると嬉しいタイプ。一緒に美味しいものを食べる時間も最高のプレゼントですよ。':pEl==='air'?'「面白い考えだね」「もっと聞かせて」——'+pName+'さんは知的に刺激される会話が好き。新しい発見やアイデアを一緒に楽しめると、心が近づきますよ。':pEl==='water'?'「大丈夫？」「気持ちわかるよ」——'+pName+'さんは気持ちに寄り添ってもらえるだけで満たされます。言葉より態度で示す愛情が一番響くタイプですよ。':''}`}]
+        },
+        s3_love_long:{q:'長続きのために特に気をつけたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'喧嘩の仲直り方法',next:'result',result:`${myName}さんと${pName}さんの仲直りガイド：\n\n${myEl==='fire'?myName+'さんは怒ると勢いで言いすぎるタイプかも。まずクールダウンの時間を。':myEl==='earth'?myName+'さんは黙り込むタイプかも。沈黙は解決しません。':myEl==='air'?myName+'さんは論理で解決しようとしがち。でも感情の問題は論理では解けません。':myName+'さんは傷つくと殻に閉じこもりがち。でも相手はあなたを傷つけたくてやったわけではないですよ。'}\n\n${pName}さんへの最適な仲直り法：\n${pEl==='fire'?'さっぱりと「さっきはごめん」と一言。'+pName+'さんは根に持たないタイプなので、素直に謝ればすぐ元通りに。':pEl==='earth'?'時間を置いてから、落ち着いた場所で。「ちゃんと話したい」と伝えてくださいね。':pEl==='air'?'LINEやメッセージで冷静に気持ちを伝えるのも手。感情的な場面が苦手な'+pName+'さんにはテキストの方が受け入れやすいかも。':'「あなたの気持ちを傷つけてごめんね」——'+pName+'さんには「気持ちをわかっている」と示すことが大切です。'}\n\n覚えておいてくださいね：喧嘩は「勝ち負け」ではなく「二人の関係を選ぶ」ためのもの。`},
+            {label:'マンネリ防止法',next:'result',result:`${myName}さんと${pName}さんのマンネリ防止策：\n\n2人に合った「新鮮さの作り方」：\n\n${matchType==='high_energy'?'一緒にスポーツや旅行など、アクティブな体験を！新しい挑戦を共有すると、お互いの新しい一面が見えますよ。':matchType==='stable'||matchType==='nurture'?'「いつもの場所」に「小さな変化」を。行きつけのレストランで新メニューを頼む、部屋の模様替えをするなど。':matchType==='intellectual'||matchType==='exciting'?'一緒に「知的な体験」を。美術館、謎解き、読書会——「考える」体験を共有すると、会話がもっと深まりますよ。':'お互いの趣味に一歩踏み込んでみてください。相手の世界を知ることで、新しい繋がりが生まれますよ。'}\n\n週に一度は「スマホを置いて、ちゃんと向き合う30分」を作ってみてくださいね。それだけで、関係の質がぐっと変わりますよ。`},
+            {label:'信頼関係の築き方',next:'result',result:`${myName}さんと${pName}さんの信頼の育て方：\n\n信頼は大きなことで築くものではなく、小さな約束を守り続けることで育ちます。\n\n二人に合った信頼の積み方：\n\n① 「言ったことは守る」——小さな約束こそ大切\n② 「秘密を守る」——二人の間の話は外に出さない\n③ 「弱さを見せ合える」——完璧じゃない自分を受け入れてもらう\n\n${myName}さんと${pName}さんは${matchType==='stable'||matchType==='nurture'?'もともと信頼を築く力を持ったお二人。時間をかけるほど、揺るぎない絆になりますよ。':matchType==='challenge'||matchType==='mysterious'?'信頼に時間がかかるタイプの組み合わせ。でもだからこそ、一度築かれた信頼は誰よりも深くなります。焦らずいきましょうね。':'お互いの「ここだけは譲れない」を早めに共有しておくと、すれ違いが減りますよ。'}`}]
+        },
+        // === 仕事パートナー ===
+        s2_work:{q:'仕事パートナーとして知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+            reading:`「${archJa[myArch]}」タイプの${myName}さんと「${archJa[pArch]}」タイプの${pName}さんの仕事相性。`,
+            opts:[{label:'役割分担のバランス',next:'s3_work_role'},{label:'一緒に仕事する時の注意点',next:'s3_work_warn'},{label:'チームとしての強み',next:'s3_work_str'}]
+        },
+        s3_work_role:{q:'役割分担で特に知りたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'お互いの強みの活かし方',next:'result',result:`${myName}さんの「${archJa[myArch]}」と${pName}さんの「${archJa[pArch]}」——${myArch===pArch?'同じタイプ同士。強みが重なるので、あえて役割を明確に分けることが大切ですよ。片方が苦手分野を引き受ける仕組みを作りましょう。':'補い合える組み合わせですね。'}\n\n${myName}さんの担当に向いているのは：\n${myArch==='leader'?'方向性の決定、推進力、意思決定':myArch==='support'?'チームの調和、フォロー、品質管理':myArch==='creative'?'アイデア出し、デザイン、新しい解決策':myArch==='analyst'?'分析、データ検証、正確性の担保':'全体設計、長期戦略、スケール管理'}\n\n${pName}さんの担当に向いているのは：\n${pArch==='leader'?'意思決定のスピード、チーム牽引':pArch==='support'?'細やかなサポート、関係構築':pArch==='creative'?'クリエイティブな解決策、発想力':pArch==='analyst'?'データに基づいた判断、品質チェック':'大きなビジョン設計、事業構築'}\n\nこの分担を意識するだけで、二人のチーム力が格段に上がりますよ。`},
+            {label:'意思決定の仕方',next:'result',result:`${myName}さんと${pName}さんの意思決定スタイル：\n\n${myArch==='leader'||myArch==='builder'?myName+'さんは素早く決断するタイプ。':myArch==='analyst'?myName+'さんはデータを集めてから決めるタイプ。':myName+'さんは感覚や周囲の意見を大切にするタイプ。'}\n${pArch==='leader'||pArch==='builder'?pName+'さんは即断即決タイプ。':pArch==='analyst'?pName+'さんは慎重に分析してから決めるタイプ。':pName+'さんは人の意見を聞いてから判断するタイプ。'}\n\nおすすめの意思決定ルール：\n• 小さな決定は交代で（今回は${myName}さん、次は${pName}さん）\n• 大きな決定は必ず二人で話し合う\n• 意見が割れたら「期限」を決めて保留する\n\nお互いの決め方のスタイルを理解しておくだけで、衝突がぐっと減りますよ。`},
+            {label:'苦手分野のカバー方法',next:'result',result:`お互いの弱みをカバーし合う——最高のチームの条件ですね。\n\n${myArch==='leader'?myName+'さんの弱み：細かい作業、人の感情への配慮':myArch==='support'?myName+'さんの弱み：大きな決断、自己主張':myArch==='creative'?myName+'さんの弱み：ルーティン、スケジュール管理':myArch==='analyst'?myName+'さんの弱み：素早い決断、人間関係の構築':myName+'さんの弱み：細部の管理、日々の実務'}\n\n${pArch==='leader'?pName+'さんの弱み：丁寧な説明、チームの感情ケア':pArch==='support'?pName+'さんの弱み：リーダーシップ、大胆な提案':pArch==='creative'?pName+'さんの弱み：ルーティン管理、期限厳守':pArch==='analyst'?pName+'さんの弱み：即座の判断、曖昧さへの対応':pName+'さんの弱み：日常的な実務、細かいタスク管理'}\n\n相手の弱みを「責める」のではなく「カバーする」。この意識だけで、二人は最強のチームになれますよ。`}]
+        },
+        s3_work_warn:{q:'仕事上のすれ違いで気をつけたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'仕事のスピード感',next:'result',result:`${myName}さんと${pName}さんの仕事のテンポ：\n\n${myEl==='fire'||pEl==='fire'?'「火」の要素を持つ方はスピード重視。「もっと早く！」と思うことがあるかもしれませんが、相手には相手のペースがあります。':''}${myEl==='earth'||pEl==='earth'?'「地」の要素を持つ方は確実性重視。「もっと慎重に」と思うことがあるかもしれませんが、スピードも大切な場面があります。':''}\n\n解決策：\n• プロジェクト開始時に「いつまでに何を」を明確にする\n• 「急ぎの案件」と「じっくりやる案件」を分ける\n• お互いのペースを否定しない\n\n「違うテンポ」は「悪いこと」ではありません。うまく組み合わせると、品質とスピードの両立ができますよ。`},
+            {label:'コミュニケーションの取り方',next:'result',result:`${myName}さんと${pName}さんの仕事上のコミュニケーション：\n\n${myName}さんは${myEl==='fire'?'結論から先に、簡潔に伝えるのが得意':myEl==='earth'?'丁寧に経緯から説明するスタイル':myEl==='air'?'柔軟に話を広げながら議論を深めるスタイル':'相手の気持ちを察しながら伝えるスタイル'}。\n\n${pName}さんは${pEl==='fire'?'「で、結局どうするの？」と結論を求めるタイプ':pEl==='earth'?'「なぜそうなったの？」と経緯を知りたいタイプ':pEl==='air'?'「他の選択肢は？」と可能性を広げたいタイプ':'「みんなはどう思ってる？」と周囲の気持ちを気にするタイプ'}。\n\nお互いのスタイルを知っておくだけで、すれ違いがぐっと減りますよ。相手のスタイルに合わせて「伝え方」を少し調整してみてくださいね。`},
+            {label:'ストレスの対処法',next:'result',result:`仕事でストレスが溜まった時の${myName}さんと${pName}さん：\n\n${myName}さんのストレスサイン：${myEl==='fire'?'イライラして攻撃的になる':myEl==='earth'?'黙り込んで一人になりたがる':myEl==='air'?'落ち着きがなくなり集中できない':'感情的になり泣きそうになる'}\n\n${pName}さんのストレスサイン：${pEl==='fire'?'怒りっぽくなる':pEl==='earth'?'頑なになり融通が利かなくなる':pEl==='air'?'無口になるか逆に饒舌になる':'引きこもりがちになる'}\n\nお互いのサインを知っておくと「あ、今ストレスなんだな」と気づけます。\n\n気づいた時は：「大丈夫？何か手伝えることある？」——この一言だけで十分ですよ。`}]
+        },
+        s3_work_str:{q:'チームとしての強みで知りたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'二人だからこそできること',next:'result',result:`${myName}さん × ${pName}さんのチームが最強になれる分野：\n\n${myArch==='leader'&&pArch==='support'||myArch==='support'&&pArch==='leader'?'リーダー×サポーター：最もバランスの取れた組み合わせ。一人が引っ張り、一人がフォロー。組織を動かすプロジェクトが得意ですよ。':myArch==='creative'&&pArch==='analyst'||myArch==='analyst'&&pArch==='creative'?'クリエイター×アナリスト：アイデアと分析の最強コンビ。企画→検証→改善のサイクルが回せます。新規事業やプロダクト開発が向いていますよ。':myArch===pArch?'同じタイプ同士：深い専門性を活かした共同作業が得意。ただし視野が狭くならないよう、定期的に外部の意見を取り入れてくださいね。':'異なるタイプの組み合わせ：お互いにない視点を持っているので、一人では見落とすポイントをカバーし合えます。「違い」を武器にしてくださいね。'}\n\n二人の合言葉：「私にはない力を、あなたが持っている」`},
+            {label:'成長し合える関係の作り方',next:'result',result:`${myName}さんと${pName}さんが互いに成長する方法：\n\n① 定期的に「振り返り」の時間を持つ\n——月1回、「良かったこと」「改善したいこと」を共有\n\n② お互いの「強み」を言葉で伝え合う\n——「○○さんのこういうところ、すごいと思う」\n\n③ 一緒に新しいことを学ぶ\n——同じ本を読む、セミナーに参加する\n\n${myName}さんと${pName}さんが出会ったことには、きっと意味があります。お互いを高め合える関係を、大切に育てていってくださいね。`},
+            {label:'困難を乗り越える方法',next:'result',result:`${myName}さんと${pName}さんがピンチの時：\n\n困難な状況での二人のスタイル：\n${myName}さんは${myEl==='fire'?'「やるしかない！」と突き進む':myEl==='earth'?'冷静に状況を分析して対策を練る':myEl==='air'?'様々な解決策を考え出す':'チームの気持ちに寄り添いながら乗り越える'}タイプ。\n${pName}さんは${pEl==='fire'?'行動力で状況を打開する':pEl==='earth'?'着実に一歩ずつ前に進む':pEl==='air'?'柔軟に対応を変えていく':'周囲を精神的にサポートする'}タイプ。\n\nピンチの時のルール：\n① まず「二人で状況を共有する」\n② 感情的にならず「事実」を整理する\n③ それぞれの得意分野で役割分担する\n④ 乗り越えたら「お疲れさま」を忘れずに\n\n困難は二人の絆を試す機会。でも乗り越えた先には、もっと強い信頼が待っていますよ。`}]
+        },
+        // === コミュニケーション ===
+        s2_comm:{q:'コミュニケーションで知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'相手が喜ぶ言葉・行動',next:'s3_comm_happy'},{label:'喧嘩した時の対処法',next:'s3_comm_fight'},{label:'もっと仲良くなるには',next:'s3_comm_deep'}]
+        },
+        s3_comm_happy:{q:`${pName}さんに伝えたいのは？`,icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'感謝の気持ち',next:'result',result:`${pName}さんに感謝を伝える方法：\n\n${pEl==='fire'?'ストレートに「ありがとう！」と。具体的に何が嬉しかったかを伝えると、'+pName+'さんは照れながらもとても嬉しくなりますよ。':''}${pEl==='earth'?'日常の中で「いつもありがとう」と静かに伝えて。大げさな演出より、さりげない言葉が'+pName+'さんの心に響きますよ。':''}${pEl==='air'?'ユーモアを交えて。「'+pName+'さんがいないと回らないよ〜（笑）」くらいの軽さが、実は一番伝わりますよ。':''}${pEl==='water'?'手紙やメッセージで丁寧に。'+pName+'さんは言葉に込められた気持ちを深く感じ取る方なので、心を込めた文章が最高のプレゼントですよ。':''}`},
+            {label:'応援の気持ち',next:'result',result:`${pName}さんを応援する方法：\n\n${pEl==='fire'?'「絶対できるよ！」と背中を押す。'+pName+'さんは応援されるとパワーが倍増するタイプですよ。':pEl==='earth'?'「無理しないでね。でも応援してるよ」と安心を添えて。'+pName+'さんは焦らされるより見守られる方が力を発揮できます。':pEl==='air'?'「こんなやり方もあるかもね」と選択肢を広げてあげて。'+pName+'さんは「自分で選べる」ことが一番のモチベーションになりますよ。':'「辛い時はいつでも話聞くからね」と寄り添って。'+pName+'さんは気持ちを受け止めてもらえるだけで、前に進む力が湧いてきますよ。'}`},
+            {label:'本音を伝えたい',next:'result',result:`${pName}さんに本音を伝えるコツ：\n\n${pEl==='fire'?'回りくどくせず、ストレートに。ただし攻撃的にならないよう「私は〜と感じた」という形で。'+pName+'さんは正直な人を信頼しますよ。':pEl==='earth'?'落ち着いた場所で、時間をかけて。急に本音をぶつけると'+pName+'さんは身構えてしまいます。「ちょっと話したいことがあるんだけど」と前置きを。':pEl==='air'?'軽いトーンから入って徐々に。重すぎると'+pName+'さんは引いてしまうかも。「最近思ってたんだけどさ〜」くらいの入り方がベスト。':pEl==='water'?pName+'さんはあなたの気持ちを敏感に察します。「実は…」と切り出すだけで、真剣に聞いてくれますよ。感情を込めて、ゆっくりと。':''}`}]
+        },
+        s3_comm_fight:{q:'喧嘩で一番困るのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'仲直りのきっかけがつかめない',next:'result',result:`${myName}さんと${pName}さんの仲直りのきっかけ：\n\n${pEl==='fire'?'時間を置きすぎないこと。'+pName+'さんは短期決戦型。翌日には「昨日はごめんね」と一言。それだけで関係はリセットされますよ。':pEl==='earth'?pName+'さんには少し時間が必要。1〜2日置いてから「話せる？」と聞いてみて。無理に急かさないのがポイント。':pEl==='air'?'LINEでさりげなく日常の話題を送ってみて。'+pName+'さんは空気が変われば自然と戻ってこれるタイプ。重い空気を引きずらないことが大切。':pName+'さんには「あなたの気持ちを傷つけてしまったね」と、気持ちへの謝罪が一番響きます。原因の分析より、まず共感を。'}`},
+            {label:'同じことで何度も揉める',next:'result',result:`同じ原因で繰り返す喧嘩——根本を見直すタイミングかもしれませんね。\n\n試してみてください：\n\n① 喧嘩が落ち着いた後に「何が本当の原因だったか」を二人で話す\n② 「次に同じことが起きたらどうするか」を決めておく\n③ 決めたルールを紙に書いて共有する\n\n同じ喧嘩を繰り返すのは、「根っこの問題」が解決されていないサイン。\n\n表面上の出来事ではなく「お互いが本当に求めていること」に目を向けてみてくださいね。`},
+            {label:'相手が何を考えているかわからない',next:'result',result:`${pName}さんの気持ちが見えない時：\n\n${pEl==='fire'?pName+'さんは感情が表に出やすいタイプ。怒っている時は明らかにわかるはず。でもその裏にある「悲しさ」や「寂しさ」を見逃さないで。怒りは「二次感情」——本当の気持ちはその奥にありますよ。':pEl==='earth'?pName+'さんは感情を内に秘めるタイプ。沈黙が続いたら「何か気になることある？話してくれたら嬉しい」と水を向けてみて。':pEl==='air'?pName+'さんは論理的に話そうとするあまり、本当の気持ちを言葉にしないことがあります。「本当はどう感じてる？」と感情に焦点を当てる質問を。':pName+'さんは気持ちを言葉にするのが苦手な場合も。「今、悲しい？怒ってる？それとも疲れてる？」と選択肢を出してあげると、答えやすくなりますよ。'}\n\n${myName}さんへ：「察する」のではなく「聞く」。これが一番確実で、一番相手を大切にする方法ですよ。`}]
+        },
+        s3_comm_deep:{q:'もっと仲良くなるために、やってみたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'二人の習慣を作る',next:'result',result:`${myName}さんと${pName}さんだけの「習慣」を作りましょう。\n\nおすすめ：\n• 毎週○曜の夜は一緒にご飯（外食でも自炊でも）\n• 月に一回「新しい場所」に行く\n• 寝る前の5分だけ「今日良かったこと」を報告し合う\n• 記念日にお互いの好きなところを3つ書いて交換\n\n${matchType==='high_energy'?'アクティブな二人なら、スポーツや旅行の定期イベントがぴったり。':matchType==='stable'?'「いつもの場所でいつもの時間」——その安心感が二人の絆を深めますよ。':matchType==='intellectual'?'一緒に本を読む、映画の感想を語り合う——知的な共有が'+myName+'さんと'+pName+'さんの最高の接着剤です。':'お互いの世界を少しずつ交換してみて。新しい発見が、関係に彩りを加えますよ。'}\n\n「続けること」が一番大切。完璧じゃなくてもOK。${myName}さんと${pName}さんだけの宝物を育ててくださいね。`},
+            {label:'相手をもっと理解したい',next:'result',result:`${pName}さんをもっと深く理解するための質問リスト：\n\n以下の質問を、二人でゆっくり話し合ってみてくださいね。\n\n① 「一番幸せを感じる瞬間は？」\n② 「子供の頃の夢は？」\n③ 「人生で一番影響を受けた人は？」\n④ 「今、一番不安に思っていることは？」\n⑤ 「10年後、どんな自分でいたい？」\n\n一度に全部聞く必要はありません。月に1つずつでOK。\n\n大切なのは「答え」より「対話する時間」そのもの。${pName}さんと向き合う時間が、二人の理解を深めてくれますよ。`},
+            {label:'感謝を伝え合いたい',next:'result',result:`感謝を伝え合う——最もシンプルで、最も効果的な方法ですね。\n\n「ありがとうチャレンジ」を提案します：\n\n1週間、毎日お互いに「今日のありがとう」を一つずつ伝え合ってみてくださいね。\n\nルール：\n• 「ありがとう」ではなく「○○してくれてありがとう」と具体的に\n• LINEでもOK、直接でもOK\n• 些細なことでいい（「お茶淹れてくれてありがとう」等）\n\n1週間後、二人の間の空気が変わっていることに気づくはず。\n\n${myName}さんと${pName}さんの関係は、すでに素敵です。それをお互いに「言葉にする」だけで、もっともっと素敵になりますよ。`}]
+        },
+        // === 注意点 ===
+        s2_caution:{q:'2人の関係で特に気をつけたいことは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'すれ違いやすいポイント',next:'s3_caut_miss'},{label:'お互いの地雷',next:'s3_caut_ng'},{label:'関係を壊さないために',next:'s3_caut_protect'}]
+        },
+        s3_caut_miss:{q:'すれ違いで一番心配なのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'考え方の違い',next:'result',result:`${myName}さんと${pName}さんの考え方の違い：\n\n${myEl}の${myName}さんは${myEl==='fire'?'「まずやってみよう」派':myEl==='earth'?'「しっかり準備してから」派':myEl==='air'?'「いろんな可能性を考えよう」派':'「気持ちを大切にしよう」派'}。\n${pEl}の${pName}さんは${pEl==='fire'?'「スピード重視」':pEl==='earth'?'「確実性重視」':pEl==='air'?'「柔軟性重視」':'「共感重視」'}。\n\nこの違いをすれ違いにしないコツ：\n「あなたの考えも一理あるね」——この一言を口癖にしてみてくださいね。\n\n違いは「問題」ではなく「学び」。お互いの視点を取り入れると、一人では見えなかった景色が見えてきますよ。`},
+            {label:'感情の温度差',next:'result',result:`${myName}さんと${pName}さんの感情温度の違い：\n\n${myEl==='fire'||myEl==='water'?myName+'さんは感情の振れ幅が大きいタイプ。':myName+'さんは比較的クールに対処するタイプ。'}\n${pEl==='fire'||pEl==='water'?pName+'さんも感情的になりやすい面があります。':pName+'さんは冷静に対応するタイプです。'}\n\n温度差への対処法：\n① 「今、自分はどんな気持ち？」をお互いに伝え合う\n② 熱くなっている方に「合わせる」のではなく「寄り添う」\n③ クールダウンが必要な時は素直に「少し時間をちょうだい」\n\n感情の温度は違って当然。大切なのは「違い」を否定しないことですよ。`},
+            {label:'生活リズムの違い',next:'result',result:`生活リズムのすれ違い——じわじわとストレスになりますよね。\n\n完全に合わせなくて大丈夫。大切なのは「重なる時間を大切にする」こと。\n\n① 1日の中で「二人の時間」を15分だけ確保\n② 「おはよう」と「おやすみ」は必ず伝え合う\n③ 相手のリズムを「変えよう」とせず「理解しよう」とする\n\n${myName}さんと${pName}さん、リズムは違っても心は繋がっています。その繋がりを確認できる「小さな習慣」を一つだけ作ってみてくださいね。`}]
+        },
+        s3_caut_ng:{q:'お互いの「やってはいけないこと」を知りたいですか？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'はい、知りたい',next:'result',result:`${myName}さんの地雷：\n${myEl==='fire'?'• 無視されること\n• 軽く扱われること\n• 優柔不断な態度':myEl==='earth'?'• 約束を破ること\n• 急な変更\n• 雑な対応':myEl==='air'?'• 束縛されること\n• 退屈な空気\n• 自由を制限されること':'• 感情を否定されること\n• 「考えすぎ」と言われること\n• 冷たい態度'}\n\n${pName}さんの地雷：\n${pEl==='fire'?'• 無視、軽視\n• 回りくどい態度\n• 否定から入ること':pEl==='earth'?'• 不誠実な態度\n• 金銭面のルーズさ\n• 急かされること':pEl==='air'?'• 束縛\n• 重すぎる空気\n• 行動の監視':pEl==='water'?'• 感情の否定\n• 冷たい言葉\n• 気持ちの軽視':''}\n\nこのリストを覚えておくだけで、無意識に相手を傷つけるリスクがぐっと減りますよ。`}]
+        },
+        s3_caut_protect:{q:'関係を守るために一番大切にしたいのは？',icon:'heart-handshake',color:'var(--danger)',
+            opts:[{label:'信頼を壊さないこと',next:'result',result:`${myName}さんと${pName}さんの信頼を守るために：\n\n信頼は「築くのに何年もかかり、壊すのは一瞬」。\n\n絶対に守ってほしいこと：\n① 嘘をつかない（小さな嘘も積もれば大きな不信に）\n② 約束を守る（「些細な約束」こそ大切）\n③ 二人の間のことを外に話さない\n④ 困った時に隠さず相談する\n\n${myName}さんと${pName}さんの間に築かれた信頼は、お二人だけの宝物です。大切に守ってくださいね。`},
+            {label:'感謝を忘れないこと',next:'result',result:`感謝——最もシンプルで、最も強力な関係の接着剤ですね。\n\n${myName}さんへの提案：\n\n毎日「${pName}さんのおかげで助かった」を一つ見つけてください。\n\nそしてそれを、言葉にして伝えてください。\n\n「ありがとう」の4文字が、${myName}さんと${pName}さんの関係を何十年も支えてくれますよ。\n\n今日から始めてみてくださいね。`},
+            {label:'お互いの成長を応援すること',next:'result',result:`お互いの成長を応援する——最高の関係の形ですね。\n\n${myName}さんと${pName}さんへ：\n\n理想の関係は「一緒にいて安心できる」こと。\nそしてもう一つ——「一緒にいるともっと良い自分になれる」こと。\n\nお互いの夢や挑戦を応援し合い、時に正直なフィードバックを送り合い、成功を一緒に喜ぶ。\n\nそんな関係を、これからも育てていってくださいね。\n\n${myName}さんと${pName}さんの未来を、心から応援しています。`}]
         }
     };
 }
@@ -1382,6 +1396,9 @@ terms:`<p style="color:var(--text-muted);font-size:11px;margin-bottom:20px;">制
 <p style="color:var(--text-sub);line-height:1.8;margin-bottom:16px;">本規約は、Fortuna（以下「本サービス」）のご利用にあたっての条件を定めるものです。本サービスをご利用いただくことで、本規約に同意いただいたものとみなします。</p>
 <h3 style="font-size:14px;font-weight:700;color:var(--text-main);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);">第1条　サービスの概要</h3>
 <p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスは、西洋占星術（星座占い）と数秘術（運命数）に基づく性格診断・占いをエンターテインメントとして提供するWebアプリケーションです。</p>
+<div style="background:var(--primary-light);border-left:3px solid var(--primary);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;">
+<p style="color:var(--text-main);font-size:13px;line-height:1.8;">本サービスでは、12の星座 × 13の運命数 × リーダー・サポーター・クリエイター・アナリスト・ビルダーの5つの性格タイプなど、多様な要素を組み合わせた<strong>1,600通り以上</strong>のパターンから、あなただけの鑑定結果を導き出します。さらに深掘り診断では4段階の質問を通じて、より精度の高いパーソナルアドバイスをお届けします。</p>
+</div>
 <div style="background:var(--danger-light);border-left:3px solid var(--danger);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;">
 <p style="color:var(--text-main);font-size:13px;font-weight:600;">重要：本サービスの鑑定結果はエンターテインメントコンテンツです。医療、法律、金融等の専門的なアドバイスとして利用しないでください。</p>
 </div>
