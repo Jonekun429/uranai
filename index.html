@@ -335,8 +335,8 @@
             <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime" style="border-color:#EC489940;">
                 <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);"><i data-lucide="hourglass" class="w-5 h-5" style="color:#EC4899;"></i></div>
                 <div>
-                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの人生を見てみる</p>
-                    <p class="t-caption" style="color:var(--text-muted);">あなたの人生時計が動いています</p>
+                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの寿命を見てみる</p>
+                    <p class="t-caption" style="color:var(--text-muted);">あなたのチャクラから寿命が計算されました</p>
                 </div>
             </button>
             <!-- Dynamic step container -->
@@ -1017,7 +1017,7 @@ function getRelatedCategory(cat){
         money:{cat:'career',icon:'briefcase',color:'var(--primary)',label:'仕事・転職',sub:'収入アップのヒントもご覧ください'},
         relation:{cat:'love',icon:'heart',color:'var(--danger)',label:'恋愛・相性',sub:'大切な人との関係をもっと深く'},
         compat:{cat:'future',icon:'telescope',color:'#6366F1',label:'未来をのぞいてみる',sub:'2人の未来も気になりませんか？'},
-        future:{cat:'lifetime',icon:'hourglass',color:'#EC4899',label:'残りの人生を見てみる',sub:'人生時計が動いています'},
+        future:{cat:'lifetime',icon:'hourglass',color:'#EC4899',label:'残りの寿命を見てみる',sub:'あなたのチャクラから寿命が計算されました'},
         lifetime:{cat:'future',icon:'telescope',color:'#6366F1',label:'未来をのぞいてみる',sub:'残りの日々をどう過ごすか、星に聞いてみませんか？'}
     };
     const r=related[cat];
@@ -1313,49 +1313,137 @@ function startCompatDiagnosis(){
 
 // Compatibility flow builder
 // Lifetime category - special visual rendering
-function buildLifetimeFlow(){ return {}; } // placeholder for getFlowForCategory
+function buildLifetimeFlow(){ return {}; }
+
+const lfQuotes=[
+    "最後に親に「ありがとう」と言ったのは、いつですか？",
+    "大切な人と過ごせる時間には、限りがあります。",
+    "家族との食事、あと何回できるだろう。",
+    "「また今度」が来ない日は、突然やってくる。",
+    "やりたいことリスト、書き出してみませんか？",
+    "「いつかやろう」の「いつか」は、今日かもしれない。",
+    "5年後の自分が後悔しない選択を、今日しよう。",
+    "行きたかった場所、まだ行けていませんか？",
+    "今日という日は、残りの人生の最初の一日。",
+    "スマホを置いて、目の前の人と話してみませんか？",
+    "1日は誰にでも平等に24時間。どう使うかは自分次第。",
+    "健康な体があってこそ、素晴らしい思い出が作れる。",
+    "今日の散歩が、10年後の自分を救うかもしれない。",
+    "思い出は、人生で最も確かな財産。",
+    "人生の長さは変えられない。でも、深さは変えられる。",
+    "あなたの時間は有限。誰かの人生を生きるのはもったいない。",
+    "今この瞬間を大切に。二度と戻らない時間だから。",
+    "100年後、誰もあなたの失敗を覚えていない。だから挑戦しよう。"
+];
+let _lfTimer=null,_lfQuoteTimer=null,_lfCurrentQuote='';
 
 function renderLifetimeClock(){
     const area=document.getElementById('deep-dive-area');
     const nick=shareData.nickname||'ゲスト';
-    
-    // First tap: show confirmation screen
     const html=`<div class="fortune-card p-6 fade-up" id="lifetime-confirm">
         <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,#EC4899,transparent);"></div>
         <div class="flex flex-col items-center py-6">
-            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);">
-                <i data-lucide="hourglass" class="w-7 h-7" style="color:#EC4899;"></i>
-            </div>
-            <p class="t-body font-semibold text-center mb-3" style="color:var(--text-main);">あなたの寿命が計算されました。</p>
-            <p class="t-caption text-center leading-relaxed mb-6" style="color:var(--text-sub);">残りの人生をもっと幸せにするために、<br>あなたの人生時計をのぞいてみませんか？</p>
-            <button id="lifetime-go-btn" class="w-full p-3.5 rounded-xl font-semibold text-center" style="background:linear-gradient(135deg,#EC4899,#DB2777);color:#fff;border:none;cursor:pointer;font-size:14px;">
-                覗いてみる
-            </button>
-            <button class="deep-other-btn w-full p-3 rounded-xl font-semibold text-center mt-2" style="background:var(--bg-page);color:var(--text-sub);border:var(--border-w) solid var(--border-color);cursor:pointer;font-size:13px;pointer-events:auto;">
-                やっぱりやめる
-            </button>
-        </div>
-    </div>`;
+            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);"><i data-lucide="hourglass" class="w-7 h-7" style="color:#EC4899;"></i></div>
+            <p class="t-body font-semibold text-center mb-3" style="color:var(--text-main);">あなたのチャクラから、残りの寿命が計算されました。</p>
+            <p class="t-caption text-center leading-relaxed mb-6" style="color:var(--text-sub);">残りの人生を楽しむために、<br>現実を受け入れるのも大切です。</p>
+            <button id="lifetime-go-btn" class="w-full p-3.5 rounded-xl font-semibold text-center" style="background:linear-gradient(135deg,#EC4899,#DB2777);color:#fff;border:none;cursor:pointer;font-size:14px;">覗いてみる</button>
+            <button class="deep-other-btn w-full p-3 rounded-xl font-semibold text-center mt-2" style="background:var(--bg-page);color:var(--text-sub);border:var(--border-w) solid var(--border-color);cursor:pointer;font-size:13px;pointer-events:auto;">やっぱりやめる</button>
+        </div></div>`;
     area.insertAdjacentHTML('beforeend',html);
     lucide.createIcons();
     setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'center'});},100);
-    
-    // Second tap: redirect to LifeTime app
     document.getElementById('lifetime-go-btn').addEventListener('click',function(){
-        trackEvent('lifetime_view',{action:'confirmed'});
-        const gender=document.getElementById('gender').value;
-        const dateStr=getBirthDateStr();
-        const nickName=shareData.nickname||'ゲスト';
-        const genderParam=gender==='male'?'m':gender==='female'?'f':'';
-        const params=new URLSearchParams();
-        if(nickName)params.set('name',nickName);
-        if(dateStr)params.set('birthday',dateStr);
-        if(genderParam)params.set('gender',genderParam);
-        const lifetimeUrl='https://jonekun429.github.io/health-dashboard/?tab=lifetime&'+params.toString();
-        // Try window.open first, fallback to location.href
-        const w=window.open(lifetimeUrl,'_blank');
-        if(!w||w.closed)window.location.href=lifetimeUrl;
+        const confirm=document.getElementById('lifetime-confirm');
+        if(confirm)confirm.remove();
+        showLifetimeCountdown();
     });
+}
+
+function showLifetimeCountdown(){
+    const area=document.getElementById('deep-dive-area');
+    const nick=shareData.nickname||'ゲスト';
+    const gender=document.getElementById('gender').value;
+    const dateStr=getBirthDateStr();
+    if(!dateStr)return;
+    const lifeExp=gender==='male'?81.09:gender==='female'?87.14:84.12;
+    const birth=new Date(dateStr),now=new Date();
+    const ageDays=Math.floor((now-birth)/86400000);
+    const ageYears=Math.floor(ageDays/365.25);
+    const totalDays=Math.floor(lifeExp*365.25);
+    const remainDays=Math.max(0,totalDays-ageDays);
+    const endDate=new Date(birth.getTime()+lifeExp*365.25*86400000);
+    const livedPct=Math.min(100,Math.round(ageDays/totalDays*100));
+    const remainPct=100-livedPct;
+    let season,sIcon,sColor;
+    if(livedPct<25){season='春';sIcon='🌸';sColor='#F472B6';}
+    else if(livedPct<50){season='夏';sIcon='☀️';sColor='#FBBF24';}
+    else if(livedPct<75){season='秋';sIcon='🍂';sColor='#F59E0B';}
+    else{season='冬';sIcon='❄️';sColor='#93C5FD';}
+    const ringColor=remainPct>50?'var(--primary)':remainPct>25?'#E9A400':'#B36060';
+    const circ=(2*Math.PI*42).toFixed(1);
+    const offset=(circ*(1-remainPct/100)).toFixed(1);
+    _lfCurrentQuote=lfQuotes[Math.floor(Math.random()*lfQuotes.length)];
+    const el=zodiacElement[currentUserZId];
+    const elMsg=el==='fire'?nick+'さんの情熱は、残りの日々を最高に輝かせる力を持っています。「いつかやろう」を「今日やろう」に変えてみてくださいね。'
+        :el==='earth'?nick+'さんの堅実さは、残りの日々を着実に豊かにしてくれます。一日一日を丁寧に。それが'+nick+'さんらしい人生の味わい方ですよ。'
+        :el==='air'?nick+'さんの好奇心は、残りの日々を冒険に変える力を持っています。まだ行ったことのない場所、会ったことのない人が待っていますよ。'
+        :nick+'さんの深い感性は、残りの日々を美しく彩る力を持っています。「幸せだな」と感じる瞬間を、一つでも多く重ねてくださいね。';
+    const card=`<div class="fortune-card fade-up" id="lifetime-card" style="padding:0;overflow:hidden;">
+        <div style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);padding:28px 20px 24px;color:#fff;position:relative;overflow:hidden;">
+            <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(236,72,153,.15),transparent 70%);border-radius:50%;"></div>
+            <div class="flex justify-center mb-5"><div style="position:relative;width:140px;height:140px;">
+                <svg width="140" height="140" style="transform:rotate(-90deg);"><circle cx="70" cy="70" r="42" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/><circle cx="70" cy="70" r="42" fill="none" stroke="${ringColor}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/></svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span id="lf-y" style="font-size:42px;font-weight:800;line-height:1;font-family:'Roboto Mono',monospace;">0</span><span style="font-size:12px;opacity:.5;margin-top:2px;">年</span></div>
+            </div></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:rgba(255,255,255,.06);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.08);">
+                <div class="text-center"><div id="lf-d" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">日</div></div>
+                <div class="text-center"><div id="lf-h" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">時間</div></div>
+                <div class="text-center"><div id="lf-m" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">分</div></div>
+                <div class="text-center"><div id="lf-s" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">秒</div></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;opacity:.5;"><span>予測寿命 ${Math.round(lifeExp)}歳</span><span>${nick}さん（${ageYears}歳）</span></div>
+        </div>
+        <div style="padding:0 20px;"><div style="height:6px;background:var(--bg-page);margin-top:-3px;border-radius:0 0 3px 3px;overflow:hidden;"><div style="height:100%;width:${livedPct}%;background:linear-gradient(90deg,#EC4899,${ringColor});border-radius:3px;transition:width 1.5s;"></div></div>
+            <div class="flex justify-between mt-2 mb-3" style="font-size:11px;color:var(--text-muted);"><span>0歳</span><span style="color:#EC4899;font-weight:600;">今ここ ${livedPct}%</span><span>${Math.round(lifeExp)}歳</span></div>
+        </div>
+        <div style="padding:0 20px 20px;">
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
+                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/7).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの週末</p></div>
+                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays*24).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの時間</p></div>
+                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/30.44).toLocaleString()}</p><p style="font-size:11px;color:var(--text-muted);">残りの満月</p></div>
+                <div class="rounded-lg p-3 text-center" style="background:var(--bg-page);border:1px solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:18px;">${Math.floor(remainDays/365.25)}</p><p style="font-size:11px;color:var(--text-muted);">残りの桜の季節</p></div>
+            </div>
+            <div id="lf-quote" class="rounded-xl p-5 mb-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);min-height:70px;transition:opacity .5s;position:relative;">
+                <span style="position:absolute;top:6px;left:14px;font-size:28px;color:var(--primary);opacity:.2;font-family:serif;">"</span>
+                <p class="t-caption leading-relaxed" style="color:var(--text-sub);font-style:italic;">${_lfCurrentQuote}</p>
+            </div>
+            <div class="rounded-xl p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="t-caption leading-loose" style="color:var(--text-main);">${elMsg}</p></div>
+            <div class="flex gap-2 mt-4">
+                <button class="deep-again-btn btn-ghost flex-1 text-sm" style="pointer-events:auto;"><i data-lucide="refresh-cw" class="w-3.5 h-3.5" style="pointer-events:none;"></i><span style="pointer-events:none;">もう一度</span></button>
+                <button class="deep-other-btn btn-ghost flex-1 text-sm" style="pointer-events:auto;"><i data-lucide="layout-grid" class="w-3.5 h-3.5" style="pointer-events:none;"></i><span style="pointer-events:none;">他のテーマ</span></button>
+            </div>
+            ${getRelatedCategory('lifetime')}
+            <p class="t-caption text-center mt-3" style="color:var(--text-muted);font-size:10px;">厚生労働省 令和5年簡易生命表に基づく統計データ</p>
+        </div></div>`;
+    area.insertAdjacentHTML('beforeend',card);
+    lucide.createIcons();
+    setTimeout(()=>{area.lastElementChild.scrollIntoView({behavior:'smooth',block:'start'});},100);
+    function updateCD(){
+        const diff=endDate.getTime()-Date.now();if(diff<=0)return;
+        const y=Math.floor(diff/31557600000),d=Math.floor((diff%31557600000)/86400000),h=Math.floor((diff%86400000)/3600000),m=Math.floor((diff%3600000)/60000),s=Math.floor((diff%60000)/1000);
+        const map={'lf-y':y,'lf-d':d,'lf-h':h,'lf-m':m,'lf-s':s};
+        for(const[id,v] of Object.entries(map)){const e=document.getElementById(id);if(e)e.textContent=v;}
+    }
+    updateCD();
+    if(_lfTimer)clearInterval(_lfTimer);_lfTimer=setInterval(updateCD,1000);
+    if(_lfQuoteTimer)clearInterval(_lfQuoteTimer);
+    _lfQuoteTimer=setInterval(()=>{
+        const qEl=document.getElementById('lf-quote');if(!qEl)return;
+        qEl.style.opacity='0';
+        setTimeout(()=>{let nq;do{nq=lfQuotes[Math.floor(Math.random()*lfQuotes.length)];}while(nq===_lfCurrentQuote&&lfQuotes.length>1);_lfCurrentQuote=nq;const p=qEl.querySelector('p');if(p)p.textContent=nq;qEl.style.opacity='1';},500);
+    },8000);
+    trackEvent('lifetime_view',{age:ageYears,remain_days:remainDays,season});
 }
 
 function buildFutureFlow(){
