@@ -547,23 +547,39 @@ function renderFamousCard(zId,delay){
 function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
 
 let shareData={zodiacName:'',zodiacSub:'',numSub:'',nickname:'',keywords:[],moneyHint:'',thoughtSub:'',relationSub:''};
-function buildShareText(){
-    const kw=shareData.keywords.slice(0,3).join(' / ');
-    return`【${shareData.nickname}さん のトリセツ】\n\n` +
+
+function buildShareTextX(){
+    const kw=shareData.keywords.slice(0,2).join('・');
+    return`✨ 私のトリセツできた！\n\n` +
         `${shareData.zodiacName}「${shareData.zodiacSub}」\n` +
-        `性格キーワード：${kw}\n` +
-        `思考タイプ：${shareData.thoughtSub}\n` +
-        `仕事タイプ：${shareData.numSub}\n\n` +
-        `#Fortuna #性格占い #トリセツ`;
+        `キーワード：${kw}\n\n` +
+        `みんなも自分のトリセツ作ってみて🔮\n\n` +
+        `${buildShareUrl()}\n\n` +
+        `#Fortuna #私のトリセツ`;
 }
+
+function buildShareTextLine(){
+    const kw=shareData.keywords.slice(0,3).join(' / ');
+    return`🔮 Fortunaで自分のトリセツ作ったよ！\n\n` +
+        `【${shareData.nickname}さん のトリセツ】\n` +
+        `${shareData.zodiacName}「${shareData.zodiacSub}」\n` +
+        `キーワード：${kw}\n` +
+        `思考タイプ：${shareData.thoughtSub}\n\n` +
+        `あなたのトリセツも見てみない？👇\n` +
+        `${buildShareUrl()}`;
+}
+
 function buildShareUrl(){return 'https://jonekun429.github.io/fortuna/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
-    document.getElementById('share-x').addEventListener('click',()=>{window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(buildShareText())}&url=${encodeURIComponent(buildShareUrl())}`,'_blank');trackEvent('share',{method:'x',content_type:'fortune_result'});});
+    document.getElementById('share-x').addEventListener('click',()=>{
+        const text=buildShareTextX();
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
+        trackEvent('share',{method:'x',content_type:'fortune_result'});
+    });
     document.getElementById('share-line').addEventListener('click',()=>{
-        const text=buildShareText()+'\n'+buildShareUrl();
-        // LINE公式のシェアURL
-        window.open(`https://line.me/R/share?text=${encodeURIComponent(text)}`,'_blank');
+        const text=buildShareTextLine();
+        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
         trackEvent('share',{method:'line',content_type:'fortune_result'});
     });
     document.getElementById('share-ig').addEventListener('click',()=>{generateShareImage();trackEvent('share',{method:'instagram_image',content_type:'fortune_result'});});
@@ -655,17 +671,21 @@ function generateShareImage(){
 
     // Bottom divider
     ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
-    ctx.beginPath();ctx.moveTo(200,1620);ctx.lineTo(880,1620);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(200,1580);ctx.lineTo(880,1580);ctx.stroke();
+
+    // CTA - call to action
+    ctx.fillStyle='#3E6B62';ctx.font='700 30px sans-serif';
+    ctx.fillText('🔮 あなたのトリセツも作ってみて！',w/2,1650);
 
     // Hashtags
     ctx.fillStyle='#5C8E84';ctx.font='600 24px sans-serif';
-    ctx.fillText('#Fortuna  #性格占い  #トリセツ',w/2,1700);
+    ctx.fillText('#Fortuna  #私のトリセツ  #性格診断',w/2,1720);
 
-    // Footer
+    // Footer URL
     ctx.fillStyle='#7E928C';ctx.font='400 22px sans-serif';
-    ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1780);
-    ctx.fillStyle='#5C8E84';ctx.font='500 20px monospace';
-    ctx.fillText('jonekun429.github.io/fortuna',w/2,1830);
+    ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1790);
+    ctx.fillStyle='#5C8E84';ctx.font='600 24px monospace';
+    ctx.fillText('jonekun429.github.io/fortuna',w/2,1850);
 
     c.toBlob(blob=>{
         if(!blob)return;
