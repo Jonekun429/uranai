@@ -151,6 +151,19 @@
         }
         :root[data-theme="light"] .premium-cat-btn.active-cat{border-color:#5C8E84;box-shadow:0 0 0 1.5px #5C8E84;}
 
+        :root[data-theme="ocean"]{
+            --primary:#4A90D0;--primary-dark:#2A6BAA;--primary-light:#E8F0FA;
+            --bg-page:#F0F5FA;--bg-card:#FFFFFF;
+            --text-main:#1E3350;--text-sub:#5A7A9A;--text-muted:#90A8C0;
+            --border-color:#D0DDE8;
+            --danger:#D06070;--danger-light:#FAF0F2;
+            --warning-bg:#FDF8EE;--warning-text:#8A7030;
+            --cat-video:#4A90D0;--cat-music:#3A80C0;--cat-book:#D09A20;
+            --cat-tool:#D07030;--cat-game:#C04040;--cat-other:#6080A0;
+            --shadow-sm:0 2px 8px rgba(0,40,80,0.06);--shadow-lg:0 4px 16px rgba(0,40,80,0.10);
+        }
+        :root[data-theme="ocean"] .premium-cat-btn.active-cat{border-color:#4A90D0;box-shadow:0 0 0 1.5px #4A90D0;}
+
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;}
         .mono-font{font-family:var(--font-mono);}
@@ -174,10 +187,11 @@
         #scan-overlay{background:rgba(246,247,245,.97);backdrop-filter:blur(20px);}
         :root[data-theme="dark"] #scan-overlay{background:rgba(18,24,22,.97);}
         :root[data-theme="light"] #scan-overlay{background:rgba(245,245,240,.97);}
+        :root[data-theme="ocean"] #scan-overlay{background:rgba(240,245,250,.97);}
         :root[data-theme="pastel"] #scan-overlay{background:rgba(248,244,249,.97);}
         :root[data-theme="midnight"] #scan-overlay{background:rgba(14,21,37,.97);}
         :root[data-theme="purple"] #scan-overlay{background:rgba(18,14,30,.97);}
-        @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="pastel"]) #scan-overlay{background:rgba(18,24,22,.97);}}
+        @media(prefers-color-scheme:dark){:root:not([data-theme="light"]):not([data-theme="pastel"]):not([data-theme="ocean"]) #scan-overlay{background:rgba(18,24,22,.97);}}
         .scan-line{position:absolute;left:0;width:100%;height:3px;background:linear-gradient(90deg,transparent,var(--primary),transparent);box-shadow:0 0 16px var(--primary),0 0 40px rgba(92,142,132,.25);animation:scan-down 3.5s ease-in-out infinite;}
         .orbit-ring{position:absolute;border:var(--border-w) solid var(--border-color);border-radius:50%;animation:orbit linear infinite;}
         .orbit-dot{position:absolute;width:5px;height:5px;background:var(--primary);border-radius:50%;box-shadow:0 0 8px var(--primary);}
@@ -274,29 +288,33 @@
                     <i data-lucide="palette" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body" style="color:var(--text-main);">テーマ変更</span>
                 </div>
                 <p style="font-size:10px;color:var(--text-muted);margin-bottom:6px;letter-spacing:1px;">LIGHT</p>
-                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
-                    <button onclick="setAppTheme('light');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="light">
-                        <div style="width:36px;height:36px;border-radius:50%;background:#F5F5F0;margin:0 auto 6px;border:3px solid #5C8E84;box-shadow:0 0 8px #5C8E8460;"></div>
-                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ライト</span>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                    <button onclick="setAppTheme('light');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="light">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#F5F5F0;border:3px solid #5C8E84;box-shadow:0 0 8px #5C8E8460;margin-bottom:6px;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);font-weight:500;">ライト</span>
                     </button>
-                    <button onclick="setAppTheme('pastel');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="pastel">
-                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F5E6F0,#E8F0FA,#FFF0F5);margin:0 auto 6px;border:3px solid #E8A0BF;box-shadow:0 0 8px #E8A0BF60;"></div>
-                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">パステル</span>
+                    <button onclick="setAppTheme('ocean');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="ocean">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#F0F5FA;border:3px solid #4A90D0;box-shadow:0 0 8px #4A90D060;margin-bottom:6px;"></div>
+                        <span style="font-size:9px;color:var(--text-sub);font-weight:500;letter-spacing:-0.5px;">オーシャン</span>
+                    </button>
+                    <button onclick="setAppTheme('pastel');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="pastel">
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F5E6F0,#E8F0FA,#FFF0F5);border:3px solid #E8A0BF;box-shadow:0 0 8px #E8A0BF60;margin-bottom:6px;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);font-weight:500;">パステル</span>
                     </button>
                 </div>
                 <p style="font-size:10px;color:var(--text-muted);margin:10px 0 6px;letter-spacing:1px;">DARK</p>
                 <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
-                    <button onclick="setAppTheme('dark');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="dark">
-                        <div style="width:36px;height:36px;border-radius:50%;background:#121816;margin:0 auto 6px;border:3px solid #6BA99F;box-shadow:0 0 8px #6BA99F60;"></div>
-                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ダーク</span>
+                    <button onclick="setAppTheme('dark');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="dark">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#121816;border:3px solid #6BA99F;box-shadow:0 0 8px #6BA99F60;margin-bottom:6px;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);font-weight:500;">ダーク</span>
                     </button>
-                    <button onclick="setAppTheme('midnight');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="midnight">
-                        <div style="width:36px;height:36px;border-radius:50%;background:#0E1525;margin:0 auto 6px;border:3px solid #5B8DEF;box-shadow:0 0 8px #5B8DEF60;"></div>
-                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ナイト</span>
+                    <button onclick="setAppTheme('midnight');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="midnight">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#0E1525;border:3px solid #5B8DEF;box-shadow:0 0 8px #5B8DEF60;margin-bottom:6px;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);font-weight:500;">ナイト</span>
                     </button>
-                    <button onclick="setAppTheme('purple');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="purple">
-                        <div style="width:36px;height:36px;border-radius:50%;background:#1A0E2E;margin:0 auto 6px;border:3px solid #A78BFA;box-shadow:0 0 8px #A78BFA60;"></div>
-                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">パープル</span>
+                    <button onclick="setAppTheme('purple');closeDrawer();" class="theme-btn rounded-xl" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);display:flex;flex-direction:column;align-items:center;justify-content:center;height:80px;padding:8px;" data-theme-val="purple">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#1A0E2E;border:3px solid #A78BFA;box-shadow:0 0 8px #A78BFA60;margin-bottom:6px;"></div>
+                        <span style="font-size:10px;color:var(--text-sub);font-weight:500;">パープル</span>
                     </button>
                 </div>
             </div>
@@ -492,7 +510,7 @@
             </div>
         </div>
 
-        <div class="mt-6 fade-up d8"><button id="reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>別の占いをする</span></button></div>
+        <div class="mt-6 fade-up d8"><button id="reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>最初からやり直す</span></button></div>
     </section>
 </main>
 
@@ -735,7 +753,7 @@ function renderWorkCard(data,delay){return`<div class="fortune-card p-5 fade-up 
 function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">金運</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--warning-text);">${text}</p></div></div>`;}
 
 // Famous people by zodiac
-const famousByZodiac={aries:['レディー・ガガ','本田圭佑','エマ・ワトソン'],taurus:['ザッカーバーグ','アデル','ヒカキン'],gemini:['ジョニー・デップ','中田敦彦','アンジェリーナ・ジョリー'],cancer:['イーロン・マスク','メッシ','松本人志'],leo:['バラク・オバマ','米津玄師','ココ・シャネル'],virgo:['ビヨンセ','ウォーレン・バフェット','石橋貴明'],libra:['ジョン・レノン','キム・カーダシアン','イチロー'],scorpio:['ビル・ゲイツ','レオナルド・ディカプリオ','手塚治虫'],sagittarius:['テイラー・スウィフト','ウォルト・ディズニー','羽生結弦'],capricorn:['スティーブ・ジョブズ','ジェフ・ベゾス','キング牧師'],aquarius:['オプラ・ウィンフリー','エジソン','ハリー・スタイルズ'],pisces:['スティーブ・ジョブズ','アインシュタイン','Rihanna']};
+const famousByZodiac={aries:['本田圭佑','上白石萌音','佐藤健','レディー・ガガ'],taurus:['ヒカキン','有吉弘行','澤穂希','ザッカーバーグ'],gemini:['中田敦彦','本田翼','広瀬すず','ジョニー・デップ'],cancer:['松本人志','菅田将暉','渡辺直美','メッシ'],leo:['米津玄師','吉田沙保里','ローラ','オバマ'],virgo:['石橋貴明','安室奈美恵','松本潤','ビヨンセ'],libra:['イチロー','石原さとみ','DAIGO','ジョン・レノン'],scorpio:['手塚治虫','指原莉乃','木村拓哉','ビル・ゲイツ'],sagittarius:['羽生結弦','秋元康','綾瀬はるか','ウォルト・ディズニー'],capricorn:['櫻井翔','小泉進次郎','新垣結衣','スティーブ・ジョブズ'],aquarius:['福山雅治','香取慎吾','橋本環奈','エジソン'],pisces:['大谷翔平','蒼井優','水卜麻美','アインシュタイン']};
 
 function renderFamousCard(zId,delay){
     const people=famousByZodiac[zId]||['データなし'];
