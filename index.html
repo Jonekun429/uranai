@@ -92,6 +92,55 @@
         :root[data-theme="pastel"] #hamburger-btn{
             background:rgba(255,255,255,.85);border-color:#E8A0BF;
         }
+        :root[data-theme="pastel"] .fortune-card .rounded-lg p.font-semibold{
+            color:#6B4A7A!important;
+        }
+        :root[data-theme="pastel"] .fortune-card .rounded-lg[style*="primary-light"] p,
+        :root[data-theme="pastel"] .fortune-card .rounded-lg[style*="danger-light"] p{
+            color:#6B4A7A!important;
+        }
+        /* Midnight Blue Theme */
+        :root[data-theme="midnight"]{
+            --primary:#5B8DEF;--primary-dark:#8AB4FF;--primary-light:#1A2040;
+            --bg-page:#0E1525;--bg-card:#161D30;
+            --text-main:#C8D4E8;--text-sub:#6880A8;--text-muted:#3A4A68;
+            --border-color:#243050;
+            --danger:#E07070;--danger-light:#2A1A2A;
+            --warning-bg:#2A2218;--warning-text:#D4A860;
+            --shadow-sm:0 2px 10px rgba(0,0,30,0.30);--shadow-lg:0 6px 20px rgba(0,0,30,0.40);
+        }
+        :root[data-theme="midnight"] input[type="date"]{color-scheme:dark;}
+        :root[data-theme="midnight"] .birth-select{color-scheme:dark;}
+        :root[data-theme="midnight"] .premium-cat-btn.active-cat{border-color:#5B8DEF;box-shadow:0 0 0 1.5px #5B8DEF;}
+        /* Mystic Purple Theme */
+        :root[data-theme="purple"]{
+            --primary:#A78BFA;--primary-dark:#C4B5FD;--primary-light:#1E1830;
+            --bg-page:#120E1E;--bg-card:#1C1630;
+            --text-main:#D4CCE8;--text-sub:#7A6A9A;--text-muted:#4A3A60;
+            --border-color:#2E2445;
+            --danger:#D4A0D4;--danger-light:#2E1A30;
+            --warning-bg:#2A1828;--warning-text:#C8A0D4;
+            --cat-video:#A78BFA;--cat-music:#B094E8;--cat-book:#C8A0D4;
+            --cat-tool:#9B8ADA;--cat-game:#D4A0D4;--cat-other:#8A7AB0;
+            --shadow-sm:0 2px 10px rgba(20,0,40,0.30);--shadow-lg:0 6px 20px rgba(20,0,40,0.40);
+        }
+        :root[data-theme="purple"] input[type="date"]{color-scheme:dark;}
+        :root[data-theme="purple"] .birth-select{color-scheme:dark;}
+        :root[data-theme="purple"] .premium-cat-btn.active-cat{border-color:#A78BFA;box-shadow:0 0 0 1.5px #A78BFA;}
+
+        :root[data-theme="light"]{
+            --primary:#5C8E84;--primary-dark:#3A6B60;--primary-light:#E8F0ED;
+            --bg-page:#F5F5F0;--bg-card:#FFFFFF;
+            --text-main:#2B3830;--text-sub:#6E847C;--text-muted:#A0B0A8;
+            --border-color:#D8E0DC;
+            --danger:#C06060;--danger-light:#FAF0F0;
+            --warning-bg:#FDF8F0;--warning-text:#8A6838;
+            --cat-video:#5C8E84;--cat-music:#2A9D8F;--cat-book:#D49200;
+            --cat-tool:#D06020;--cat-game:#B83828;--cat-other:#6E7E90;
+            --shadow-sm:0 2px 8px rgba(0,0,0,0.05);--shadow-lg:0 4px 16px rgba(0,0,0,0.08);
+        }
+        :root[data-theme="light"] .premium-cat-btn.active-cat{border-color:#5C8E84;box-shadow:0 0 0 1.5px #5C8E84;}
+
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;}
         .mono-font{font-family:var(--font-mono);}
@@ -103,9 +152,12 @@
         .t-label{font-size:13px;font-weight:600;}
         .t-caption{font-size:12px;font-weight:400;}
         .t-btn{font-size:15px;font-weight:700;}
-        .fade-up{opacity:0;transform:translateY(12px);animation:fadeUp .7s ease-out forwards;}
-        .d1{animation-delay:.05s}.d2{animation-delay:.1s}.d3{animation-delay:.15s}.d4{animation-delay:.2s}.d5{animation-delay:.25s}.d6{animation-delay:.3s}.d7{animation-delay:.35s}.d8{animation-delay:.4s}
-        @keyframes fadeUp{to{opacity:1;transform:translateY(0);}}
+        .fade-up{opacity:0;transform:translateY(24px);transition:opacity .6s cubic-bezier(.22,1,.36,1),transform .6s cubic-bezier(.22,1,.36,1);}
+        .fade-up.visible{opacity:1;transform:translateY(0);}
+        .fade-up.d1{transition-delay:.05s;}.fade-up.d2{transition-delay:.15s;}.fade-up.d3{transition-delay:.25s;}
+        .fade-up.d4{transition-delay:.4s;}.fade-up.d5{transition-delay:.55s;}.fade-up.d6{transition-delay:.7s;}.fade-up.d7{transition-delay:.85s;}.fade-up.d8{transition-delay:1s;}
+        .d1{transition-delay:.1s}.d2{transition-delay:.3s}.d3{transition-delay:.5s}.d4{transition-delay:.7s}.d5{transition-delay:.9s}.d6{transition-delay:1.1s}.d7{transition-delay:1.3s}.d8{transition-delay:1.5s}
+
         @keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
         @keyframes pulse-ring{0%,100%{transform:scale(1);opacity:.5}50%{transform:scale(1.15);opacity:1}}
         @keyframes scan-down{0%{top:-4px;opacity:0}10%{opacity:1}90%{opacity:1}100%{top:calc(100% + 4px);opacity:0}}
@@ -204,18 +256,30 @@
                 <div class="flex items-center gap-3 mb-3">
                     <i data-lucide="palette" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body" style="color:var(--text-main);">テーマ変更</span>
                 </div>
-                <div class="flex gap-2">
-                    <button onclick="setAppTheme('dark');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="dark">
-                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#121816,#1E2622);margin:0 auto 4px;border:1px solid #2E3E3A;"></div>
-                        <span style="font-size:10px;color:var(--text-sub);">ダーク</span>
+                <p style="font-size:10px;color:var(--text-muted);margin-bottom:6px;letter-spacing:1px;">LIGHT</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+                    <button onclick="setAppTheme('light');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="light">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#F5F5F0;margin:0 auto 6px;border:3px solid #5C8E84;box-shadow:0 0 8px #5C8E8460;"></div>
+                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ライト</span>
                     </button>
-                    <button onclick="setAppTheme('pastel');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="pastel">
-                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#F0E8F5,#E8F0FA,#FFF0F5);margin:0 auto 4px;border:1px solid #E8DDF0;"></div>
-                        <span style="font-size:10px;color:var(--text-sub);">パステル</span>
+                    <button onclick="setAppTheme('pastel');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="pastel">
+                        <div style="width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,#F5E6F0,#E8F0FA,#FFF0F5);margin:0 auto 6px;border:3px solid #E8A0BF;box-shadow:0 0 8px #E8A0BF60;"></div>
+                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">パステル</span>
                     </button>
-                    <button onclick="setAppTheme('light');closeDrawer();" class="theme-btn flex-1 p-2.5 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="light">
-                        <div style="width:24px;height:24px;border-radius:50%;background:linear-gradient(135deg,#F6F7F5,#EDF4F2);margin:0 auto 4px;border:1px solid #E5EBE8;"></div>
-                        <span style="font-size:10px;color:var(--text-sub);">ライト</span>
+                </div>
+                <p style="font-size:10px;color:var(--text-muted);margin:10px 0 6px;letter-spacing:1px;">DARK</p>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;">
+                    <button onclick="setAppTheme('dark');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="dark">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#121816;margin:0 auto 6px;border:3px solid #6BA99F;box-shadow:0 0 8px #6BA99F60;"></div>
+                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ダーク</span>
+                    </button>
+                    <button onclick="setAppTheme('midnight');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="midnight">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#0E1525;margin:0 auto 6px;border:3px solid #5B8DEF;box-shadow:0 0 8px #5B8DEF60;"></div>
+                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">ナイト</span>
+                    </button>
+                    <button onclick="setAppTheme('purple');closeDrawer();" class="theme-btn p-3 rounded-xl text-center" style="border:2px solid var(--border-color);cursor:pointer;background:var(--bg-page);" data-theme-val="purple">
+                        <div style="width:36px;height:36px;border-radius:50%;background:#1A0E2E;margin:0 auto 6px;border:3px solid #A78BFA;box-shadow:0 0 8px #A78BFA60;"></div>
+                        <span style="font-size:11px;color:var(--text-sub);font-weight:500;">パープル</span>
                     </button>
                 </div>
             </div>
@@ -282,12 +346,12 @@
 
     <!-- INPUT -->
     <section id="input-section">
-        <header class="text-center mb-10 fade-up">
+        <header class="text-center mb-10 fade-up visible">
             <p class="mono-font t-card-title mb-3" style="color:var(--primary);">FORTUNE ANALYSIS</p>
             <h1 class="t-amount-lg mb-3" style="color:var(--primary-dark);letter-spacing:2px;">Fortuna</h1>
             <p class="t-body" style="color:var(--text-sub);">あなたの星と数秘が語る、トリセツ</p>
         </header>
-        <div class="fortune-card p-6 fade-up d2">
+        <div class="fortune-card p-6 fade-up visible">
             <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
             <div class="space-y-5 pt-2">
                 <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">ニックネーム</label><input type="text" id="name" placeholder="例: ジョン" class="form-input" maxlength="20"></div>
@@ -308,7 +372,7 @@
                 <p id="error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を選択してください</p>
             </div>
         </div>
-        <p class="text-center t-caption mt-6 fade-up d3" style="color:var(--text-muted);">入力データは端末内でのみ処理されます</p>
+        <p class="text-center t-caption mt-6 fade-up visible" style="color:var(--text-muted);">入力データは端末内でのみ処理されます</p>
     </section>
 
     <!-- RESULT -->
@@ -359,7 +423,7 @@
                     <p class="t-caption" style="color:var(--text-muted);">金運タイプ・行動指針</p>
                 </button>
                 <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:#EDE8F5;"><i data-lucide="users" class="w-4 h-4" style="color:#7C6FA0;"></i></div>
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div>
                     <p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p>
                     <p class="t-caption" style="color:var(--text-muted);">悩みの根本・解決策</p>
                 </button>
@@ -374,7 +438,7 @@
             </button>
             <!-- Future category -->
             <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#EEF0FF,#E8E0F5);"><i data-lucide="telescope" class="w-5 h-5" style="color:#6366F1;"></i></div>
+                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--primary-light);"><i data-lucide="telescope" class="w-5 h-5" style="color:var(--primary);"></i></div>
                 <div>
                     <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">未来をのぞいてみる</p>
                     <p class="t-caption" style="color:var(--text-muted);">1年後〜10年後のあなたを占う</p>
@@ -382,9 +446,9 @@
             </button>
             <!-- Lifetime category -->
             <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);"><i data-lucide="hourglass" class="w-5 h-5" style="color:#EC4899;"></i></div>
+                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--danger-light);"><i data-lucide="hourglass" class="w-5 h-5" style="color:var(--danger);"></i></div>
                 <div>
-                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの寿命を見てみる</p>
+                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの寿命をのぞいてみる</p>
                     <p class="t-caption" style="color:var(--text-muted);">あなたのチャクラから寿命が計算されました</p>
                 </div>
             </button>
@@ -442,21 +506,41 @@ function getBirthDateStr(){
 function getZodiacId(m,d){const r=[[1,20,'capricorn'],[1,31,'aquarius'],[2,19,'aquarius'],[2,29,'pisces'],[3,20,'pisces'],[3,31,'aries'],[4,20,'aries'],[4,30,'taurus'],[5,21,'taurus'],[5,31,'gemini'],[6,21,'gemini'],[6,30,'cancer'],[7,22,'cancer'],[7,31,'leo'],[8,22,'leo'],[8,31,'virgo'],[9,22,'virgo'],[9,30,'libra'],[10,23,'libra'],[10,31,'scorpio'],[11,22,'scorpio'],[11,30,'sagittarius'],[12,21,'sagittarius'],[12,31,'capricorn']];for(let i=0;i<r.length;i+=2){if(m===r[i][0]&&d<=r[i][1])return r[i][2];if(m===r[i][0]&&d<=r[i+1][1])return r[i+1][2];}return 'capricorn';}
 function getDestinyNumber(s){let d=s.replace(/-/g,''),sum;while(d.length>1){sum=d.split('').reduce((a,b)=>a+parseInt(b),0);if([11,22,33].includes(sum))return sum;d=sum.toString();}return parseInt(d);}
 
-function renderCard({icon,iconColor,title,subtitle,points,conclusion,conclusionColor,delay}){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${iconColor}40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="${icon}" class="w-4 h-4 shrink-0" style="color:${iconColor};"></i><span class="t-card-title" style="color:var(--text-sub);">${title}</span></div><p class="t-service mb-3" style="color:var(--text-main);">${subtitle}</p><ul class="space-y-2 mb-4">${points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul>${conclusion?`<div class="rounded-lg p-3.5" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-loose" style="color:${conclusionColor};">${conclusion}</p></div>`:''}</div>`;}
+
+// Caution advice by zodiac for base/thought/relation cards
+function getCaution(zId,cat){
+const c={
+aries:{base:['勢いで判断しすぎると、後から「もう少し考えればよかった」と思うことも。大事な決断は一晩寝かせてみて','周りがついてこれないスピードで走ってしまうことも。時々振り返って、仲間を待ってあげてくださいね'],thought:['直感は鋭いですが、データの裏付けも加えると判断の精度がさらに上がりますよ','「まず動く」は長所ですが、リスクの見積もりも少しだけ意識してみて'],relation:['ストレートすぎる言葉が相手を傷つけることも。伝え方に一呼吸置くだけで関係がもっとスムーズに','自分の正義感で相手を追い詰めないよう、相手の立場も想像してみて']},
+taurus:{base:['変化を避けすぎると、成長のチャンスを逃してしまうことも。小さな変化から試してみて','「自分のやり方」にこだわりすぎると、新しい可能性を見逃すことがあります'],thought:['慎重さは武器ですが、考えすぎて動けなくなることも。70%の確信があれば十分ですよ','完璧を求めるあまり、スタートが遅れがち。まずは小さく始めてみて'],relation:['心を閉じすぎると、良い出会いも遠ざけてしまいます。少しだけオープンになってみて','信頼した人への依存が強くなりすぎないよう、自分の世界も大切に']},
+gemini:{base:['興味が移り変わりやすいぶん、一つのことを深く掘り下げる経験も意識してみて','情報を集めるのは得意でも、行動に移すステップを忘れずに'],thought:['客観的すぎて相手の感情を軽視してしまうことも。「正しさ」より「寄り添い」が大切な場面もありますよ','知識の広さは魅力ですが、深さも加えるとさらに信頼されます'],relation:['軽やかさが魅力ですが、大切な人には「深い話」もしてあげて。それが絆を強くします','誰にでも良い顔をしすぎると、本当に大切な人との時間が減ってしまうことも']},
+cancer:{base:['相手の気持ちを読みすぎて、自分の気持ちを後回しにしがち。自分の「好き」「嫌い」も大切にして','過去にとらわれすぎると今を楽しめなくなることも。少しずつ手放す練習を'],thought:['感情に流されすぎると客観的な判断が難しくなることも。大きな決断は信頼できる人に相談を','安全を求めるあまりチャレンジを避けてしまうことも。小さな冒険から始めてみて'],relation:['尽くしすぎて疲れないよう、自分のケアも忘れないで','「察してほしい」と思いすぎず、気持ちは言葉にして伝えてみて']},
+leo:{base:['注目されないと不安になることも。自分の価値は人からの評価だけで決まるものではないですよ','プライドが邪魔をして助けを求められないことも。頼ることも強さの一つです'],thought:['大きなビジョンは素晴らしいですが、細部の詰めが甘くなりがち。信頼できる人に細部を任せるのも手','自分のやり方に自信があるぶん、他の人のアイデアも聞く余裕を持ってみて'],relation:['会話が自分中心になりやすい面も。相手の話を「聞く」だけの時間を意識してみて','感謝の気持ちを「当たり前」にせず、小さなことでも言葉にすると関係がぐっと深まりますよ']},
+virgo:{base:['完璧を目指しすぎてストレスを溜めがち。「80点でOK」と自分を許す練習もしてみて','他人の欠点に目が行きやすいですが、長所を見つけて伝えると関係がもっと良くなります'],thought:['データに頼りすぎると直感やひらめきを見逃すことも。たまには「なんとなく」で動いてみて','分析に時間をかけすぎてタイミングを逃さないように注意を'],relation:['良かれと思ったアドバイスが批判に聞こえてしまうことも。伝え方を少し柔らかくしてみて','自分にも他人にも厳しくなりすぎていませんか？たまには「ま、いっか」の精神も大切ですよ']},
+libra:{base:['誰にでも良い顔をしすぎて、自分の本音がわからなくなることも。「私はこう思う」を練習してみて','決断を先延ばしにしすぎるとチャンスを逃すことも。期限を決めて選んでみて'],thought:['バランスを取りすぎて、結局どちらの味方もしない…と思われることも。時には立場を明確に','他人の意見に影響されすぎて自分の判断がブレることも。「自分はどう思うか」を軸にして'],relation:['表面的な平和のために本音を隠していると関係が浅くなりがち。大切な人には本音を見せて','「嫌われたくない」気持ちが強すぎると自分を消してしまいます。嫌われる勇気も時には大切ですよ']},
+scorpio:{base:['疑い深くなりすぎると良い関係のチャンスを逃してしまうことも。少しだけ信じてみる勇気を','一人で抱え込みすぎる傾向があります。信頼できる人に弱みを見せることも強さの一つですよ'],thought:['白黒つけたい気持ちが強いですが、グレーゾーンを受け入れる柔軟さも大切ですよ','一つのことに集中しすぎて視野が狭くなることも。時々全体を俯瞰してみて'],relation:['過去の裏切りを引きずって新しい人を信じられなくなることも。一人ずつ新しい信頼を築いていきましょう','愛情が深いぶん相手を支配したい気持ちが出ることも。相手の自由を尊重してあげて']},
+sagittarius:{base:['自由を求めるあまり責任から逃げてしまうことも。自由と責任はセットですよ','飽きっぽい面があるので「続ける力」を意識的に鍛えてみてくださいね'],thought:['大きなビジョンは素敵ですが実行するための細かい計画が抜けがち。信頼できる人と一緒に詰めてみて','楽観的すぎてリスクを見落とすことも。最悪のケースも少しだけ想像してみて'],relation:['自由を大切にするあまり相手に「放置されている」と感じさせてしまうことも。気持ちは言葉で伝えて','正直すぎる言葉が相手を傷つけることも。「言い方」を少し意識するだけで関係がもっと良くなります']},
+capricorn:{base:['頑張りすぎて体を壊さないよう、意識的に休む時間を作ってくださいね','「こうあるべき」という理想が高すぎると自分も周りも窮屈に。たまには力を抜いて'],thought:['現実的すぎて夢やロマンを否定してしまうことも。「非現実的」なアイデアの中に次のチャンスがあるかも','効率を求めるあまりプロセスを楽しむ余裕がなくなっていませんか？回り道にも価値がありますよ'],relation:['感情表現が苦手でも「大切に思っている」ことは言葉にして伝えて。相手は待っていますよ','仕事を言い訳に人間関係を後回しにしていませんか？大切な人との時間は意識しないと減っていきます']},
+aquarius:{base:['個性を大切にするあまり周囲と壁を作ってしまうことも。適度に「合わせる」ことも社会では必要ですよ','感情を表に出さないことが「冷たい」と誤解されることも。たまには気持ちを素直に表現してみて'],thought:['理論が先行して相手の気持ちを置き去りにしてしまうことも。「正しさ」より「優しさ」を選ぶ場面も大切','常識を疑う力は強みですが、基本的なルールやマナーは信頼の土台になります'],relation:['距離を保ちすぎると相手に「関心がない」と思われてしまうことも。時々グッと近づいてみて','頭では理解していても感情的なケアは別物。相手が求めているのは解決策ではなく共感かもしれませんよ']},
+pisces:{base:['共感力が高すぎて他人の感情に振り回されることも。「自分の気持ち」と「相手の気持ち」を分ける練習を','現実から逃げたくなっても向き合うべき問題からは目を逸らさないでくださいね'],thought:['直感は鋭いですが、それだけに頼ると判断を誤ることも。事実確認をする習慣をつけてみて','空想に浸りすぎてやるべきことを後回しにしていませんか？夢と現実のバランスを意識してみて'],relation:['「NO」が言えないと結局自分が苦しくなります。断ることは相手を否定することではないですよ','助けたい気持ちは素晴らしいですが相手の問題を全部背負い込まないで。あなたはあなたの人生を']}
+};
+return c[zId]&&c[zId][cat]?c[zId][cat]:null;
+}
+
+function renderCard({icon,iconColor,title,subtitle,points,caution,conclusion,conclusionColor,delay}){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${iconColor}40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="${icon}" class="w-4 h-4 shrink-0" style="color:${iconColor};"></i><span class="t-card-title" style="color:var(--text-sub);">${title}</span></div><p class="t-service mb-3" style="color:var(--text-main);">${subtitle}</p><ul class="space-y-2 mb-4">${points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul>${caution?`<p class="t-label mb-2" style="color:var(--warning-text);">気をつけると更に良くなるポイント</p><ul class="space-y-2 mb-4">${caution.map(c=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="lightbulb" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${c}</span></li>`).join('')}</ul>`:'' }${conclusion?`<div class="rounded-lg p-3.5" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:${conclusionColor};">${conclusion}</p></div>`:''}</div>`;}
 
 function renderWorkCard(data,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-tool)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="briefcase" class="w-4 h-4 shrink-0" style="color:var(--cat-tool);"></i><span class="t-card-title" style="color:var(--text-sub);">仕事運</span></div><p class="t-service mb-4" style="color:var(--text-main);">${data.sub}</p><p class="t-label mb-2" style="color:var(--cat-music);">向いている環境</p><ul class="space-y-2 mb-4">${data.good.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--cat-music);"></i><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--danger);">避けたい環境</p><ul class="space-y-2">${data.bad.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--danger);"></i><span>${p}</span></li>`).join('')}</ul></div>`;}
 
-function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">金運</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-loose" style="color:var(--warning-text);">${text}</p></div></div>`;}
+function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">金運</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--warning-text);">${text}</p></div></div>`;}
 
 // Famous people by zodiac
 const famousByZodiac={aries:['レディー・ガガ','本田圭佑','エマ・ワトソン'],taurus:['ザッカーバーグ','アデル','ヒカキン'],gemini:['ジョニー・デップ','中田敦彦','アンジェリーナ・ジョリー'],cancer:['イーロン・マスク','メッシ','松本人志'],leo:['バラク・オバマ','米津玄師','ココ・シャネル'],virgo:['ビヨンセ','ウォーレン・バフェット','石橋貴明'],libra:['ジョン・レノン','キム・カーダシアン','イチロー'],scorpio:['ビル・ゲイツ','レオナルド・ディカプリオ','手塚治虫'],sagittarius:['テイラー・スウィフト','ウォルト・ディズニー','羽生結弦'],capricorn:['スティーブ・ジョブズ','ジェフ・ベゾス','キング牧師'],aquarius:['オプラ・ウィンフリー','エジソン','ハリー・スタイルズ'],pisces:['スティーブ・ジョブズ','アインシュタイン','Rihanna']};
 
 function renderFamousCard(zId,delay){
     const people=famousByZodiac[zId]||['データなし'];
-    return `<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,#7C6FA040,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="star" class="w-4 h-4 shrink-0" style="color:#7C6FA0;"></i><span class="t-card-title" style="color:var(--text-sub);">同じ星座の有名人</span></div><div class="flex flex-wrap gap-2">${people.map(p=>`<span class="px-3 py-1.5 rounded-full t-caption font-semibold" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">${p}</span>`).join('')}</div><p class="t-caption mt-3" style="color:var(--text-muted);">同じ星座を持つ方々。共通する資質があるかもしれませんね。</p></div>`;
+    return `<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="star" class="w-4 h-4 shrink-0" style="color:var(--primary);"></i><span class="t-card-title" style="color:var(--text-sub);">同じ星座の有名人</span></div><div class="flex flex-wrap gap-2">${people.map(p=>`<span class="px-3 py-1.5 rounded-full t-caption font-semibold" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">${p}</span>`).join('')}</div><p class="t-caption mt-3" style="color:var(--text-muted);">同じ星座を持つ方々。共通する資質があるかもしれませんね。</p></div>`;
 }
 
-function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold text-center leading-loose" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
+function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
 
 let shareData={zodiacName:'',zodiacSub:'',numSub:'',nickname:'',keywords:[],moneyHint:'',thoughtSub:'',relationSub:''};
 function buildShareText(){
@@ -468,7 +552,7 @@ function buildShareText(){
         `仕事タイプ：${shareData.numSub}\n\n` +
         `#Fortuna #性格占い #トリセツ`;
 }
-function buildShareUrl(){return 'https://your-domain.com/fortuna/';}
+function buildShareUrl(){return 'https://jonekun429.github.io/fortuna/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-x').addEventListener('click',()=>{window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(buildShareText())}&url=${encodeURIComponent(buildShareUrl())}`,'_blank');trackEvent('share',{method:'x',content_type:'fortune_result'});});
@@ -577,22 +661,15 @@ function generateShareImage(){
     ctx.fillStyle='#7E928C';ctx.font='400 22px sans-serif';
     ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1780);
     ctx.fillStyle='#5C8E84';ctx.font='500 20px monospace';
-    ctx.fillText('fortuna-app.com',w/2,1830);
+    ctx.fillText('jonekun429.github.io/fortuna',w/2,1830);
 
-    c.toBlob(async blob=>{
-        const file=new File([blob],`fortuna-${shareData.nickname}.png`,{type:'image/png'});
-        // iOS/Android: Web Share APIで写真アプリに直接保存・共有
-        if(navigator.canShare&&navigator.canShare({files:[file]})){
-            try{
-                await navigator.share({files:[file],title:'Fortuna 鑑定結果',text:buildShareText()});
-                showToast('共有しました');
-                return;
-            }catch(e){if(e.name!=='AbortError')console.log(e);}
-        }
-        // Fallback: ダウンロード
+    c.toBlob(blob=>{
+        if(!blob)return;
         const u=URL.createObjectURL(blob),a=document.createElement('a');
-        a.href=u;a.download=file.name;a.click();
-        URL.revokeObjectURL(u);showToast('画像を保存しました');
+        a.href=u;a.download='fortuna-'+shareData.nickname+'.png';
+        document.body.appendChild(a);a.click();document.body.removeChild(a);
+        setTimeout(()=>URL.revokeObjectURL(u),1000);
+        showToast('画像を保存しました');
     },'image/png');
 }
 
@@ -602,6 +679,8 @@ function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 
 const scanMessages=["星の配置を読み取っています...","基本性格パラメータを抽出...","思考・行動パターンを解析中...","人間関係・仕事・金運を算出...","トリセツを構築しています..."];
+
+let _scanMainTimer=null,_scanStepTimer=null;
 
 document.getElementById('predict-btn').addEventListener('click',()=>{
     const name=document.getElementById('name').value.trim()||'ゲスト',dateStr=getBirthDateStr(),status=document.getElementById('status').value;
@@ -614,12 +693,26 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     const overlay=document.getElementById('scan-overlay'),scanText=document.getElementById('scan-text'),scanProgress=document.getElementById('scan-progress');
     overlay.classList.remove('hidden');overlay.classList.add('flex');overlay.style.opacity='1';
     scanProgress.style.transition='none';scanProgress.style.width='0%';
+    scanText.textContent=scanMessages[0]||'Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';
     requestAnimationFrame(()=>{requestAnimationFrame(()=>{scanProgress.style.transition='width 10s linear';scanProgress.style.width='100%';});});
-    let step=0;const ti=setInterval(()=>{scanText.style.opacity='0';scanText.style.filter='blur(4px)';setTimeout(()=>{if(step<scanMessages.length){scanText.textContent=scanMessages[step];scanText.style.opacity='1';scanText.style.filter='blur(0)';step++;}},400);if(step>=scanMessages.length)clearInterval(ti);},2000);
-    setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';},700);},10500);
+    let step=0;if(_scanStepTimer)clearInterval(_scanStepTimer);
+    _scanStepTimer=setInterval(()=>{scanText.style.opacity='0';scanText.style.filter='blur(4px)';setTimeout(()=>{if(step<scanMessages.length){scanText.textContent=scanMessages[step];scanText.style.opacity='1';scanText.style.filter='blur(0)';step++;}},400);if(step>=scanMessages.length){clearInterval(_scanStepTimer);_scanStepTimer=null;}},2000);
+    if(_scanMainTimer)clearTimeout(_scanMainTimer);
+    _scanMainTimer=setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();triggerCardAnimations();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';_scanMainTimer=null;},700);},10500);
 });
 
 document.getElementById('reset-btn').addEventListener('click',()=>{
+    // Clear all timers
+    if(_scanMainTimer){clearTimeout(_scanMainTimer);_scanMainTimer=null;}
+    if(_scanStepTimer){clearInterval(_scanStepTimer);_scanStepTimer=null;}
+    if(_lfTimer){clearInterval(_lfTimer);_lfTimer=null;}
+    if(_lfQuoteTimer){clearInterval(_lfQuoteTimer);_lfQuoteTimer=null;}
+    // Force hide scan overlay
+    const overlay=document.getElementById('scan-overlay');
+    overlay.style.opacity='0';overlay.classList.add('hidden');overlay.classList.remove('flex');
+    const sp=document.getElementById('scan-progress');sp.style.transition='none';sp.style.width='0%';
+    const st=document.getElementById('scan-text');st.textContent='Initializing...';st.style.opacity='1';st.style.filter='blur(0)';
+    // Reset UI
     document.getElementById('result-section').classList.add('hidden');
     document.getElementById('input-section').classList.remove('hidden');
     document.getElementById('cards-container').innerHTML='';
@@ -647,87 +740,87 @@ function buildLoveFlow(){
     const el=zodiacElement[currentUserZId];
     const nick=shareData.nickname||'あなた';
     return {
-        step1:{q:'恋愛について、今一番心に引っかかっていることは？',icon:'heart',color:'var(--danger)',
+        step1:{q:'恋愛について、今一番心に引っかかっていることは？',icon:'heart',color:'var(--primary)',
             opts:[{label:'気になる人がいる',next:'s2_crush'},{label:'今の関係を良くしたい',next:'s2_improve'},{label:'出会いがない',next:'s2_meet'},{label:'自分の恋愛パターンを知りたい',next:'s2_self'}]
         },
         // === 気になる人 ===
-        s2_crush:{q:'その方との今の距離感は？',icon:'heart',color:'var(--danger)',
+        s2_crush:{q:'その方との今の距離感は？',icon:'heart',color:'var(--primary)',
             reading:`${nick}さんの恋愛エネルギーは「${elemJa[el]}」。${el==='fire'?'まっすぐ進む情熱が魅力です。':el==='earth'?'じっくり信頼を築く誠実さが武器です。':el==='air'?'会話から自然と距離が縮まるタイプですね。':'深い共感力で相手の心に寄り添えます。'}`,
             opts:[{label:'まだ話したことがない',next:'s3_crush_none'},{label:'知り合い程度',next:'s3_crush_friend'},{label:'いい感じだけど進展しない',next:'s3_crush_stall'}]
         },
-        s3_crush_none:{q:'話しかけられない一番の理由は？',icon:'heart',color:'var(--danger)',
+        s3_crush_none:{q:'話しかけられない一番の理由は？',icon:'heart',color:'var(--primary)',
             reading:'最初の一歩は誰でも緊張するもの。でも大丈夫ですよ。',
             opts:[{label:'恥ずかしい・緊張する',next:'result',result:`${nick}さん、緊張するのは本気だからこそですよ。\n\nまずは挨拶から始めてみましょう。「おはようございます」のひと言だけで十分。完璧な会話じゃなくていいんです。\n\n${el==='fire'?nick+'さんの素直さは、それだけで魅力的です。「話してみたいな」と思った瞬間が最高のタイミングですよ。':el==='earth'?'焦らなくて大丈夫。何度か短い挨拶を重ねるうちに、お互いに安心感が生まれてきます。'+nick+'さんの穏やかさは、相手にもきっと伝わりますよ。':el==='air'?'共通の話題を一つ見つけてみてください。天気でもニュースでも。'+nick+'さんの軽やかな会話力が発揮されれば、あとは自然と距離が縮まりますよ。':nick+'さんは相手の気持ちを読む力があります。まずは笑顔で目を合わせることから。言葉がなくても、温かい気持ちは伝わるものですよ。'}\n\n一つだけ覚えておいてくださいね。「完璧な自分」を見せる必要はありません。そのままの${nick}さんで、十分素敵ですよ。`},
             {label:'きっかけがない',next:'result',result:`きっかけは「作る」ものですよ。\n\n${el==='fire'?'「今度一緒に○○しない？」と率直に。回りくどくするより、'+nick+'さんらしいストレートさが好印象につながります。':el==='earth'?'共通の場（趣味の集まり、職場のイベント等）を見つけてみてください。同じ場に何度か参加するうちに、自然な接点が生まれますよ。':el==='air'?'SNSでのリアクションから始めるのも手。「この投稿いいね」から「今度その場所行きたい」に発展させてみてくださいね。':'相手が困っている時にさりげなく手を差し伸べる。それが'+nick+'さんに一番合ったきっかけの作り方です。'}\n\n小さな一歩が、大きな変化を生みますよ。`},
             {label:'断られるのが怖い',next:'result',result:`断られることへの恐れ。とてもよくわかります。\n\nでも${nick}さん、「断られる」ことは「嫌われる」こととは違うんですよ。タイミングや状況の問題であることがほとんど。\n\n${el==='fire'?nick+'さんの一番の強みは「また立ち上がれる力」。たとえ一度うまくいかなくても、次のチャンスはすぐに来ます。':el==='earth'?'まず「友人として」の距離感から始めてみてくださいね。いきなり告白ではなく、少しずつ関係を深める方が'+nick+'さんには合っていますよ。':el==='air'?'重くならないカジュアルな誘い方で大丈夫。「断りやすい誘い方」をすると、相手も気軽に応じやすくなりますよ。':'「傷つくかもしれない」と考えるのは自然なこと。でも、素直な気持ちを伝えることは弱さではなく強さですよ。'}\n\n何もしないで後悔するより、一歩踏み出して「やってよかった」と思える未来を選んでくださいね。`}]
         },
-        s3_crush_friend:{q:'次の一歩として気になるのは？',icon:'heart',color:'var(--danger)',
+        s3_crush_friend:{q:'次の一歩として気になるのは？',icon:'heart',color:'var(--primary)',
             reading:'すでに接点があるのは大きなアドバンテージですよ。',
             opts:[{label:'二人きりの時間を作りたい',next:'result',result:`二人きりの時間。それが関係を変える鍵ですね。\n\n${el==='fire'?'「今度一緒にご飯行かない？」と直球で。'+nick+'さんの率直さが一番の武器ですよ。':el==='earth'?'食事や散歩など、リラックスできる場所で。「断りやすいカジュアルな誘い方」を意識すると相手も安心しますよ。':el==='air'?'「面白い場所見つけたんだけど」と好奇心をくすぐる誘い方が'+nick+'さんの得意技。新しい体験を一緒に。':'「最近どう？ゆっくり話したいな」。何気ない一言が、'+nick+'さんの温かさを伝えてくれますよ。'}\n\n焦る必要はありません。今の心地よい関係を壊さず、ほんの少しだけ特別な時間を作ってみてくださいね。`},
             {label:'相手の気持ちが読めない',next:'result',result:`相手の気持ちが見えない。もどかしいですよね。\n\nいくつかのサインに注目してみてくださいね。\n\n• 自分から話しかけてくれる頻度は増えていますか？\n• 二人きりの時間を避けていませんか？\n• あなたの話を覚えていてくれますか？\n\nこれらが「YES」なら、脈ありの可能性は高いですよ。\n\n${nick}さんへのアドバイス：相手の気持ちを「読む」より、自分の気持ちを「少しだけ見せる」方が早いかもしれません。${el==='fire'?'素直に「一緒にいると楽しい」と伝えてみて。':el==='earth'?'行動で示す。小さな気遣いを増やしてみて。':el==='air'?'「もっと話したい」と言ってみるだけで、関係は動き始めますよ。':'相手の目を見て「あなたといると安心する」と伝えてみてくださいね。'}`},
             {label:'友達関係を壊したくない',next:'result',result:`大切な関係だからこそ、慎重になりますよね。\n\nでも${nick}さん、一つだけ考えてみてください。\n\n「このまま友達でいて、後悔しませんか？」\n\n${el==='fire'?nick+'さんは後から「あの時言っておけば…」と後悔するタイプ。気持ちがあるなら、少しずつでも伝えていく方が、結果的に楽になりますよ。':el==='earth'?'急に告白ではなく「最近、一緒にいるとドキドキする時があるんだよね」くらいの温度感から。相手の反応を見ながら進められますよ。':el==='air'?'冗談めかして「付き合ったら楽しそうだよね」と振ってみるのも手。'+nick+'さんの軽やかさなら、重くならずに気持ちを試せますよ。':'万が一うまくいかなくても、誠実に伝えた気持ちは相手も大切にしてくれるはず。本当の友情は、告白くらいでは壊れませんよ。'}`}]
         },
-        s3_crush_stall:{q:'停滞している原因として心当たりは？',icon:'heart',color:'var(--danger)',
+        s3_crush_stall:{q:'停滞している原因として心当たりは？',icon:'heart',color:'var(--primary)',
             reading:'いい雰囲気なのに進まない。そのもどかしさ、よくわかりますよ。',
             opts:[{label:'自分から動けない',next:'result',result:`${nick}さんが動けないのは、相手を大切に思っているからこそ。\n\n${el==='fire'?'でも'+nick+'さん、「待つ」のは一番苦手ですよね？気持ちを伝えるのに完璧な言葉はいりません。「あなたのことが気になっています」。それだけで十分ですよ。':el==='earth'?'「完璧なタイミング」を待っていませんか？恋愛に完璧なタイミングは来ません。70%の確信があれば、もう十分。一歩踏み出してみてくださいね。':el==='air'?'直接言うのが照れくさければ、手紙やメッセージで伝えるのも素敵な方法ですよ。'+nick+'さんの言葉の力を信じてくださいね。':'「傷つくかも」と考えすぎていませんか？素直な気持ちを言葉にすることは、弱さではなく強さです。'}\n\n「何もしないこと」も選択の一つ。でも心が「伝えたい」と言っているなら、その声を信じてあげてくださいね。`},
             {label:'相手が鈍感そう',next:'result',result:`もしかすると、${nick}さんのサインが相手に届いていないだけかもしれません。\n\nもう少しだけ「わかりやすいサイン」を出してみましょう。\n\n• 「一緒にいると楽しい」と直接言葉にする\n• 二人きりの予定を自分から提案する\n• LINEの返信を少しだけ特別感を出す（スタンプ＋ひと言）\n\n${nick}さんの気持ちは本物です。あとは「伝え方」を少し変えるだけで、状況は動き出しますよ。`},
             {label:'タイミングがわからない',next:'result',result:`「いつ言えばいいんだろう」。その気持ち、痛いほどわかります。\n\nでもね、${nick}さん。「完璧なタイミング」は永遠に来ないかもしれません。\n\n大切なのは「二人がリラックスしている時」。食事の帰り道、カフェでのんびりしている時、夜の電話。日常の中の穏やかな瞬間が、実は一番の好機ですよ。\n\n${el==='fire'?'考えすぎず、心が「今だ」と感じた瞬間に。'+nick+'さんの直感を信じてくださいね。':el==='earth'?'次に二人きりで会う予定を作って、その日を「伝える日」と決めてみて。準備があると'+nick+'さんは安心できますよね。':el==='air'?'会話の流れで自然に。「最近思うんだけど、'+nick+'って一緒にいるとすごく落ち着くんだよね」から。':'"ずっと言おうと思ってたんだけど…"と切り出すだけで、相手は察してくれますよ。'}`}]
         },
         // === 今の関係改善 ===
-        s2_improve:{q:'今の関係で一番気になっていることは？',icon:'heart',color:'var(--danger)',
+        s2_improve:{q:'今の関係で一番気になっていることは？',icon:'heart',color:'var(--primary)',
             reading:`関係を良くしたいと思っている${nick}さん、その気持ちがある限り、きっと道は開けますよ。`,
             opts:[{label:'マンネリを感じている',next:'s3_imp_manner'},{label:'価値観がすれ違う',next:'s3_imp_value'},{label:'距離感が合わない',next:'s3_imp_dist'}]
         },
-        s3_imp_manner:{q:'マンネリの中で、特にどう感じていますか？',icon:'heart',color:'var(--danger)',
+        s3_imp_manner:{q:'マンネリの中で、特にどう感じていますか？',icon:'heart',color:'var(--primary)',
             opts:[{label:'ドキドキがなくなった',next:'result',result:`ドキドキの減少は、関係が「安定期」に入った証拠でもありますよ。\n\n大切なのは「相手を変える」ではなく「一緒にやることを変える」こと。\n\n${el==='fire'?'二人で行ったことない場所へ。新しい体験を共有すると、あの頃のワクワクが蘇りますよ。':el==='earth'?'いつもの食事を少し特別にしてみて。五感が満たされると、気持ちも自然と動き出しますよ。':el==='air'?'一緒に映画を観て感想を語り合う。知的な楽しみの共有が、'+nick+'さんの関係を活性化させます。':'お互いの今日の出来事を毎晩5分だけ共有する。小さな感情の交換が、深い絆を育てます。'}\n\nマンネリは「終わり」のサインではなく、「次のステージに進む準備ができた」というサインですよ。`},
             {label:'会話が減った',next:'result',result:`会話が減ったこと、寂しいですよね。\n\nでも安心してくださいね。会話は「量」より「質」が大切です。\n\nまずは1日1つ、「今日あった良いこと」をお互いに報告してみてください。たった30秒のやりとりですが、これが驚くほど関係を温めてくれますよ。\n\n${nick}さんへのヒント：相手に質問する時は「今日どうだった？」ではなく「今日一番楽しかったことは何？」と具体的に聞いてみて。答えやすくなるし、ポジティブな話題が自然と増えますよ。`},
             {label:'一緒にいても楽しくない',next:'result',result:`一緒にいても楽しくない。正直にそう感じているんですね。\n\nまず一つ、試してみてほしいことがあります。\n\n「二人で新しいことを一つ始める」\n\n料理教室、ジム、ボードゲーム、ハイキング…何でもOK。「一緒に初めて体験する」ことが、関係に新しい空気を吹き込んでくれますよ。\n\nそれでも変わらないと感じたら、正直な気持ちをパートナーに伝えてみてくださいね。「最近ちょっと寂しいんだ」。その一言が、二人の関係を動かすきっかけになるかもしれません。`}]
         },
-        s3_imp_value:{q:'すれ違いを感じる場面は？',icon:'heart',color:'var(--danger)',
+        s3_imp_value:{q:'すれ違いを感じる場面は？',icon:'heart',color:'var(--primary)',
             opts:[{label:'お金の使い方',next:'result',result:`お金の価値観の違いは、多くのカップルが経験すること。${nick}さんだけじゃないですよ。\n\n大切なのは「どちらが正しいか」ではなく「二人のルールを作る」こと。\n\n① 毎月の「自由に使えるお金」を決める（お互い同額）\n② 大きな出費（1万円以上等）は事前に相談\n③ 月に一度、お金の話をする時間を作る\n\nお金の話はネガティブになりがちですが、「二人の未来のために」という視点を持つと、建設的な話し合いになりますよ。`},
             {label:'将来の方向性',next:'result',result:`将来のビジョンが合わない。これは見て見ぬふりをしてはいけない大切なテーマですね。\n\nまずは、お互いの「理想の5年後」を紙に書いてみてくださいね。そして見比べる。\n\n完全に一致する必要はありません。大切なのは「お互いの理想を知っていること」と「歩み寄れるポイントを探すこと」。\n\n${nick}さんへ：自分の理想を曲げる必要はないけれど、「絶対に譲れないこと」と「柔軟に考えられること」を分けてみてくださいね。そうすると、妥協点が見つかりやすくなりますよ。`},
             {label:'日常の習慣や生活リズム',next:'result',result:`生活リズムの違いは、じわじわとストレスになりますよね。\n\n完全に合わせる必要はありません。大切なのは「お互いの生活を尊重しつつ、重なる時間を大切にする」こと。\n\n具体的には：\n• 1日の中で「二人の時間」を15分だけ確保する\n• 相手のリズムを「変えよう」とするのではなく「理解しよう」とする\n• 「おはよう」と「おやすみ」は必ず言う\n\n小さなルールが、大きな安心感を生みますよ。`}]
         },
-        s3_imp_dist:{q:'距離感の悩みは、具体的にどんな感じですか？',icon:'heart',color:'var(--danger)',
+        s3_imp_dist:{q:'距離感の悩みは、具体的にどんな感じですか？',icon:'heart',color:'var(--primary)',
             opts:[{label:'相手が離れていく気がする',next:'result',result:`不安な気持ち、とてもよくわかります。\n\n${el==='fire'?nick+'さんは距離が離れると追いかけたくなるタイプ。でも「信じて待つ」ことが、実は最短距離なんですよ。追いかけるのをやめた瞬間、相手が近づいてくる。そんな経験はありませんか？':el==='earth'?'「いつも一緒にいたい」気持ちが強くありませんか？週に一日「それぞれの時間」を作ると、会った時の嬉しさが増しますよ。':el==='air'?nick+'さん自身が距離を感じているなら、それは相手も同じかも。「最近ちょっと寂しいんだ」と正直に伝えてみてくださいね。':'相手との境界線が曖昧になっていませんか？「自分の趣味」「自分だけの時間」を持つことが、逆に関係を健康にしてくれますよ。'}\n\n距離感は二人で話し合って見つけるもの。「こうしてほしい」を伝え合うことから始めてみてくださいね。`},
             {label:'自分の時間がほしい',next:'result',result:`自分の時間が欲しい。それはわがままじゃないですよ。とても健全な欲求です。\n\n大切なのは、その気持ちを相手にちゃんと伝えること。\n\n「一人の時間が必要なのは、あなたのことが嫌いだからじゃないよ。リフレッシュして、もっと良い時間を一緒に過ごしたいから」\n\nこう伝えれば、きっと理解してくれますよ。\n\n${nick}さんへ：一人の時間は「関係への投資」です。自分を大切にできる人が、相手も大切にできます。`},
             {label:'喧嘩が増えた',next:'result',result:`喧嘩が増えるのは、お互いが「本音」を出し始めた証拠でもありますよ。\n\n喧嘩自体が問題なのではなく、「喧嘩の仕方」が大切です。\n\n${nick}さんへの3つのルール：\n\n① 「あなたはいつも○○」と言わない（主語を「私は」にする）\n② 怒りのピーク（6秒）をやり過ごす。深呼吸を3回\n③ 喧嘩したら24時間以内に仲直り\n\n${el==='fire'?'言いすぎたと思ったら、素直に「さっきはごめん」と。'+nick+'さんの率直さは、仲直りでも最強の武器ですよ。':el==='earth'?'黙り込まないで。沈黙は解決しません。落ち着いてから「話し合おう」と伝えてくださいね。':el==='air'?'論理で勝とうとしないで。相手は「正しさ」より「気持ちをわかってほしい」のかもしれません。':'傷ついた気持ちを一人で抱え込まないで。「今の言い方、ちょっと辛かった」と伝える勇気を。'}`}]
         },
         // === 出会いがない ===
-        s2_meet:{q:'出会いについて、どんなことを感じていますか？',icon:'heart',color:'var(--danger)',
+        s2_meet:{q:'出会いについて、どんなことを感じていますか？',icon:'heart',color:'var(--primary)',
             reading:`出会いがないと感じる時は寂しいですよね。でも安心してください。${nick}さんの魅力は、ちゃんとそこにありますよ。`,
             opts:[{label:'出会いの場がない',next:'s3_meet_place'},{label:'好きになれる人がいない',next:'s3_meet_like'},{label:'恋愛に臆病になっている',next:'s3_meet_fear'}]
         },
-        s3_meet_place:{q:'普段の生活で、人と接する機会は？',icon:'heart',color:'var(--danger)',
+        s3_meet_place:{q:'普段の生活で、人と接する機会は？',icon:'heart',color:'var(--primary)',
             opts:[{label:'仕事以外ほぼない',next:'result',result:`仕事以外の接点が少ないんですね。\n\n${nick}さんにおすすめしたいのは「自分が楽しめる場に通うこと」。出会いを探すのではなく、好きなことを楽しむ延長線上に、自然な出会いがありますよ。\n\n${el==='fire'?'スポーツやアウトドア系のコミュニティ。'+nick+'さんの行動力とエネルギーは、一緒に何かをする場で最も輝きます。':el==='earth'?'料理教室、読書会、定期的に通えるコミュニティ。何度か顔を合わせるうちに、安心感が伝わりますよ。':el==='air'?'勉強会やハッカソン、オンラインコミュニティ。知的な刺激がある場が'+nick+'さんの居場所です。':'美術館巡り、映画ファンの集まり、ボランティア。感性を共有できる少人数の場がおすすめですよ。'}\n\nまずは一つ、今月中に参加してみてくださいね。`},
             {label:'あるけど発展しない',next:'result',result:`接点はあるのに発展しないんですね。\n\nもしかすると「出会いモード」のスイッチが入っていないだけかもしれません。\n\n意識を少しだけ変えてみてください：\n• 初めて会う人に「この人はどんな人だろう？」と興味を持つ\n• 相手の良いところを一つ見つけてみる\n• 「また会いたいな」と思ったら、連絡先を交換する\n\n「恋愛対象を探す」のではなく「面白い人と繋がる」感覚で。その中から自然と特別な人が現れますよ。`},
             {label:'オンラインでの出会いに抵抗がある',next:'result',result:`抵抗があるのは自然なことです。でも、今の時代オンラインでの出会いはごく普通のことですよ。\n\n${nick}さんが安心して使えるポイント：\n• まずはプロフィールをしっかり書く（誠実さが伝わるように）\n• メッセージのやりとりは焦らず、じっくりと\n• 実際に会う時は、明るい場所で短時間から\n\n無理にオンラインにこだわる必要はありません。でも「選択肢の一つ」として持っておくと、出会いの幅は確実に広がりますよ。`}]
         },
-        s3_meet_like:{q:'好きになれないのは、どんな理由が近いですか？',icon:'heart',color:'var(--danger)',
+        s3_meet_like:{q:'好きになれないのは、どんな理由が近いですか？',icon:'heart',color:'var(--primary)',
             opts:[{label:'理想が高い自覚がある',next:'result',result:`理想が高いのは、恋愛に真剣だからこそ。悪いことではないですよ。\n\nただ一つだけ提案させてくださいね。\n\n「チェックリスト」を一度手放して、「この人と話すと、なんだか心地いい」という感覚を大切にしてみてください。\n\n条件は完璧でも、一緒にいて疲れる人もいます。逆に条件は普通でも、一緒にいると自然体でいられる人もいます。\n\n${nick}さんにとっての「幸せ」は、スペックではなく「感覚」の中にありますよ。`},
             {label:'なんとなくピンとこない',next:'result',result:`ピンとこない。その感覚、${nick}さんが恋愛に対して誠実だからこその感覚ですよ。\n\n${el==='fire'?'「ビビッ」を待ちすぎていませんか？実は穏やかな安心感の中にも、大切な「好き」が隠れていますよ。':el==='earth'?'「60点だけど一緒にいて心地よい」を合格ラインにしてみると、世界が少し広がるかもしれません。':el==='air'?'「面白さ」の定義を少し広げてみてください。口下手でも行動で面白さを見せてくれる人もいますよ。':'「全部さらけ出せる相手」を最初から求めなくて大丈夫。少しずつ知っていく過程が、恋の醍醐味です。'}\n\n焦らず、でも閉じない。${nick}さんのペースで大丈夫ですよ。`},
             {label:'過去の恋愛を引きずっている',next:'result',result:`過去の恋愛の記憶。簡単には消えませんよね。\n\n「忘れなきゃ」と思うほど忘れられないもの。無理に消そうとしなくて大丈夫ですよ。\n\n大切なのは「過去を否定すること」ではなく「過去も含めた今の自分を受け入れること」。\n\nあの恋で学んだこと、成長したこと。それは全部、次の恋を幸せにするための準備なんです。\n\n${nick}さんの心が「もう一度」と思える日は、必ず来ますよ。その日が来るまで、自分自身を大切にしてあげてくださいね。`}]
         },
-        s3_meet_fear:{q:'恋愛が怖いと感じる一番の理由は？',icon:'heart',color:'var(--danger)',
+        s3_meet_fear:{q:'恋愛が怖いと感じる一番の理由は？',icon:'heart',color:'var(--primary)',
             opts:[{label:'傷つきたくない',next:'result',result:`傷つきたくない。その気持ちは、自分を守るための自然な反応ですよ。\n\n${el==='fire'?nick+'さんの最大の強みは「また燃えられる力」。冷えた炎も、小さなきっかけで再び灯ります。怖くても、気になる人がいたら少しだけ近づいてみてくださいね。':el==='earth'?'一度築いた壁は高い。でも、いきなり全開にしなくて大丈夫。壁に小さな窓を開けるところから始めてみてくださいね。':el==='air'?'恋愛を「リスク」として分析しすぎていませんか？計算の外にある経験が、'+nick+'さんの人生を一番豊かにしてくれますよ。':nick+'さんの優しさは、誰かを幸せにできる大きな力。まずは「自分を大切にしてくれる人」を見極める目を養ってみてくださいね。'}\n\nいつか心が「もう一度信じてみたい」と囁いた時。その声を否定しないであげてくださいね。`},
             {label:'自分に自信がない',next:'result',result:`自分に自信がない。恋愛において、これは本当に辛いことですよね。\n\nでも${nick}さん、一つだけ覚えておいてくださいね。\n\n「完璧な自分」じゃないと愛されない、なんてことは絶対にありません。\n\nむしろ、完璧じゃない部分こそが、誰かにとっての「愛おしさ」になるんです。\n\n${nick}さんへの処方箋：\n① 自分の「好きなところ」を3つ書き出す\n② 友人に「私の良いところは？」と聞いてみる\n③ 毎日鏡の前で「今日もよくやったね」と声をかける\n\n小さなことですが、自己肯定感は「習慣」で育てられますよ。`},
             {label:'面倒に感じてしまう',next:'result',result:`恋愛が面倒。それは今の${nick}さんのエネルギーが、他のことに向いているサインかもしれませんよ。\n\n無理に恋愛しなくて大丈夫。今は仕事、趣味、友人関係。自分が熱中できることに集中する時期なのかもしれません。\n\n面白いもので、恋愛を「探さなくなった時」に不思議と出会いが訪れることって、よくあるんですよ。\n\n${nick}さんが自分らしく輝いている時、その輝きに引き寄せられる人が必ず現れます。今は自分を磨く時間だと思って、楽しんでくださいね。`}]
         },
         // === 恋愛パターン ===
-        s2_self:{q:'自分の恋愛パターンで気になるのは？',icon:'heart',color:'var(--danger)',
+        s2_self:{q:'自分の恋愛パターンで気になるのは？',icon:'heart',color:'var(--primary)',
             opts:[{label:'好きになりすぎる',next:'s3_self_too'},{label:'なかなか好きになれない',next:'s3_self_cant'},{label:'長続きしない',next:'s3_self_short'}]
         },
-        s3_self_too:{q:'好きになりすぎて困る場面は？',icon:'heart',color:'var(--danger)',
+        s3_self_too:{q:'好きになりすぎて困る場面は？',icon:'heart',color:'var(--primary)',
             opts:[{label:'相手のことばかり考えてしまう',next:'result',result:`頭の中が相手でいっぱい。恋をしている証拠ですね。\n\n${nick}さん、人を深く愛せることは素晴らしい力ですよ。ただ、一つだけ気をつけてほしいことがあります。\n\n「自分の生活」を手放さないこと。\n\n趣味、友人、仕事。恋人以外の世界を持ち続けることが、実は恋愛を長続きさせる最大の秘訣なんです。\n\n週に一日は「相手のことを考えない日」を作ってみてくださいね。矛盾するようですが、それが相手をもっと大切にできる余裕を生みますよ。`},
             {label:'尽くしすぎてしまう',next:'result',result:`尽くすことが愛情表現の${nick}さん。その優しさは本当に素敵です。\n\nでも「尽くす」と「自分を犠牲にする」は違うんですよ。\n\n${nick}さんへのルール：「自分のキャパの8割まで」。残りの2割は、自分のために取っておいてくださいね。\n\n相手が喜ぶからやるのは素敵。でも「嫌われたくないからやる」は危険信号。\n\n「してあげたい」と「しなきゃいけない」の境界線を意識してみてくださいね。`},
             {label:'相手に依存してしまう',next:'result',result:`依存してしまう自分に気づいている${nick}さん、それだけで大きな一歩ですよ。\n\n依存の根っこには「一人でいることへの不安」があることが多いです。\n\nまず試してほしいこと：\n① 一人で楽しめる趣味を一つ持つ\n② 恋人以外の信頼できる人（友人・家族）との時間を大切にする\n③ 「相手がいなくても、私は大丈夫」と毎日自分に言い聞かせる\n\n一人でも幸せでいられる人が、二人でもっと幸せになれます。${nick}さんなら、きっとできますよ。`}]
         },
-        s3_self_cant:{q:'好きになれないのは、いつ頃からですか？',icon:'heart',color:'var(--danger)',
+        s3_self_cant:{q:'好きになれないのは、いつ頃からですか？',icon:'heart',color:'var(--primary)',
             opts:[{label:'前からずっと',next:'result',result:`もともと恋愛感情が薄い。それは${nick}さんの個性の一つかもしれませんね。\n\n「誰かを好きにならなきゃ」と思う必要はないですよ。恋愛以外にも、人生を豊かにするものはたくさんあります。\n\nただ、もし「本当は誰かと繋がりたい」という気持ちがあるなら、「恋愛」ではなく「深い友情」から始めてみてくださいね。信頼できる人との関係が、恋愛感情の入り口になることもありますよ。`},
             {label:'最近そうなった',next:'result',result:`最近になって好きになれなくなった。それは心が休養を求めているサインかもしれません。\n\n疲れている時、ストレスが多い時は、恋愛のアンテナが下がるのは自然なこと。\n\nまずは自分自身を癒してあげてください。十分な睡眠、好きなものを食べる、趣味の時間を取る。\n\n心に余裕が戻ってきた時、「あ、この人いいな」と思える瞬間がまた来ますよ。焦らないでくださいね。`},
             {label:'特定の経験の後から',next:'result',result:`辛い経験の後、心を閉ざすのは自分を守るための自然な反応ですよ。\n\n「忘れなきゃ」「次に進まなきゃ」と自分を急かさないでくださいね。\n\n傷は時間が癒してくれます。でもその間も、${nick}さんは確実に成長しています。\n\nあの経験で学んだことは、次の恋を幸せにするための「智慧」になりますよ。\n\n一つだけ約束してくださいね。心が「もう一度」と囁いた時、その声を否定しないであげてください。`}]
         },
-        s3_self_short:{q:'長続きしない時、いつも同じパターンはありますか？',icon:'heart',color:'var(--danger)',
+        s3_self_short:{q:'長続きしない時、いつも同じパターンはありますか？',icon:'heart',color:'var(--primary)',
             opts:[{label:'飽きてしまう',next:'result',result:`飽きてしまう。${nick}さんは刺激を求めるタイプかもしれませんね。\n\n${el==='fire'?'恋愛の本当の醍醐味は「慣れた後」にあるんです。飽きたと感じた時こそ、相手の新しい一面を探す好奇心を。'+nick+'さんの冒険心を「深さ」の方向に向けてみてくださいね。':el==='air'?'新鮮さが薄れると興味を失いやすい'+nick+'さん。でも「飽きた」は「知り尽くした」とは違いますよ。相手の知らない一面を引き出す質問をしてみてくださいね。':'安定期を「退屈」と勘違いしないでくださいね。穏やかな日常の中にも、小さな幸せが隠れていますよ。'}\n\nパートナーと一緒に新しいことに挑戦してみてください。「一緒の初体験」が、関係に新鮮さを取り戻してくれますよ。`},
             {label:'相手に不満が溜まる',next:'result',result:`不満が溜まっていく。それは${nick}さんが「言いたいことを言えていない」サインかもしれません。\n\n小さな不満は、伝えないと雪だるま式に大きくなります。\n\nコツは「不満が小さいうちに、優しく伝える」こと。\n\n✕「いつもこうだよね」（攻撃）\n○「私は○○してもらえると嬉しいな」（お願い）\n\nこの言い方の違いだけで、相手の受け取り方は全然変わりますよ。${nick}さんの気持ちを、我慢せずに伝えてあげてくださいね。`},
             {label:'自分から離れてしまう',next:'result',result:`自分から関係を終わらせてしまう。そのパターンに気づいている${nick}さん、それだけで大きな前進ですよ。\n\nもしかすると「完璧な関係」を求めすぎていませんか？\n\n少しのすれ違いや不完全さは、どんな関係にもあるもの。それを「相性が悪い」と判断して離れてしまうのは、もったいないかもしれません。\n\n次に「離れたい」と感じた時、一度立ち止まって「本当に離れたいのか、それとも怖いだけなのか」を自分に聞いてみてくださいね。\n\n答えが「怖い」なら、もう少しだけ踏みとどまってみてください。その先に、新しい景色が見えるかもしれませんよ。`}]
@@ -906,84 +999,84 @@ function buildRelationFlow(){
     const el=zodiacElement[currentUserZId];
     const nick=shareData.nickname||'あなた';
     return {
-        step1:{q:'人間関係で、今一番心に引っかかっていることは？',icon:'users',color:'#7C6FA0',
+        step1:{q:'人間関係で、今一番心に引っかかっていることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'家族との関係',next:'s2_family'},{label:'友人関係',next:'s2_friend'},{label:'職場の人間関係',next:'s2_work'},{label:'孤独を感じている',next:'s2_lonely'}]
         },
-        s2_family:{q:'ご家族のどなたとの関係が気になりますか？',icon:'users',color:'#7C6FA0',
+        s2_family:{q:'ご家族のどなたとの関係が気になりますか？',icon:'users',color:'var(--primary)',
             reading:`家族のことで悩むのは、${nick}さんが家族を大切に思っているからこそ。その気持ちは、とても尊いものですよ。`,
             opts:[{label:'親との関係',next:'s3_fam_parent'},{label:'子供との関係',next:'s3_fam_child'},{label:'きょうだいとの関係',next:'s3_fam_sib'},{label:'パートナーの家族',next:'s3_fam_inlaw'}]
         },
-        s3_fam_parent:{q:'親との関係で、一番困っていることは？',icon:'users',color:'#7C6FA0',
+        s3_fam_parent:{q:'親との関係で、一番困っていることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'価値観が合わない',next:'result',result:`親との価値観の違い。特に「生き方」に関わる部分は辛いですよね。\n\n${nick}さんに伝えたいこと：\n\n「親の期待に応える」ことが親孝行ではありません。${nick}さん自身が幸せでいることが、一番の親孝行なんですよ。\n\n${el==='fire'?'感謝の気持ちは持ちつつ、「自分の人生は自分で決める」と穏やかに伝えてみてくださいね。怒りではなく、落ち着いた言葉で。':el==='earth'?'完璧な子どもを演じる必要はありません。'+nick+'さんが幸せでいることが、親にとっても嬉しいことなんですよ。':el==='air'?'全て分かり合えなくても大丈夫。「対話しようとする姿勢」そのものが、関係を守ってくれますよ。':nick+'さんは親の感情に敏感すぎるかもしれません。「親の気持ちは親のもの、私の気持ちは私のもの」と線引きしてみてくださいね。'}\n\n親との関係は一生かけて変化するもの。今すぐ完璧にならなくて大丈夫ですよ。`},
             {label:'干渉が多い',next:'result',result:`親の干渉が多い。窮屈ですよね。\n\n干渉の裏にあるのは、たいてい「心配」です。でも心配だからといって、${nick}さんの自由を制限していい理由にはなりません。\n\n${nick}さんへの提案：\n① 「ありがとう、でも自分で決めたいんだ」と伝える\n② 定期的に近況を報告する（心配を減らす）\n③ 大切な決断は事後報告にする（事前相談だと口出しされる）\n\n「距離を置く」のは冷たいことではありません。健全な関係のために必要なことですよ。`},
             {label:'感謝を伝えられない',next:'result',result:`感謝を伝えたいのに伝えられない。${nick}さんの中に、ちゃんと「ありがとう」の気持ちがあるんですね。\n\n言葉にするのが照れくさいなら、別の方法もありますよ。\n\n• 一緒に食事に行く\n• 誕生日にちょっとしたプレゼント\n• 手紙を書く（意外と一番伝わります）\n• 日常の中で「ありがとう」を一回だけ増やす\n\n大げさなことじゃなくていいんです。${nick}さんの「伝えたい」という気持ちが、すでに伝わっていますよ。`}]
         },
-        s3_fam_child:{q:'お子さんとの関係で、気になっていることは？',icon:'users',color:'#7C6FA0',
+        s3_fam_child:{q:'お子さんとの関係で、気になっていることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'接し方がわからない',next:'result',result:`お子さんとの接し方で悩んでいるんですね。それは${nick}さんが真剣に向き合っている証拠ですよ。\n\n${el==='fire'?nick+'さんは情熱的に愛情を注ぐタイプ。ただ「こうすべき」を押し付けないよう注意してくださいね。お子さんにはお子さんのペースがあります。「見守る」ことも愛情ですよ。':el==='earth'?nick+'さんは安定した環境を作るのが得意。ルールを大切にしますが、時には「例外」を認める柔軟さも大切。「たまには特別」が、お子さんにとって忘れられない思い出になりますよ。':el==='air'?nick+'さんはお子さんとの会話を楽しめるタイプ。でも時に「聞く」より「教える」が多くなりがち。お子さんの話を最後まで、判断せずに聞いてあげてくださいね。':nick+'さんはお子さんの感情に深く共感できるタイプ。ただ共感しすぎて疲弊しないよう、「お子さんの問題はお子さんのもの」と線引きすることも大切ですよ。'}\n\n完璧な親はいません。「今日もがんばった」。毎日自分にそう言ってあげてくださいね。`},
             {label:'反抗期で困っている',next:'result',result:`反抗期。親にとって試練の時期ですよね。\n\nでも安心してくださいね。反抗期は「健全な成長」の証拠なんですよ。\n\n${nick}さんへのアドバイス：\n\n① 「言うことを聞かせよう」としない\n② 安全と健康に関わること以外は、見守る\n③ 「あなたのことが大切」というメッセージだけは伝え続ける\n④ 親自身の時間も大切にする\n\n嵐はいつか過ぎます。その時、${nick}さんが穏やかに待っていてくれたことを、お子さんはきっと覚えていますよ。`},
             {label:'将来が心配',next:'result',result:`お子さんの将来への心配。親としてとても自然な気持ちですよ。\n\nでも一つだけ覚えておいてほしいこと。\n\n「子供は、親が思っているよりずっとたくましい」\n\n${nick}さんにできる最高のことは：\n\n① 「あなたならできる」と信じ続けること\n② 失敗しても安全に帰れる「ホーム」でいること\n③ 選択肢を広げる手助けをすること（体験、教育、対話）\n④ ${nick}さん自身が人生を楽しんでいる姿を見せること\n\n親が幸せに生きている姿が、子供にとって一番の「人生の教科書」ですよ。`}]
         },
-        s3_fam_sib:{q:'きょうだいとの関係で、一番気になることは？',icon:'users',color:'#7C6FA0',
+        s3_fam_sib:{q:'きょうだいとの関係で、一番気になることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'比較されてきた',next:'result',result:`きょうだいとの比較。深い傷を残しますよね。\n\n${nick}さんに伝えたいこと：\n\n「あなたはあなた。きょうだいはきょうだい。」\n\n親が比較してきたとしても、それは親の問題であって、${nick}さんの価値とは何の関係もありません。\n\n大人になった今、きょうだいとの関係を「新しく築き直す」ことができますよ。\n\n過去の比較を手放すには、「今の自分」に目を向けること。${nick}さんだけの人生を、${nick}さんのペースで歩んでいいんですよ。`},
             {label:'疎遠になっている',next:'result',result:`きょうだいと疎遠。それも一つの形ですよ。\n\n無理に距離を縮める必要はありません。でもふと「連絡してみようかな」と思った時は、その直感を信じてみてくださいね。\n\n「元気？」の一言メッセージだけでいい。返信がなくても、送ったことに意味がありますよ。\n\n大人になってからのきょうだい関係は、子供の頃とは違うもの。新しい関係の形を、ゆっくり見つけていけば大丈夫ですよ。`},
             {label:'トラブルを抱えている',next:'result',result:`きょうだいとのトラブル。家族だからこそ、複雑ですよね。\n\n${nick}さんへのアドバイス：\n\n① 「血が繋がっているから仲良くしなければ」を手放す\n② 必要なら物理的・心理的な距離を取ってOK\n③ 間に第三者（信頼できる親戚やカウンセラー）を入れる\n\n家族だからといって、すべてを許す必要はありません。${nick}さんの心の健康が最優先ですよ。\n\n無理をせず、でも完全に断ち切りたくないなら「季節の挨拶だけ」くらいの距離感でも十分です。`}]
         },
-        s3_fam_inlaw:{q:'パートナーのご家族との関係で、困っていることは？',icon:'users',color:'#7C6FA0',
+        s3_fam_inlaw:{q:'パートナーのご家族との関係で、困っていることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'距離感がわからない',next:'result',result:`義理のご家族との距離感。気を遣いますよね。\n\n${nick}さんへのルール：「好かれようとしすぎない。でも礼儀は守る。」\n\nこれだけで十分です。\n\n• 年に数回の連絡（誕生日、お正月等）\n• 会った時は笑顔で、短時間で切り上げてOK\n• パートナーに間に入ってもらうことを遠慮しない\n\n義理の家族との関係は、時間をかけてゆっくり育てるもの。焦らなくて大丈夫ですよ。`},
             {label:'価値観が合わない',next:'result',result:`義理の家族との価値観の違い。避けられないテーマですよね。\n\n${nick}さんへ：全て合わせる必要はありません。\n\n大切なのは「自分たち夫婦のスタイル」を守ること。パートナーと事前に「ここだけは譲れない」を共有しておくと、いざという時に一枚岩でいられますよ。\n\n意見が合わない時は「そういう考え方もありますね」と受け流す。戦わなくていいんです。`},
             {label:'パートナーが板挟みになっている',next:'result',result:`パートナーの板挟み。見ているこちらも辛いですよね。\n\n${nick}さんにできること：\n\n① パートナーを責めない（「あなたの親が…」はNG）\n② 二人で「家族ルール」を決める（訪問頻度、イベント参加等）\n③ パートナーの味方でいる姿勢を見せる\n\n義理の家族の問題は、パートナーにとっても辛いもの。「大変だよね」と寄り添ってあげてくださいね。\n\n二人で一緒に乗り越える。その体験が、夫婦の絆をもっと強くしてくれますよ。`}]
         },
-        s2_friend:{q:'友人関係で、どんなことが気になりますか？',icon:'users',color:'#7C6FA0',
+        s2_friend:{q:'友人関係で、どんなことが気になりますか？',icon:'users',color:'var(--primary)',
             opts:[{label:'友達が少ない',next:'s3_fri_few'},{label:'距離感がわからない',next:'s3_fri_dist'},{label:'振り回されている',next:'s3_fri_toxic'}]
         },
-        s3_fri_few:{q:'友達が少ないことで、具体的にどう感じていますか？',icon:'users',color:'#7C6FA0',
+        s3_fri_few:{q:'友達が少ないことで、具体的にどう感じていますか？',icon:'users',color:'var(--primary)',
             opts:[{label:'寂しい',next:'result',result:`寂しいと感じているんですね。その気持ちを正直に言えること、勇気がありますよ。\n\n${el==='fire'?'スポーツやイベント、ボランティアなど「一緒に何かをする場」に参加してみてくださいね。'+nick+'さんのエネルギーは人を惹きつけますよ。':el==='earth'?'定期的に通える場を見つけてみてください。何度か顔を合わせるうちに、自然な関係が育ちますよ。焦らず、じっくりと。':el==='air'?'オンラインコミュニティから始めるのもアリ。SNSでの繋がりから「深い友人」が生まれることもありますよ。':'少人数の穏やかな集まりが'+nick+'さんには合っています。感性を共有できる場で、素敵な出会いが待っていますよ。'}\n\n「出会いを探す」ではなく「好きなことを楽しむ」ことから。その先に、自然な繋がりが生まれますよ。`},
             {label:'これでいいのか不安',next:'result',result:`友達の「数」は気にしなくて大丈夫ですよ。\n\n一人でも心から信頼できる人がいれば、それは十分幸せなこと。\n\nSNSで「友達が多い人」を見ると不安になるかもしれません。でも「広く浅い100人」より「深く信頼できる1人」の方が、人生の質を上げてくれますよ。\n\n${nick}さんが大切にしたい人との関係を、丁寧に育てていってくださいね。それで十分です。`},
             {label:'作り方がわからない',next:'result',result:`友達の作り方。大人になるとになるとわからなくなりますよね。\n\n3つのステップを試してみてくださいね。\n① まず「挨拶」から。店員さん、同僚、ご近所さんに声をかけてみてくださいね\n② 「定期的な場」に通う。週1で同じ場所に顔を出すだけで自然と顔見知りに\n③ 「一歩踏み込む」。「今度一緒にお茶しませんか？」のひと言が関係を変えてくれますよ\n\n${nick}さんなら、きっとできますよ。一つずつ、ゆっくりと。`}]
         },
-        s3_fri_dist:{q:'友人との距離感で、具体的に困っているのは？',icon:'users',color:'#7C6FA0',
+        s3_fri_dist:{q:'友人との距離感で、具体的に困っているのは？',icon:'users',color:'var(--primary)',
             opts:[{label:'近すぎてしんどい',next:'result',result:`近すぎる友人関係。息苦しいですよね。\n\n${nick}さんへ：「NO」と言うことは、関係を壊すことではないですよ。\n\n「ごめん、今日はちょっと一人の時間が欲しいんだ」。この一言を、練習してみてくださいね。\n\n本当にあなたを大切に思っている友人なら、その言葉を理解してくれますよ。`},
             {label:'遠すぎて寂しい',next:'result',result:`もっと仲良くなりたいのに距離を感じる。もどかしいですよね。\n\n${nick}さんから一歩踏み込んでみてくださいね。\n\n「実はさ…」と本音を少しだけ話してみる。「今度二人で○○しない？」と誘ってみる。\n\n相手も同じように感じているかもしれません。${nick}さんのその一歩が、関係を変えるきっかけになりますよ。`},
             {label:'人によってバラバラ',next:'result',result:`人によって距離感が違う。それは${nick}さんが相手に合わせて柔軟に対応できている証拠ですよ。\n\n友人ごとに「この人とはここまで」の心地よい境界線を持つのは、とても健全なこと。\n\n全員と同じ距離感でいる必要はありません。${nick}さんが「この人といると心地いいな」と感じる距離を、それぞれの関係で大切にしてくださいね。`}]
         },
-        s3_fri_toxic:{q:'友人に振り回される場面で、一番多いのは？',icon:'users',color:'#7C6FA0',
+        s3_fri_toxic:{q:'友人に振り回される場面で、一番多いのは？',icon:'users',color:'var(--primary)',
             opts:[{label:'頼み事を断れない',next:'result',result:`断れない。${nick}さんの優しさゆえですよね。\n\nでも大切なこと。「全部引き受ける人」は「都合のいい人」になるリスクがあります。\n\n断り方のテンプレート：\n「ごめんね、今回はちょっと難しいんだ。また声かけてね」\n\nこれだけでOK。理由を長々と説明する必要はありませんよ。\n\n${nick}さんの時間とエネルギーは有限です。大切にしてくれる人のために、取っておいてくださいね。`},
             {label:'ネガティブな話ばかり聞かされる',next:'result',result:`ネガティブな話を聞き続けるのは、心が消耗しますよね。\n\n${nick}さんへ：「聞く」ことは優しさですが、「吸収する」必要はありません。\n\n対策：\n• 時間を区切る（「30分なら聞けるよ」）\n• 解決策を求められていない時は「大変だったね」だけでOK\n• 自分も辛い時は正直に「今日はちょっと余裕がなくて」と伝える\n\n相手の感情は相手のもの。${nick}さんが背負う必要はないですよ。`},
             {label:'マウントを取られる',next:'result',result:`マウントを取る人。疲れますよね。\n\nマウントの裏にあるのは、たいてい「不安」や「自信のなさ」。相手の問題であって、${nick}さんの問題ではないですよ。\n\n対処法：\n• 「すごいね〜」と軽く流す（真剣に受け取らない）\n• 比較の土俵に乗らない\n• 距離を置いてOK\n\n${nick}さんの価値は、誰かとの比較で決まるものではありません。自分の道を、自分のペースで歩んでくださいね。`}]
         },
-        s2_work:{q:'職場でどんな人間関係に困っていますか？',icon:'users',color:'#7C6FA0',
+        s2_work:{q:'職場でどんな人間関係に困っていますか？',icon:'users',color:'var(--primary)',
             opts:[{label:'上司',next:'s3_wrk_boss'},{label:'同僚',next:'s3_wrk_peer'},{label:'部下・後輩',next:'s3_wrk_sub'}]
         },
-        s3_wrk_boss:{q:'上司との関係で、一番辛いのは？',icon:'users',color:'#7C6FA0',
+        s3_wrk_boss:{q:'上司との関係で、一番辛いのは？',icon:'users',color:'var(--primary)',
             opts:[{label:'理不尽な要求',next:'result',result:`理不尽な要求。ストレスですよね。\n\n${nick}さんへ：まず「これは本当に理不尽か」を冷静に確認。感情的になる前に一呼吸。\n\n本当に理不尽なら：\n① 記録を残す（日時、内容、証人）\n② 感情ではなく「事実」で反論する\n③ 人事やパワハラ相談窓口に相談する\n\n我慢し続ける必要はありません。でも「戦う」より「記録→相談」の方が、${nick}さんを守ってくれますよ。`},
             {label:'コミュニケーションが取れない',next:'result',result:`上司とのコミュニケーション。難しいですよね。\n\n上司のタイプ別アプローチ：\n• 結果重視型 → 結論から先に、簡潔に報告\n• プロセス重視型 → 経緯を丁寧に説明\n• 人間関係重視型 → 雑談を交えつつ相談\n\n上司のタイプに合わせて報告の仕方を変えるだけで、関係が驚くほどスムーズになりますよ。\n\n「相手に合わせる」のは媚びではなく、プロフェッショナルなコミュニケーションスキルですよ。`},
             {label:'評価に不満がある',next:'result',result:`評価への不満。辛いですよね。\n\nまず「評価基準」を明確にしましょう。上司に直接聞いてみてくださいね。\n\n「次の評価で良い結果を出すために、何を優先すべきですか？」\n\nこの質問だけで：目標が明確になり、上司に成長意欲が伝わり、認識のズレを防げます。\n\nそれでも正当に評価されないなら、転職も選択肢。${nick}さんを正当に評価してくれる場所は、必ずありますよ。`}]
         },
-        s3_wrk_peer:{q:'同僚との関係で、一番困っているのは？',icon:'users',color:'#7C6FA0',
+        s3_wrk_peer:{q:'同僚との関係で、一番困っているのは？',icon:'users',color:'var(--primary)',
             opts:[{label:'合わない人がいる',next:'result',result:`合わない同僚。職場では避けられないことですよね。\n\n${nick}さんへ：全員と仲良くなる必要はありません。\n\n「仕事上の最低限のコミュニケーション」さえ取れていればOK。\n\n• 挨拶と基本的な礼儀は守る\n• 仕事の報連相はきちんと行う\n• プライベートな話は避けてOK\n\n信頼できる同僚が2〜3人いれば十分。その人たちとの関係を大切にしてくださいね。`},
             {label:'チームワークがうまくいかない',next:'result',result:`チームワークの問題。一人で抱え込まないでくださいね。\n\n${nick}さんにできること：\n\n① 「期待値のすり合わせ」を最初に行う（誰が何を、いつまでに）\n② 週1で5分のチェックイン（進捗と困りごとの共有）\n③ 感謝を伝える（「○○さんのおかげで助かりました」）\n\n小さな積み重ねが、チームの信頼を作りますよ。\n\n完璧なチームワークを目指さなくて大丈夫。「お互いの強みを活かす」意識だけで十分ですよ。`},
             {label:'陰口・噂話が辛い',next:'result',result:`陰口や噂話。心が疲弊しますよね。\n\n${nick}さんへの対処法：\n\n① 「聞いていないフリ」が最強の武器\n② 陰口を言う集団に加わらない\n③ 自分は絶対に他人の陰口を言わない\n\n「陰口を言わない人」は、長い目で見ると最も信頼される人になります。\n\n${nick}さんの誠実さは、必ず周囲に伝わりますよ。短期的には辛いかもしれませんが、ブレないでくださいね。`}]
         },
-        s3_wrk_sub:{q:'部下・後輩との関係で、困っていることは？',icon:'users',color:'#7C6FA0',
+        s3_wrk_sub:{q:'部下・後輩との関係で、困っていることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'指示が伝わらない',next:'result',result:`指示が伝わらない。もどかしいですよね。\n\nコツは「具体的に、短く、確認する」の3ステップ。\n\n✕「ちゃんとやっておいて」\n○「○○を、△△までに、□□の形式で仕上げてください」\n\nそして最後に「何か不明点はある？」と聞く。\n\n「伝えた」ではなく「伝わった」を確認することが大切ですよ。\n\n${nick}さんの丁寧さが、部下の安心感に繋がりますよ。`},
             {label:'モチベーションを上げてあげたい',next:'result',result:`部下のモチベーション。${nick}さんの思いやりが伝わってきますね。\n\n人のモチベーションを上げる最もシンプルな方法：「承認する」こと。\n\n① 成果だけでなく「プロセス」も褒める\n② 具体的に褒める（「頑張ったね」ではなく「○○の部分が良かった」）\n③ 人前で褒める\n④ 失敗した時は「次はどうすれば？」と一緒に考える\n\n人は「見てくれている人」のために頑張れるもの。${nick}さんが「見ているよ」と伝え続けるだけで、チームは変わりますよ。`},
             {label:'厳しく言えない',next:'result',result:`厳しいフィードバックが苦手。${nick}さんの優しさゆえですね。\n\nでもね、「指摘すること」も愛情なんですよ。\n\nフィードバックの公式：\n「○○は良かった」＋「△△をこうするともっと良くなる」＋「応援しているよ」\n\n否定から入らず、改善点を「提案」として伝える。最後に期待を込める。\n\nこれなら相手も受け入れやすいですよ。${nick}さんの温かさを込めて、伝えてあげてくださいね。`}]
         },
-        s2_lonely:{q:'孤独を感じる時、どんな状態ですか？',icon:'users',color:'#7C6FA0',
+        s2_lonely:{q:'孤独を感じる時、どんな状態ですか？',icon:'users',color:'var(--primary)',
             reading:`孤独を感じている${nick}さんへ。打ち明けてくれてありがとうございます。一人じゃないですよ。`,
             opts:[{label:'理解者がいない',next:'s3_lone_none'},{label:'一人の時間が怖い',next:'s3_lone_alone'},{label:'繋がり方がわからない',next:'s3_lone_how'}]
         },
-        s3_lone_none:{q:'理解してほしいのは、どんなことですか？',icon:'users',color:'#7C6FA0',
+        s3_lone_none:{q:'理解してほしいのは、どんなことですか？',icon:'users',color:'var(--primary)',
             opts:[{label:'自分の考え方や価値観',next:'result',result:`価値観を理解してもらえない寂しさ。よくわかります。\n\n${nick}さんへ：世界のどこかに、${nick}さんの考えに「わかる！」と言ってくれる人は必ずいますよ。\n\n見つけるヒント：\n• 同じ趣味・興味のコミュニティに参加する\n• 本やSNSで共感できる発信者をフォローする\n• 「自分の考え」を少しずつ発信してみる\n\n理解者は「見つける」だけでなく「引き寄せる」こともできます。${nick}さんが自分らしくいるほど、共鳴する人が集まってきますよ。`},
             {label:'辛い気持ちや悩み',next:'result',result:`辛い気持ちを分かち合える人がいない。本当に寂しいですよね。\n\n${nick}さんへ：全てを打ち明けられる相手は、一人いれば十分。\n\nもし今そういう人がいなくても、専門家の力を借りることもできますよ。\n\n• カウンセラー（オンラインカウンセリングも手軽）\n• コミュニティのサポートグループ\n• SNSの匿名相談\n\n「助けを求める」ことは弱さではなく、強さです。${nick}さんの気持ちを、安心して話せる場所を見つけてくださいね。`},
             {label:'ありのままの自分',next:'result',result:`ありのままでいられる場所がない。それは本当に息苦しいことですよね。\n\n${nick}さんへ：「ありのまま」を見せることは怖いことかもしれません。でも、完璧な自分を演じ続けるのはもっと辛い。\n\n少しずつでいいんです。信頼できる一人に、小さな本音を一つだけ話してみてくださいね。\n\n「実は私…」の続きを言えた時、きっと肩の力が抜けるのを感じるはず。\n\n${nick}さんの「ありのまま」は、思っているよりずっと素敵ですよ。`}]
         },
-        s3_lone_alone:{q:'一人の時間が怖いと感じるのは、どんな時ですか？',icon:'users',color:'#7C6FA0',
+        s3_lone_alone:{q:'一人の時間が怖いと感じるのは、どんな時ですか？',icon:'users',color:'var(--primary)',
             opts:[{label:'夜や休日',next:'result',result:`夜や休日の一人時間。静かな時間が逆に不安を増幅させますよね。\n\n${nick}さんへの提案：\n\n「能動的な一人時間」のメニューを作っておきましょう。\n\n• 料理をする（手を動かすと心が落ち着く）\n• 散歩に出る（外の空気が気分を変える）\n• 好きな映画やドラマを観る（感情を動かす）\n• 日記を書く（気持ちを整理できる）\n\n「何もしない一人時間」は不安を増やしますが、「何かをする一人時間」は充実感を与えてくれますよ。\n\n一人を楽しめるようになると、不思議と人との時間もより豊かになりますよ。`},
             {label:'予定がない時',next:'result',result:`予定がないと不安。わかります。\n\n${nick}さんへ：「何もない日」を「自分のための日」に変えてみてくださいね。\n\n日曜日に予定がなければ：「自分デート」を企画する。\n\n行きたかったカフェ、気になっていた美術館、本屋で1時間ゆっくり。一人だからこそ、自分のペースで楽しめることがありますよ。\n\n予定が埋まっていなくても、${nick}さんの価値は変わりません。予定のない日も、素敵な一日にできますよ。`},
             {label:'ふとした瞬間に',next:'result',result:`ふとした瞬間に襲ってくる孤独感。コントロールしにくいですよね。\n\nその時に試してほしいこと：\n\n① 深呼吸を3回する（体から整える）\n② 「今この瞬間」に意識を向ける（5つのものを目で見つける）\n③ 信頼できる人に「今ちょっと寂しい」とメッセージする\n\n孤独感は「波」のようなもの。必ず引いていきます。\n\n${nick}さんは一人ぼっちではないですよ。この世界のどこかで、${nick}さんのことを気にかけている人がいることを、忘れないでくださいね。`}]
         },
-        s3_lone_how:{q:'繋がりを作る上で、一番ハードルが高いと感じることは？',icon:'users',color:'#7C6FA0',
+        s3_lone_how:{q:'繋がりを作る上で、一番ハードルが高いと感じることは？',icon:'users',color:'var(--primary)',
             opts:[{label:'最初の一歩が踏み出せない',next:'result',result:`最初の一歩。一番勇気がいりますよね。\n\n${nick}さんへ：一歩は「小さくていい」んですよ。\n\n今日できる最小の一歩：\n• コンビニの店員さんに「ありがとう」と言う\n• 趣味のコミュニティを一つ検索する\n• 久しぶりの友人にスタンプ一つ送る\n\nこれだけ。本当にこれだけでいいんです。\n\n小さな一歩が、次の一歩の勇気をくれます。そしていつの間にか、素敵な繋がりが生まれていますよ。`},
             {label:'会話が続かない',next:'result',result:`会話が続かない。多くの人が感じていることですよ。\n\n魔法の公式：「質問する → 聞く → 共感する」\n\n「○○さんは週末何するのが好きですか？」（質問）\n→ 「へぇ、楽しそう！」（共感）\n→ 「それってどこで始めたんですか？」（深掘り）\n\nこの3ステップだけで、会話は自然と続きます。\n\n大切なのは「面白いことを言う」ことではなく「相手に興味を持つ」こと。${nick}さんの聞く姿勢が、相手にとって一番嬉しいことですよ。`},
             {label:'続かない・深まらない',next:'result',result:`関係が深まらない。焦りますよね。\n\nでも安心してくださいね。深い関係は「時間」が育ててくれるものですよ。\n\n関係を深めるコツ：\n① 定期的な接点を持つ（月1回でOK）\n② 少しだけ本音を話す（「実はちょっと悩んでて…」）\n③ 相手の誘いを断らない（3回に2回は参加する）\n\n「3回会えば知り合い、10回会えば友人」。こんなデータもあります。\n\n焦らず、${nick}さんのペースで。良い関係は、時間をかけて育てていきましょうね。`}]
@@ -1061,13 +1154,13 @@ document.getElementById('deep-dive-area').addEventListener('click',function(e){
 // Related category suggestions
 function getRelatedCategory(cat){
     const related={
-        love:{cat:'future',icon:'telescope',color:'#6366F1',label:'未来をのぞいてみる',sub:'恋愛の未来も占えますよ'},
+        love:{cat:'future',icon:'telescope',color:'var(--primary)',label:'未来をのぞいてみる',sub:'恋愛の未来も占えますよ'},
         career:{cat:'money',icon:'coins',color:'var(--warning-text)',label:'お金・投資',sub:'キャリアとお金は繋がっています'},
         money:{cat:'career',icon:'briefcase',color:'var(--primary)',label:'仕事・転職',sub:'収入アップのヒントもご覧ください'},
-        relation:{cat:'love',icon:'heart',color:'var(--danger)',label:'恋愛・相性',sub:'大切な人との関係をもっと深く'},
-        compat:{cat:'future',icon:'telescope',color:'#6366F1',label:'未来をのぞいてみる',sub:'2人の未来も気になりませんか？'},
-        future:{cat:'lifetime',icon:'hourglass',color:'#EC4899',label:'残りの寿命を見てみる',sub:'あなたのチャクラから寿命が計算されました'},
-        lifetime:{cat:'future',icon:'telescope',color:'#6366F1',label:'未来をのぞいてみる',sub:'残りの日々をどう過ごすか、星に聞いてみませんか？'}
+        relation:{cat:'love',icon:'heart',color:'var(--primary)',label:'恋愛・相性',sub:'大切な人との関係をもっと深く'},
+        compat:{cat:'future',icon:'telescope',color:'var(--primary)',label:'未来をのぞいてみる',sub:'2人の未来も気になりませんか？'},
+        future:{cat:'lifetime',icon:'hourglass',color:'var(--primary)',label:'残りの寿命をのぞいてみる',sub:'あなたのチャクラから寿命が計算されました'},
+        lifetime:{cat:'future',icon:'telescope',color:'var(--primary)',label:'未来をのぞいてみる',sub:'残りの日々をどう過ごすか、星に聞いてみませんか？'}
     };
     const r=related[cat];
     if(!r)return '';
@@ -1124,13 +1217,13 @@ function renderStep(flow,stepKey){
 function renderFinalResult(text){
     const area=document.getElementById('deep-dive-area');
     const catMeta={
-        love:{icon:'heart',color:'var(--danger)',label:'恋愛のトリセツ'},
+        love:{icon:'heart',color:'var(--primary)',label:'恋愛のトリセツ'},
         career:{icon:'briefcase',color:'var(--primary)',label:'仕事のトリセツ'},
         money:{icon:'coins',color:'var(--warning-text)',label:'お金のトリセツ'},
-        relation:{icon:'users',color:'#7C6FA0',label:'人間関係のトリセツ'},
-        compat:{icon:'heart-handshake',color:'var(--danger)',label:'相性診断'},
-        future:{icon:'telescope',color:'#6366F1',label:'未来のトリセツ'},
-        lifetime:{icon:'hourglass',color:'#EC4899',label:'人生時計'}
+        relation:{icon:'users',color:'var(--primary)',label:'人間関係のトリセツ'},
+        compat:{icon:'heart-handshake',color:'var(--primary)',label:'相性診断'},
+        future:{icon:'telescope',color:'var(--primary)',label:'未来のトリセツ'},
+        lifetime:{icon:'hourglass',color:'var(--primary)',label:'人生時計'}
     };
     const m=catMeta[currentCat]||catMeta.love;
     const nick=shareData.nickname||'ゲスト';
@@ -1390,12 +1483,12 @@ function renderLifetimeClock(){
     const area=document.getElementById('deep-dive-area');
     const nick=shareData.nickname||'ゲスト';
     const html=`<div class="fortune-card p-6 fade-up" id="lifetime-confirm">
-        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,#EC4899,transparent);"></div>
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger),transparent);"></div>
         <div class="flex flex-col items-center py-6">
-            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FDE8EF,#F5E0EB);"><i data-lucide="hourglass" class="w-7 h-7" style="color:#EC4899;"></i></div>
+            <div class="w-16 h-16 rounded-full flex items-center justify-center mb-5" style="background:var(--danger-light);"><i data-lucide="hourglass" class="w-7 h-7" style="color:var(--danger);"></i></div>
             <p class="t-body font-semibold text-center mb-3" style="color:var(--text-main);">あなたのチャクラから、残りの寿命が計算されました。</p>
             <p class="t-caption text-center leading-relaxed mb-6" style="color:var(--text-sub);">残りの人生を楽しむために、<br>現実を受け入れるのも大切です。</p>
-            <button id="lifetime-go-btn" class="w-full p-3.5 rounded-xl font-semibold text-center" style="background:linear-gradient(135deg,#EC4899,#DB2777);color:#fff;border:none;cursor:pointer;font-size:14px;">覗いてみる</button>
+            <button id="lifetime-go-btn" class="w-full p-3.5 rounded-xl font-semibold text-center" style="background:linear-gradient(135deg,var(--danger),var(--primary-dark));color:#fff;border:none;cursor:pointer;font-size:14px;">覗いてみる</button>
             <button class="deep-other-btn w-full p-3 rounded-xl font-semibold text-center mt-2" style="background:var(--bg-page);color:var(--text-sub);border:var(--border-w) solid var(--border-color);cursor:pointer;font-size:13px;pointer-events:auto;">やっぱりやめる</button>
         </div></div>`;
     area.insertAdjacentHTML('beforeend',html);
@@ -1428,7 +1521,7 @@ function showLifetimeCountdown(){
     else if(livedPct<50){season='夏';sIcon='☀️';sColor='#FBBF24';}
     else if(livedPct<75){season='秋';sIcon='🍂';sColor='#F59E0B';}
     else{season='冬';sIcon='❄️';sColor='#93C5FD';}
-    const ringColor=remainPct>50?'var(--primary)':remainPct>25?'#E9A400':'#B36060';
+    const ringColor=remainPct>50?'var(--danger)':remainPct>25?'var(--warning-text)':'var(--danger)';
     const circ=(2*Math.PI*42).toFixed(1);
     const offset=(circ*(1-remainPct/100)).toFixed(1);
     _lfCurrentQuote=lfQuotes[Math.floor(Math.random()*lfQuotes.length)];
@@ -1438,30 +1531,30 @@ function showLifetimeCountdown(){
         :el==='air'?nick+'さんの好奇心は、残りの日々を冒険に変える力を持っています。まだ行ったことのない場所、会ったことのない人が待っていますよ。'
         :nick+'さんの深い感性は、残りの日々を美しく彩る力を持っています。「幸せだな」と感じる瞬間を、一つでも多く重ねてくださいね。';
     const card=`<div class="fortune-card fade-up" id="lifetime-card" style="padding:0;overflow:hidden;">
-        <div style="background:linear-gradient(135deg,#0a1a14,#122a20,#1a3a2a);padding:28px 20px 24px;color:#fff;position:relative;overflow:hidden;">
-            <div style="position:absolute;top:-20px;right:-20px;width:100px;height:100px;background:radial-gradient(circle,rgba(107,169,159,.2),transparent 70%);border-radius:50%;"></div>
+        <div style="padding:28px 20px 20px;position:relative;">
             <div class="flex justify-center mb-5"><div style="position:relative;width:140px;height:140px;">
-                <svg width="140" height="140" style="transform:rotate(-90deg);"><circle cx="70" cy="70" r="42" fill="none" stroke="rgba(255,255,255,.08)" stroke-width="8"/><circle cx="70" cy="70" r="42" fill="none" stroke="${ringColor}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/></svg>
-                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span id="lf-y" style="font-size:42px;font-weight:800;line-height:1;font-family:'Roboto Mono',monospace;">0</span><span style="font-size:12px;opacity:.5;margin-top:2px;">年</span></div>
+                <svg width="140" height="140" style="transform:rotate(-90deg);"><circle cx="70" cy="70" r="42" fill="none" stroke="var(--border-color)" stroke-width="8"/><circle cx="70" cy="70" r="42" fill="none" stroke="${ringColor}" stroke-width="8" stroke-linecap="round" stroke-dasharray="${circ}" stroke-dashoffset="${offset}"/></svg>
+                <div style="position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;"><span id="lf-y" style="font-size:42px;font-weight:800;line-height:1;font-family:'Roboto Mono',monospace;color:var(--text-main);">0</span><span style="font-size:12px;color:var(--text-muted);margin-top:2px;">年</span></div>
             </div></div>
-            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:rgba(255,255,255,.06);border-radius:12px;padding:14px;border:1px solid rgba(255,255,255,.08);">
-                <div class="text-center"><div id="lf-d" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">日</div></div>
-                <div class="text-center"><div id="lf-h" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">時間</div></div>
-                <div class="text-center"><div id="lf-m" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">分</div></div>
-                <div class="text-center"><div id="lf-s" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;">0</div><div style="font-size:11px;opacity:.4;">秒</div></div>
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:6px;background:var(--primary-light);border-radius:12px;padding:14px;border:var(--border-w) solid var(--border-color);">
+                <div class="text-center"><div id="lf-d" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;color:var(--text-main);">0</div><div style="font-size:11px;color:var(--text-muted);">日</div></div>
+                <div class="text-center"><div id="lf-h" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;color:var(--text-main);">0</div><div style="font-size:11px;color:var(--text-muted);">時間</div></div>
+                <div class="text-center"><div id="lf-m" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;color:var(--text-main);">0</div><div style="font-size:11px;color:var(--text-muted);">分</div></div>
+                <div class="text-center"><div id="lf-s" style="font-size:24px;font-weight:700;font-family:'Roboto Mono',monospace;color:var(--text-main);">0</div><div style="font-size:11px;color:var(--text-muted);">秒</div></div>
             </div>
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:14px;font-size:12px;opacity:.5;"><span>予測寿命 ${Math.round(lifeExp)}歳</span><span>${nick}さん（${ageYears}歳）</span></div>
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-top:12px;font-size:12px;color:var(--text-muted);"><span>予測寿命 ${Math.round(lifeExp)}歳</span><span>${nick}さん（${ageYears}歳）</span></div>
         </div>
-        <div style="padding:0 20px;"><div style="height:6px;background:var(--bg-page);margin-top:-3px;border-radius:0 0 3px 3px;overflow:hidden;"><div style="height:100%;width:${livedPct}%;background:linear-gradient(90deg,#EC4899,${ringColor});border-radius:3px;transition:width 1.5s;"></div></div>
-            <div class="flex justify-between mt-2 mb-3" style="font-size:11px;color:var(--text-muted);"><span>0歳</span><span style="color:#EC4899;font-weight:600;">今ここ ${livedPct}%</span><span>${Math.round(lifeExp)}歳</span></div>
+        <div style="padding:0 20px;">
+            <div style="height:6px;background:var(--primary-light);border-radius:3px;overflow:hidden;border:var(--border-w) solid var(--border-color);"><div style="height:100%;width:${livedPct}%;background:linear-gradient(90deg,var(--primary),var(--danger));border-radius:3px;transition:width 1.5s;"></div></div>
+            <div class="flex justify-between mt-2 mb-4" style="font-size:11px;color:var(--text-muted);"><span>0歳</span><span style="color:var(--primary);font-weight:600;">今ここ ${livedPct}%</span><span>${Math.round(lifeExp)}歳</span></div>
         </div>
         <div style="padding:0 20px 20px;">
             
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;">
-                <div class="rounded-xl p-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:22px;">${Math.floor(remainDays*24).toLocaleString()}</p><p class="t-caption mt-1" style="color:var(--text-muted);">あなたに残された時間</p></div>
-                <div class="rounded-xl p-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:#F472B6;font-size:22px;">${Math.floor(remainDays/365.25)}</p><p class="t-caption mt-1" style="color:var(--text-muted);">桜を見られる回数</p></div>
+                <div class="rounded-xl p-4 text-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--text-main);font-size:22px;">${Math.floor(remainDays*24).toLocaleString()}</p><p class="t-caption mt-1" style="color:var(--text-muted);">あなたに残された時間</p></div>
+                <div class="rounded-xl p-4 text-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="mono-font font-bold" style="color:var(--danger);font-size:22px;">${Math.floor(remainDays/365.25)}</p><p class="t-caption mt-1" style="color:var(--text-muted);">桜を見られる回数</p></div>
             </div>
-            <div id="lf-quote" class="rounded-xl p-6 mb-4 text-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s;position:relative;">
+            <div id="lf-quote" class="rounded-xl p-6 mb-4 text-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);min-height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .5s;position:relative;">
                 <span style="position:absolute;top:10px;left:16px;font-size:36px;color:var(--primary);opacity:.15;font-family:serif;">"</span>
                 <p class="t-body leading-loose" style="color:var(--text-sub);font-style:italic;font-size:14px;">${_lfCurrentQuote}</p>
                 <span style="position:absolute;bottom:10px;right:16px;font-size:36px;color:var(--primary);opacity:.15;font-family:serif;">"</span>
@@ -1499,11 +1592,11 @@ function buildFutureFlow(){
     const arch=getArchetype(currentUserNId);
     const nick=shareData.nickname||'あなた';
     return {
-        step1:{q:'何年先の未来をのぞいてみたいですか？',icon:'telescope',color:'#6366F1',
+        step1:{q:'何年先の未来をのぞいてみたいですか？',icon:'telescope',color:'var(--primary)',
             reading:`${nick}さんの星が指し示す未来の道筋を、一緒に読み解いていきましょう。`,
             opts:[{label:'1年後',next:'s2_1y'},{label:'3年後',next:'s2_3y'},{label:'5年後',next:'s2_5y'},{label:'10年後',next:'s2_10y'}]
         },
-        s2_1y:{q:'1年後について、どの分野が気になりますか？',icon:'telescope',color:'#6366F1',
+        s2_1y:{q:'1年後について、どの分野が気になりますか？',icon:'telescope',color:'var(--primary)',
             reading:'1年後は「今の延長線上」にある未来。今の選択が結果に直結する時期ですよ。',
             opts:[
                 {label:'恋愛・パートナー',next:'s3_1y_love'},
@@ -1511,28 +1604,28 @@ function buildFutureFlow(){
                 {label:'お金・生活',next:'s3_1y_money'}
             ]
         },
-        s3_1y_love:{q:'今の恋愛の気持ちに近いのは？',icon:'telescope',color:'#6366F1',
+        s3_1y_love:{q:'今の恋愛の気持ちに近いのは？',icon:'telescope',color:'var(--primary)',
             opts:[
                 {label:'良い出会いがあるといいな',next:'result',result:`${nick}さんの1年後の恋愛：\n\n${el==='fire'?nick+'さんの行動力が新しい出会いを引き寄せる時期。特にこの先3〜6ヶ月に、思いがけない場面でビビッとくる瞬間がありそうです。ポイントは「いつもと違う場所」に足を運ぶこと。':el==='earth'?'すぐには目に見える変化はないかもしれません。でも、'+nick+'さんが日々の生活を丁寧に過ごすことで、同じ価値観を持つ素敵な方との接点が自然と生まれてきますよ。':el==='air'?'人とのネットワークが広がる時期。友人の紹介や趣味のコミュニティから、意外な出会いが生まれそうです。「面白そう」と思った誘いには乗ってみてくださいね。':nick+'さんの深い共感力が誰かの心に響く時期。自分の感性を大切にしながら過ごしていると、同じ波長の人が自然と近づいてきますよ。'}\n\n1年後の${nick}さんへのメッセージ：「探す」のではなく「自分を磨く」ことに集中してみて。輝いている人のもとに、素敵な出会いは訪れますよ。`},
                 {label:'今の関係がどうなるか知りたい',next:'result',result:`${nick}さんの1年後のパートナーシップ：\n\n${el==='fire'?'この1年は関係に「変化」が訪れやすい時期。マンネリを感じたら、二人で新しい体験に挑戦してみてくださいね。旅行や共通の趣味が、関係を次のステージに進めてくれますよ。':el==='earth'?'安定感が増す一方で、「当たり前」になりやすい時期。月に一度は特別なデートを。日々の「ありがとう」を忘れないことが、1年後の関係を大きく変えますよ。':el==='air'?'お互いの個性を尊重しながら、新しいことを一緒に学ぶ時期。価値観の違いが浮き彫りになるかもしれませんが、それは関係を深めるチャンスですよ。':'1年後、二人の絆は今よりもっと深くなっています。ただし、'+nick+'さんが自分の気持ちを我慢し続けないことが条件。本音を少しずつ伝える練習を始めてみてくださいね。'}\n\nこの占いをもっと深く知りたい方は「恋愛・相性」カテゴリもおすすめですよ。`},
                 {label:'一人でも幸せでいられるか',next:'result',result:`${nick}さんの1年後の幸福度：\n\n答えは「YES」です。\n\n${nick}さんが今の自分を大切にし続ける限り、パートナーの有無に関係なく、1年後の${nick}さんは今より確実に幸せになっていますよ。\n\n${arch==='leader'?'リーダー気質の'+nick+'さんは、自分の道を切り開く力があります。1年後、仕事でもプライベートでも「自分で選んだ人生」を歩んでいる実感が持てるはずですよ。':arch==='creative'?'クリエイティブな'+nick+'さんは、表現の幅が広がる1年になりそう。自分だけの世界を楽しむ力が、'+nick+'さんの最大の幸せの源泉です。':arch==='support'?'人との繋がりを大切にする'+nick+'さん。この1年で、本当に大切な人が誰かが明確になります。少数でも深い関係が、'+nick+'さんの心を満たしてくれますよ。':''}\n\n幸せは「誰かと一緒にいること」だけではありません。自分を好きでいられること。それが一番の土台ですよ。`}
             ]
         },
-        s3_1y_career:{q:'仕事について、今の気持ちは？',icon:'telescope',color:'#6366F1',
+        s3_1y_career:{q:'仕事について、今の気持ちは？',icon:'telescope',color:'var(--primary)',
             opts:[
                 {label:'成長できるか不安',next:'result',result:`${nick}さんの1年後のキャリア：\n\n${arch==='leader'?'この1年は「任される範囲」が広がる時期。プレッシャーも増えますが、それは'+nick+'さんへの信頼の証。自分を信じて受け入れてみてくださいね。':arch==='analyst'?nick+'さんの専門性がさらに磨かれる1年。「この分野なら'+nick+'さんに聞け」と言われるポジションに近づいていますよ。':arch==='creative'?'アイデアが形になりやすい時期。今温めている企画やプロジェクトを、思い切って動かしてみてくださいね。1年後に「あの時始めてよかった」と思えるはずです。':arch==='support'?'周囲からの信頼がさらに厚くなる1年。ただし「頼まれすぎ」に注意。自分の成長のための時間も確保してくださいね。':''}\n\nキャリアについてもっと深く知りたい方は「仕事・転職」カテゴリもご覧くださいね。`},
                 {label:'転機が来るか知りたい',next:'result',result:`${nick}さんの1年以内のキャリアの転機：\n\n${el==='fire'?'転機は「自分から作る」タイプの'+nick+'さん。待っているより動いた方が早いですよ。この半年以内に「気になる」と感じた情報やオファーには、素直に反応してみてくださいね。':el==='earth'?'大きな転機というより「じわじわと環境が変わる」1年になりそう。焦らず、今の場所でしっかり根を張ることが、次のステージへの最短ルートですよ。':el==='air'?'情報を集める中で、思いがけないチャンスが飛び込んでくる予感。アンテナを広げておいてくださいね。副業や勉強会が転機のきっかけになるかもしれません。':''+nick+'さんの直感が「今だ」と告げるタイミングが来ます。論理的に考えすぎず、心の声に従ってみてくださいね。'}\n\n転機を活かすための準備：履歴書の更新、ポートフォリオの整理、スキルの棚卸しを今のうちにしておくと安心ですよ。`},
                 {label:'今のまま続けるべきか迷っている',next:'result',result:`${nick}さんへ、星からのメッセージ：\n\n「迷っている」こと自体が、変化の予兆です。\n\n今すぐ辞める必要はありません。でも「今のままでいいのかな」という気持ちは、無視しないでくださいね。\n\n${nick}さんにおすすめしたい「1年計画」：\n\n最初の3ヶ月：情報収集（転職サイト登録、業界リサーチ）\n次の3ヶ月：スキルアップ（資格、学習、副業で実験）\n次の3ヶ月：行動（面接、提案、交渉）\n最後の3ヶ月：決断\n\n1年後、どちらの道を選んでも「自分で考えて決めた」という自信が持てます。それが一番大切なことですよ。`}
             ]
         },
-        s3_1y_money:{q:'お金について、一番気になることは？',icon:'telescope',color:'#6366F1',
+        s3_1y_money:{q:'お金について、一番気になることは？',icon:'telescope',color:'var(--primary)',
             opts:[
                 {label:'貯金が増えるか',next:'result',result:`${nick}さんの1年後の金運：\n\n${arch==='analyst'||arch==='builder'?'数字に強い'+nick+'さんは、計画的な資産形成が得意。この1年で着実に貯金を増やせるタイプですよ。':'この1年は「仕組みを作る」ことが鍵。先取り貯金の自動振替を設定するだけで、1年後には想像以上の金額が貯まっていますよ。'}\n\n${nick}さんの1年間の貯金シミュレーション：\n月1万円 → 12万円\n月3万円 → 36万円\n月5万円 → 60万円\n\n大切なのは金額の大小ではなく「始めること」。今日設定すれば、1年後の${nick}さんはきっと「あの日始めてよかった」と思えますよ。\n\nお金についてもっと知りたい方は「お金・投資」カテゴリもおすすめです。`},
                 {label:'収入が上がるか',next:'result',result:`${nick}さんの1年後の収入：\n\n${arch==='leader'?'リーダータイプの'+nick+'さんは、交渉力で収入を上げられるタイプ。この1年で昇給交渉や転職を通じて、年収アップのチャンスがありそうですよ。':arch==='creative'?'クリエイティブな'+nick+'さんは、副業やフリーランスの仕事が収入源になる可能性。本業とは別の「自分の名前で稼ぐ」体験が、1年後の選択肢を大きく広げますよ。':''}\n\n今日からできること：\n① 自分の市場価値を転職サイトで確認する\n② 3ヶ月以内にスキルを一つ磨く\n③ 副業の可能性を一つ試してみる\n\n「何もしなければ何も変わらない」。でも小さな一歩で、1年後は大きく変わりますよ。`},
                 {label:'大きな出費に備えたい',next:'result',result:`${nick}さんの1年後に向けた備え：\n\n予想される大きな出費をリストアップしてみましょう。\n\n引越し、結婚、旅行、車、家電の買替え、資格の勉強代…\n\n「特別費積立」がおすすめですよ。予想される出費の合計を12で割って毎月積み立てるだけ。\n\nたとえば年間36万円の臨時出費が予想されるなら、月3万円を「特別費口座」に。\n\n1年後、「突然の出費」が「予定の出費」に変わっています。心の余裕が全然違いますよ。`}
             ]
         },
-        s2_3y:{q:'3年後について、どの分野が気になりますか？',icon:'telescope',color:'#6366F1',
+        s2_3y:{q:'3年後について、どの分野が気になりますか？',icon:'telescope',color:'var(--primary)',
             reading:'3年後は「今の選択の結果が見え始める」タイミング。今日の一歩が、3年後の景色を変えますよ。',
             opts:[
                 {label:'恋愛・家族',next:'result',result:`${nick}さんの3年後の恋愛・家族：\n\n${el==='fire'?'3年後の'+nick+'さんは、今よりずっと自分らしい恋愛ができているはず。大切なのは「自分が本当に求めているもの」を見極めること。条件ではなく「感覚」を信じてみてくださいね。':el==='earth'?'着実に信頼を積み重ねてきた'+nick+'さん。3年後は、安定した温かい関係の中にいる可能性が高いですよ。焦らず、自分のペースを大切にしてくださいね。':el==='air'?'3年後の'+nick+'さんは、自由でありながら深い繋がりも持てるバランスを見つけているはず。「この人とは特別」と思える出会いが待っていますよ。':'3年後の'+nick+'さんは、今より自分の気持ちに正直になれているはず。「自分を大切にする」ことが、一番の恋愛運アップの鍵ですよ。'}\n\n恋愛について深掘りしたい方は「恋愛・相性」カテゴリもどうぞ。`},
@@ -1540,7 +1633,7 @@ function buildFutureFlow(){
                 {label:'お金・暮らし',next:'result',result:`${nick}さんの3年後のお金と暮らし：\n\n3年は「仕組み」が成果を出し始める時期。\n\nもし今日からつみたてNISAで月3万円を始めたら、3年後には約115万円（年利5%想定）。\n\n3年後のために今日できること：\n① つみたてNISA口座の開設\n② 固定費の見直し（月1万円の削減でも3年で36万円）\n③ 副業やスキルアップへの投資\n\n${nick}さんの「${archJa[arch]}」タイプは、${arch==='analyst'?'データに基づいた計画的な資産形成が得意':arch==='leader'?'大きな目標に向かって着実に進む力がある':arch==='creative'?'従来の枠にとらわれない資産形成が可能':'堅実な積み重ねで確実に資産を増やせる'}タイプです。\n\n3年後の安心は、今日の一歩から始まりますよ。`}
             ]
         },
-        s2_5y:{q:'5年後について、どの分野が気になりますか？',icon:'telescope',color:'#6366F1',
+        s2_5y:{q:'5年後について、どの分野が気になりますか？',icon:'telescope',color:'var(--primary)',
             reading:'5年後は「人生のステージが変わる」タイミング。今の自分を超えた未来が見えてきますよ。',
             opts:[
                 {label:'自分はどんな人間になっている？',next:'result',result:`${nick}さんの5年後の姿：\n\n${el==='fire'?'5年後の'+nick+'さんは、今よりもっとスケールの大きいことに挑戦しているはず。複数のプロジェクトを同時に動かしたり、人を率いるポジションにいたり。「やりたいことをやっている自分」に誇りを感じていますよ。':el==='earth'?'5年後の'+nick+'さんは、今よりも深い安心感に包まれているはず。経済的な基盤も、人間関係も、「自分が選んで築いたもの」に囲まれている実感がありますよ。':el==='air'?'5年後の'+nick+'さんは、今よりもっと自由に生きているはず。場所にも時間にも縛られない働き方、多様な人との繋がり。好奇心のままに生きる'+nick+'さんは、とても魅力的ですよ。':'5年後の'+nick+'さんは、自分の感性を武器に、人の心に触れる仕事や活動をしているかもしれません。今の優しさと共感力が、5年後には「影響力」に変わっていますよ。'}\n\n5年後の${nick}さんへ、今の${nick}さんからメッセージを書いてみてくださいね。それが道しるべになりますよ。`},
@@ -1548,7 +1641,7 @@ function buildFutureFlow(){
                 {label:'幸せでいられるか',next:'result',result:`${nick}さんの5年後の幸福度：\n\n星が示しているのは、${nick}さんが「自分で選んだ道」を歩んでいる未来です。\n\n幸せの定義は人それぞれ。でも${nick}さんにとっての幸せは：\n\n${el==='fire'?'挑戦し続けている自分に誇りを持てること':el==='earth'?'大切な人と安心して過ごせる日々があること':el==='air'?'自由に考え、自由に行動できる環境があること':'心から「ここにいていいんだ」と思える場所があること'}\n\nではないでしょうか。\n\n5年後、${nick}さんが「あの時の自分、よく頑張ったな」と思えるように。今日から少しずつ、自分を大切にしてくださいね。`}
             ]
         },
-        s2_10y:{q:'10年後について、何が気になりますか？',icon:'telescope',color:'#6366F1',
+        s2_10y:{q:'10年後について、何が気になりますか？',icon:'telescope',color:'var(--primary)',
             reading:'10年後は「今とは全く違うステージ」。想像もつかない未来が待っていますよ。',
             opts:[
                 {label:'どんな人生を送っている？',next:'result',result:`${nick}さんの10年後。\n\n10年前のご自身を思い出してみてください。今の自分を想像できましたか？\n\n10年後も同じ。今は想像できない素敵な場所にいる可能性があります。\n\n${el==='fire'?'10年後の'+nick+'さんは、何度も挑戦と失敗を重ね、「自分だけの成功」を手にしているはず。周囲には'+nick+'さんを慕う仲間がたくさんいますよ。':el==='earth'?'10年後の'+nick+'さんは、揺るぎない基盤の上に立っているはず。仕事も家庭も、時間をかけて築いたものが'+nick+'さんを支えていますよ。':el==='air'?'10年後の'+nick+'さんは、誰もが羨む自由な生き方をしているかもしれません。常識にとらわれない'+nick+'さんだからこそ描ける、ユニークな人生です。':'10年後の'+nick+'さんは、誰かの心の拠り所になっているはず。'+nick+'さんの優しさと深い理解力が、周囲の人たちの人生を豊かにしていますよ。'}\n\n大切なのは「10年後にどこにいるか」ではなく「今日、どの方向を向いて歩くか」。\n\n${nick}さんの未来は、今日の${nick}さんが作っています。`},
@@ -1574,82 +1667,82 @@ function buildCompatFlow(){
     const matchLabels={high_energy:'情熱的でエネルギッシュな関係',complement:'お互いに補い合える関係',exciting:'刺激的で成長し合える関係',challenge:'惹かれ合うが乗り越える壁もある関係',stable:'安定感抜群の堅実な関係',free_spirit:'自由さと安定のバランスが鍵',nurture:'深い癒やしと安心の関係',intellectual:'知的で風通しの良い関係',mysterious:'ミステリアスに惹かれ合う関係',deep_bond:'魂レベルで繋がる深い絆'};
 
     return {
-        step1:{q:`${myZ}の${myName}さんと、${pZ}の${pName}さん。\n2人について何を知りたいですか？`,icon:'heart-handshake',color:'var(--danger)',
+        step1:{q:`${myZ}の${myName}さんと、${pZ}の${pName}さん。\n2人について何を知りたいですか？`,icon:'heart-handshake',color:'var(--primary)',
             reading:`相性タイプ：「${matchLabels[matchType]}」`,
             opts:[{label:'恋愛の相性',next:'s2_love'},{label:'仕事パートナーとしての相性',next:'s2_work'},{label:'コミュニケーションの傾向',next:'s2_comm'},{label:'2人の注意点を知りたい',next:'s2_caution'}]
         },
         // === 恋愛の相性 ===
-        s2_love:{q:'恋愛面で特に気になることは？',icon:'heart-handshake',color:'var(--danger)',
+        s2_love:{q:'恋愛面で特に気になることは？',icon:'heart-handshake',color:'var(--primary)',
             reading:`${elemJa[myEl]}の${myName}さんと${elemJa[pEl]}の${pName}さん。${matchType==='high_energy'||matchType==='exciting'?'情熱的な組み合わせ。一緒にいると心が動きます。':matchType==='stable'||matchType==='nurture'?'安心感のある温かい関係を築けるお二人です。':matchType==='challenge'?'深く惹かれ合うぶん、理解に時間がかかることも。でもそれは成長のチャンスです。':'不思議な引力で結ばれるお二人ですね。'}`,
             opts:[{label:'付き合ったらうまくいく？',next:'s3_love_future'},{label:'距離の縮め方',next:'s3_love_closer'},{label:'長続きの秘訣',next:'s3_love_long'}]
         },
-        s3_love_future:{q:'2人の関係で一番気になるポイントは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_love_future:{q:'2人の関係で一番気になるポイントは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'価値観が合うか',next:'result',result:`${myName}さんと${pName}さんの価値観の相性：\n\n${myEl===pEl?'同じ「'+elemJa[myEl]+'」のエネルギーを持つお二人。根っこの部分で共感しやすい反面、同じところで行き詰まることも。第三者の視点を取り入れると良いですよ。':myEl==='fire'&&pEl==='earth'||myEl==='earth'&&pEl==='fire'?'行動派と慎重派。真逆に見えますが、実はお互いにないものを持っている理想的な補完関係。違いを「面白い」と思えたら最強ですよ。':myEl==='air'&&pEl==='water'||myEl==='water'&&pEl==='air'?'論理と感情。すれ違いやすいポイントですが、お互いから学べることが多い組み合わせ。「わかろうとする姿勢」が橋渡しになりますよ。':'違いがあるからこそ、二人の世界が広がります。完全に一致する必要はないですよ。「ここだけは同じ」を見つけてみてくださいね。'}\n\n${myName}さんへ：${pName}さんの考え方を「変えよう」とせず「知ろう」としてみてくださいね。その姿勢が、${pName}さんの心を開く鍵ですよ。`},
             {label:'一緒にいて楽しいか',next:'result',result:`${myName}さんと${pName}さんの「楽しさ」の相性：\n\n${matchType==='high_energy'||matchType==='exciting'?'一緒にいて退屈することがないお二人。新しい体験を共有することで、さらにワクワクが増していきます。アクティブなデートが特におすすめですよ。':matchType==='stable'||matchType==='nurture'?'穏やかで温かい時間を共有できるお二人。一緒にいるだけで心が安らぐ。そんな関係を築けますよ。家での時間が特に充実しそうです。':matchType==='intellectual'?'知的な会話で何時間でも過ごせるお二人。一緒に映画を観て感想を語り合ったり、新しい場所を探検したり。「考える楽しさ」を共有できる貴重な相性ですよ。':'不思議な引力で惹かれ合うお二人。最初は探り合いになるかもしれませんが、理解し合えた時の喜びは格別。時間をかけて、ゆっくりと。'}\n\n${myName}さんへ：${pName}さんが喜ぶ「楽しい」の形を知ることが大切。${pEl==='fire'?'アクティブな体験':pEl==='earth'?'美味しいものや居心地の良い空間':pEl==='air'?'知的な刺激や新しい発見':'感情を共有できる静かな時間'}を意識してみてくださいね。`},
             {label:'将来を一緒に考えられるか',next:'result',result:`${myName}さんと${pName}さんの将来の相性：\n\n${myArch===pArch?'同じ「'+archJa[myArch]+'」タイプのお二人。価値観の根っこが近いので、将来のビジョンも共有しやすいですよ。ただし同じところで迷いやすい面も。':'「'+archJa[myArch]+'」タイプの'+myName+'さんと「'+archJa[pArch]+'」タイプの'+pName+'さん。異なる強みを持つ二人だからこそ、お互いにないものを補い合えます。'}\n\n将来を一緒に考えるためのステップ：\n① お互いの「5年後の理想」を話してみる\n② 「絶対に譲れないこと」を3つずつ共有する\n③ 共通の目標を一つ見つける\n\n完全に一致する必要はありません。「お互いの夢を応援し合える関係」。それが最高の相性ですよ。`}]
         },
-        s3_love_closer:{q:'距離を縮めるために、一番知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_love_closer:{q:'距離を縮めるために、一番知りたいことは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:`${pName}さんが喜ぶアプローチ`,next:'result',result:`${pName}さん（${pZ}・${elemJa[pEl]}）が喜ぶアプローチ方法：\n\n${pEl==='fire'?pName+'さんは率直さを好みます。回りくどいアプローチより「一緒に○○しよう」とストレートに。'+pName+'さんの挑戦や夢を応援する姿勢を見せると、心を開いてくれますよ。':pEl==='earth'?pName+'さんは時間をかけて信頼を築くタイプ。焦って距離を詰めるのは逆効果です。「安心できる人」と思ってもらうことが第一歩。美味しいお店への食事のお誘いが鉄板ですよ。':pEl==='air'?pName+'さんは会話の面白さで人を判断するタイプ。知的な話題や新しい情報をシェアすると興味を持ってくれます。「束縛しない人」だと伝わると、心を開いてくれますよ。':pName+'さんは感情の繋がりを何より大切にする方。「あなたのことをちゃんと見ているよ」と態度で示すことが最大のアプローチ。'+pName+'さんの話を、共感しながら最後まで聞いてあげてくださいね。'}\n\n${myName}さんへ：焦らなくて大丈夫。${pName}さんのペースを尊重しながら、少しずつ距離を縮めていきましょうね。`},
             {label:'避けるべきNG行動',next:'result',result:`${pName}さんに対するNG行動（知っておくだけで全然違います）：\n\n${pEl==='fire'?'✕ 無視する、軽く扱う、否定から入る\n✕ 優柔不断な態度（イライラさせてしまいます）\n○ 素直に褒める、一緒に楽しむ':pEl==='earth'?'✕ 急な変更、約束を破る、雑な対応\n✕ お金や時間にルーズな態度\n○ 約束を守る、丁寧に接する、安心感を与える':pEl==='air'?'✕ 束縛する、重い話ばかりする、退屈な空気\n✕ 行動を監視するような態度\n○ 自由を尊重する、面白い話題を持つ':pEl==='water'?'✕ 感情を否定する、「考えすぎ」と言う、冷たい態度\n✕ 約束を忘れる、気持ちを軽視する\n○ 寄り添う、共感する、安心させる':''}\n\n${myName}さんへ：これらを意識するだけで、${pName}さんとの関係がぐっとスムーズになりますよ。`},
             {label:'効果的な愛情表現',next:'result',result:`${pName}さんに響く愛情の伝え方：\n\n${pEl==='fire'?'「すごいね！」「さすが！」。'+pName+'さんは素直に褒められるのが一番嬉しいタイプ。サプライズも大好き。'+myName+'さんの率直な気持ちをそのまま伝えてあげてくださいね。':pEl==='earth'?'「いつもありがとう」「安心する」。'+pName+'さんは日々の積み重ねを認めてもらえると嬉しいタイプ。一緒に美味しいものを食べる時間も最高のプレゼントですよ。':pEl==='air'?'「面白い考えだね」「もっと聞かせて」。'+pName+'さんは知的に刺激される会話が好き。新しい発見やアイデアを一緒に楽しめると、心が近づきますよ。':pEl==='water'?'「大丈夫？」「気持ちわかるよ」。'+pName+'さんは気持ちに寄り添ってもらえるだけで満たされます。言葉より態度で示す愛情が一番響くタイプですよ。':''}`}]
         },
-        s3_love_long:{q:'長続きのために特に気をつけたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_love_long:{q:'長続きのために特に気をつけたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'喧嘩の仲直り方法',next:'result',result:`${myName}さんと${pName}さんの仲直りガイド：\n\n${myEl==='fire'?myName+'さんは怒ると勢いで言いすぎるタイプかも。まずクールダウンの時間を。':myEl==='earth'?myName+'さんは黙り込むタイプかも。沈黙は解決しません。':myEl==='air'?myName+'さんは論理で解決しようとしがち。でも感情の問題は論理では解けません。':myName+'さんは傷つくと殻に閉じこもりがち。でも相手はあなたを傷つけたくてやったわけではないですよ。'}\n\n${pName}さんへの最適な仲直り法：\n${pEl==='fire'?'さっぱりと「さっきはごめん」と一言。'+pName+'さんは根に持たないタイプなので、素直に謝ればすぐ元通りに。':pEl==='earth'?'時間を置いてから、落ち着いた場所で。「ちゃんと話したい」と伝えてくださいね。':pEl==='air'?'LINEやメッセージで冷静に気持ちを伝えるのも手。感情的な場面が苦手な'+pName+'さんにはテキストの方が受け入れやすいかも。':'「あなたの気持ちを傷つけてごめんね」。'+pName+'さんには「気持ちをわかっている」と示すことが大切です。'}\n\n覚えておいてくださいね：喧嘩は「勝ち負け」ではなく「二人の関係を選ぶ」ためのもの。`},
             {label:'マンネリ防止法',next:'result',result:`${myName}さんと${pName}さんのマンネリ防止策：\n\n2人に合った「新鮮さの作り方」：\n\n${matchType==='high_energy'?'一緒にスポーツや旅行など、アクティブな体験を！新しい挑戦を共有すると、お互いの新しい一面が見えますよ。':matchType==='stable'||matchType==='nurture'?'「いつもの場所」に「小さな変化」を。行きつけのレストランで新メニューを頼む、部屋の模様替えをするなど。':matchType==='intellectual'||matchType==='exciting'?'一緒に「知的な体験」を。美術館、謎解き、読書会。「考える」体験を共有すると、会話がもっと深まりますよ。':'お互いの趣味に一歩踏み込んでみてください。相手の世界を知ることで、新しい繋がりが生まれますよ。'}\n\n週に一度は「スマホを置いて、ちゃんと向き合う30分」を作ってみてくださいね。それだけで、関係の質がぐっと変わりますよ。`},
             {label:'信頼関係の築き方',next:'result',result:`${myName}さんと${pName}さんの信頼の育て方：\n\n信頼は大きなことで築くものではなく、小さな約束を守り続けることで育ちます。\n\n二人に合った信頼の積み方：\n\n① 「言ったことは守る」。小さな約束こそ大切\n② 「秘密を守る」。二人の間の話は外に出さない\n③ 「弱さを見せ合える」。完璧じゃない自分を受け入れてもらう\n\n${myName}さんと${pName}さんは${matchType==='stable'||matchType==='nurture'?'もともと信頼を築く力を持ったお二人。時間をかけるほど、揺るぎない絆になりますよ。':matchType==='challenge'||matchType==='mysterious'?'信頼に時間がかかるタイプの組み合わせ。でもだからこそ、一度築かれた信頼は誰よりも深くなります。焦らずいきましょうね。':'お互いの「ここだけは譲れない」を早めに共有しておくと、すれ違いが減りますよ。'}`}]
         },
         // === 仕事パートナー ===
-        s2_work:{q:'仕事パートナーとして知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+        s2_work:{q:'仕事パートナーとして知りたいことは？',icon:'heart-handshake',color:'var(--primary)',
             reading:`「${archJa[myArch]}」タイプの${myName}さんと「${archJa[pArch]}」タイプの${pName}さんの仕事相性。`,
             opts:[{label:'役割分担のバランス',next:'s3_work_role'},{label:'一緒に仕事する時の注意点',next:'s3_work_warn'},{label:'チームとしての強み',next:'s3_work_str'}]
         },
-        s3_work_role:{q:'役割分担で特に知りたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_work_role:{q:'役割分担で特に知りたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'お互いの強みの活かし方',next:'result',result:`${myName}さんの「${archJa[myArch]}」と${pName}さんの「${archJa[pArch]}」。${myArch===pArch?'同じタイプ同士。強みが重なるので、あえて役割を明確に分けることが大切ですよ。片方が苦手分野を引き受ける仕組みを作りましょう。':'補い合える組み合わせですね。'}\n\n${myName}さんの担当に向いているのは：\n${myArch==='leader'?'方向性の決定、推進力、意思決定':myArch==='support'?'チームの調和、フォロー、品質管理':myArch==='creative'?'アイデア出し、デザイン、新しい解決策':myArch==='analyst'?'分析、データ検証、正確性の担保':'全体設計、長期戦略、スケール管理'}\n\n${pName}さんの担当に向いているのは：\n${pArch==='leader'?'意思決定のスピード、チーム牽引':pArch==='support'?'細やかなサポート、関係構築':pArch==='creative'?'クリエイティブな解決策、発想力':pArch==='analyst'?'データに基づいた判断、品質チェック':'大きなビジョン設計、事業構築'}\n\nこの分担を意識するだけで、二人のチーム力が格段に上がりますよ。`},
             {label:'意思決定の仕方',next:'result',result:`${myName}さんと${pName}さんの意思決定スタイル：\n\n${myArch==='leader'||myArch==='builder'?myName+'さんは素早く決断するタイプ。':myArch==='analyst'?myName+'さんはデータを集めてから決めるタイプ。':myName+'さんは感覚や周囲の意見を大切にするタイプ。'}\n${pArch==='leader'||pArch==='builder'?pName+'さんは即断即決タイプ。':pArch==='analyst'?pName+'さんは慎重に分析してから決めるタイプ。':pName+'さんは人の意見を聞いてから判断するタイプ。'}\n\nおすすめの意思決定ルール：\n• 小さな決定は交代で（今回は${myName}さん、次は${pName}さん）\n• 大きな決定は必ず二人で話し合う\n• 意見が割れたら「期限」を決めて保留する\n\nお互いの決め方のスタイルを理解しておくだけで、衝突がぐっと減りますよ。`},
             {label:'苦手分野のカバー方法',next:'result',result:`お互いの弱みをカバーし合う。最高のチームの条件ですね。\n\n${myArch==='leader'?myName+'さんの弱み：細かい作業、人の感情への配慮':myArch==='support'?myName+'さんの弱み：大きな決断、自己主張':myArch==='creative'?myName+'さんの弱み：ルーティン、スケジュール管理':myArch==='analyst'?myName+'さんの弱み：素早い決断、人間関係の構築':myName+'さんの弱み：細部の管理、日々の実務'}\n\n${pArch==='leader'?pName+'さんの弱み：丁寧な説明、チームの感情ケア':pArch==='support'?pName+'さんの弱み：リーダーシップ、大胆な提案':pArch==='creative'?pName+'さんの弱み：ルーティン管理、期限厳守':pArch==='analyst'?pName+'さんの弱み：即座の判断、曖昧さへの対応':pName+'さんの弱み：日常的な実務、細かいタスク管理'}\n\n相手の弱みを「責める」のではなく「カバーする」。この意識だけで、二人は最強のチームになれますよ。`}]
         },
-        s3_work_warn:{q:'仕事上のすれ違いで気をつけたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_work_warn:{q:'仕事上のすれ違いで気をつけたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'仕事のスピード感',next:'result',result:`${myName}さんと${pName}さんの仕事のテンポ：\n\n${myEl==='fire'||pEl==='fire'?'「火」の要素を持つ方はスピード重視。「もっと早く！」と思うことがあるかもしれませんが、相手には相手のペースがあります。':''}${myEl==='earth'||pEl==='earth'?'「地」の要素を持つ方は確実性重視。「もっと慎重に」と思うことがあるかもしれませんが、スピードも大切な場面があります。':''}\n\n解決策：\n• プロジェクト開始時に「いつまでに何を」を明確にする\n• 「急ぎの案件」と「じっくりやる案件」を分ける\n• お互いのペースを否定しない\n\n「違うテンポ」は「悪いこと」ではありません。うまく組み合わせると、品質とスピードの両立ができますよ。`},
             {label:'コミュニケーションの取り方',next:'result',result:`${myName}さんと${pName}さんの仕事上のコミュニケーション：\n\n${myName}さんは${myEl==='fire'?'結論から先に、簡潔に伝えるのが得意':myEl==='earth'?'丁寧に経緯から説明するスタイル':myEl==='air'?'柔軟に話を広げながら議論を深めるスタイル':'相手の気持ちを察しながら伝えるスタイル'}。\n\n${pName}さんは${pEl==='fire'?'「で、結局どうするの？」と結論を求めるタイプ':pEl==='earth'?'「なぜそうなったの？」と経緯を知りたいタイプ':pEl==='air'?'「他の選択肢は？」と可能性を広げたいタイプ':'「みんなはどう思ってる？」と周囲の気持ちを気にするタイプ'}。\n\nお互いのスタイルを知っておくだけで、すれ違いがぐっと減りますよ。相手のスタイルに合わせて「伝え方」を少し調整してみてくださいね。`},
             {label:'ストレスの対処法',next:'result',result:`仕事でストレスが溜まった時の${myName}さんと${pName}さん：\n\n${myName}さんのストレスサイン：${myEl==='fire'?'イライラして攻撃的になる':myEl==='earth'?'黙り込んで一人になりたがる':myEl==='air'?'落ち着きがなくなり集中できない':'感情的になり泣きそうになる'}\n\n${pName}さんのストレスサイン：${pEl==='fire'?'怒りっぽくなる':pEl==='earth'?'頑なになり融通が利かなくなる':pEl==='air'?'無口になるか逆に饒舌になる':'引きこもりがちになる'}\n\nお互いのサインを知っておくと「あ、今ストレスなんだな」と気づけます。\n\n気づいた時は：「大丈夫？何か手伝えることある？」。この一言だけで十分ですよ。`}]
         },
-        s3_work_str:{q:'チームとしての強みで知りたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_work_str:{q:'チームとしての強みで知りたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'二人だからこそできること',next:'result',result:`${myName}さん × ${pName}さんのチームが最強になれる分野：\n\n${myArch==='leader'&&pArch==='support'||myArch==='support'&&pArch==='leader'?'リーダー×サポーター：最もバランスの取れた組み合わせ。一人が引っ張り、一人がフォロー。組織を動かすプロジェクトが得意ですよ。':myArch==='creative'&&pArch==='analyst'||myArch==='analyst'&&pArch==='creative'?'クリエイター×アナリスト：アイデアと分析の最強コンビ。企画→検証→改善のサイクルが回せます。新規事業やプロダクト開発が向いていますよ。':myArch===pArch?'同じタイプ同士：深い専門性を活かした共同作業が得意。ただし視野が狭くならないよう、定期的に外部の意見を取り入れてくださいね。':'異なるタイプの組み合わせ：お互いにない視点を持っているので、一人では見落とすポイントをカバーし合えます。「違い」を武器にしてくださいね。'}\n\n二人の合言葉：「私にはない力を、あなたが持っている」`},
             {label:'成長し合える関係の作り方',next:'result',result:`${myName}さんと${pName}さんが互いに成長する方法：\n\n① 定期的に「振り返り」の時間を持つ\n。月1回、「良かったこと」「改善したいこと」を共有\n\n② お互いの「強み」を言葉で伝え合う\n。「○○さんのこういうところ、すごいと思う」\n\n③ 一緒に新しいことを学ぶ\n。同じ本を読む、セミナーに参加する\n\n${myName}さんと${pName}さんが出会ったことには、きっと意味があります。お互いを高め合える関係を、大切に育てていってくださいね。`},
             {label:'困難を乗り越える方法',next:'result',result:`${myName}さんと${pName}さんがピンチの時：\n\n困難な状況での二人のスタイル：\n${myName}さんは${myEl==='fire'?'「やるしかない！」と突き進む':myEl==='earth'?'冷静に状況を分析して対策を練る':myEl==='air'?'様々な解決策を考え出す':'チームの気持ちに寄り添いながら乗り越える'}タイプ。\n${pName}さんは${pEl==='fire'?'行動力で状況を打開する':pEl==='earth'?'着実に一歩ずつ前に進む':pEl==='air'?'柔軟に対応を変えていく':'周囲を精神的にサポートする'}タイプ。\n\nピンチの時のルール：\n① まず「二人で状況を共有する」\n② 感情的にならず「事実」を整理する\n③ それぞれの得意分野で役割分担する\n④ 乗り越えたら「お疲れさま」を忘れずに\n\n困難は二人の絆を試す機会。でも乗り越えた先には、もっと強い信頼が待っていますよ。`}]
         },
         // === コミュニケーション ===
-        s2_comm:{q:'コミュニケーションで知りたいことは？',icon:'heart-handshake',color:'var(--danger)',
+        s2_comm:{q:'コミュニケーションで知りたいことは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'相手が喜ぶ言葉・行動',next:'s3_comm_happy'},{label:'喧嘩した時の対処法',next:'s3_comm_fight'},{label:'もっと仲良くなるには',next:'s3_comm_deep'}]
         },
-        s3_comm_happy:{q:`${pName}さんに伝えたいのは？`,icon:'heart-handshake',color:'var(--danger)',
+        s3_comm_happy:{q:`${pName}さんに伝えたいのは？`,icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'感謝の気持ち',next:'result',result:`${pName}さんに感謝を伝える方法：\n\n${pEl==='fire'?'ストレートに「ありがとう！」と。具体的に何が嬉しかったかを伝えると、'+pName+'さんは照れながらもとても嬉しくなりますよ。':''}${pEl==='earth'?'日常の中で「いつもありがとう」と静かに伝えて。大げさな演出より、さりげない言葉が'+pName+'さんの心に響きますよ。':''}${pEl==='air'?'ユーモアを交えて。「'+pName+'さんがいないと回らないよ〜（笑）」くらいの軽さが、実は一番伝わりますよ。':''}${pEl==='water'?'手紙やメッセージで丁寧に。'+pName+'さんは言葉に込められた気持ちを深く感じ取る方なので、心を込めた文章が最高のプレゼントですよ。':''}`},
             {label:'応援の気持ち',next:'result',result:`${pName}さんを応援する方法：\n\n${pEl==='fire'?'「絶対できるよ！」と背中を押す。'+pName+'さんは応援されるとパワーが倍増するタイプですよ。':pEl==='earth'?'「無理しないでね。でも応援してるよ」と安心を添えて。'+pName+'さんは焦らされるより見守られる方が力を発揮できます。':pEl==='air'?'「こんなやり方もあるかもね」と選択肢を広げてあげて。'+pName+'さんは「自分で選べる」ことが一番のモチベーションになりますよ。':'「辛い時はいつでも話聞くからね」と寄り添って。'+pName+'さんは気持ちを受け止めてもらえるだけで、前に進む力が湧いてきますよ。'}`},
             {label:'本音を伝えたい',next:'result',result:`${pName}さんに本音を伝えるコツ：\n\n${pEl==='fire'?'回りくどくせず、ストレートに。ただし攻撃的にならないよう「私は〜と感じた」という形で。'+pName+'さんは正直な人を信頼しますよ。':pEl==='earth'?'落ち着いた場所で、時間をかけて。急に本音をぶつけると'+pName+'さんは身構えてしまいます。「ちょっと話したいことがあるんだけど」と前置きを。':pEl==='air'?'軽いトーンから入って徐々に。重すぎると'+pName+'さんは引いてしまうかも。「最近思ってたんだけどさ〜」くらいの入り方がベスト。':pEl==='water'?pName+'さんはあなたの気持ちを敏感に察します。「実は…」と切り出すだけで、真剣に聞いてくれますよ。感情を込めて、ゆっくりと。':''}`}]
         },
-        s3_comm_fight:{q:'喧嘩で一番困るのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_comm_fight:{q:'喧嘩で一番困るのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'仲直りのきっかけがつかめない',next:'result',result:`${myName}さんと${pName}さんの仲直りのきっかけ：\n\n${pEl==='fire'?'時間を置きすぎないこと。'+pName+'さんは短期決戦型。翌日には「昨日はごめんね」と一言。それだけで関係はリセットされますよ。':pEl==='earth'?pName+'さんには少し時間が必要。1〜2日置いてから「話せる？」と聞いてみて。無理に急かさないのがポイント。':pEl==='air'?'LINEでさりげなく日常の話題を送ってみて。'+pName+'さんは空気が変われば自然と戻ってこれるタイプ。重い空気を引きずらないことが大切。':pName+'さんには「あなたの気持ちを傷つけてしまったね」と、気持ちへの謝罪が一番響きます。原因の分析より、まず共感を。'}`},
             {label:'同じことで何度も揉める',next:'result',result:`同じ原因で繰り返す喧嘩。根本を見直すタイミングかもしれませんね。\n\n試してみてください：\n\n① 喧嘩が落ち着いた後に「何が本当の原因だったか」を二人で話す\n② 「次に同じことが起きたらどうするか」を決めておく\n③ 決めたルールを紙に書いて共有する\n\n同じ喧嘩を繰り返すのは、「根っこの問題」が解決されていないサイン。\n\n表面上の出来事ではなく「お互いが本当に求めていること」に目を向けてみてくださいね。`},
             {label:'相手が何を考えているかわからない',next:'result',result:`${pName}さんの気持ちが見えない時：\n\n${pEl==='fire'?pName+'さんは感情が表に出やすいタイプ。怒っている時は明らかにわかるはず。でもその裏にある「悲しさ」や「寂しさ」を見逃さないで。怒りは「二次感情」。本当の気持ちはその奥にありますよ。':pEl==='earth'?pName+'さんは感情を内に秘めるタイプ。沈黙が続いたら「何か気になることある？話してくれたら嬉しい」と水を向けてみて。':pEl==='air'?pName+'さんは論理的に話そうとするあまり、本当の気持ちを言葉にしないことがあります。「本当はどう感じてる？」と感情に焦点を当てる質問を。':pName+'さんは気持ちを言葉にするのが苦手な場合も。「今、悲しい？怒ってる？それとも疲れてる？」と選択肢を出してあげると、答えやすくなりますよ。'}\n\n${myName}さんへ：「察する」のではなく「聞く」。これが一番確実で、一番相手を大切にする方法ですよ。`}]
         },
-        s3_comm_deep:{q:'もっと仲良くなるために、やってみたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_comm_deep:{q:'もっと仲良くなるために、やってみたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'二人の習慣を作る',next:'result',result:`${myName}さんと${pName}さんだけの「習慣」を作りましょう。\n\nおすすめ：\n• 毎週○曜の夜は一緒にご飯（外食でも自炊でも）\n• 月に一回「新しい場所」に行く\n• 寝る前の5分だけ「今日良かったこと」を報告し合う\n• 記念日にお互いの好きなところを3つ書いて交換\n\n${matchType==='high_energy'?'アクティブな二人なら、スポーツや旅行の定期イベントがぴったり。':matchType==='stable'?'「いつもの場所でいつもの時間」。その安心感が二人の絆を深めますよ。':matchType==='intellectual'?'一緒に本を読む、映画の感想を語り合う。知的な共有が'+myName+'さんと'+pName+'さんの最高の接着剤です。':'お互いの世界を少しずつ交換してみて。新しい発見が、関係に彩りを加えますよ。'}\n\n「続けること」が一番大切。完璧じゃなくてもOK。${myName}さんと${pName}さんだけの宝物を育ててくださいね。`},
             {label:'相手をもっと理解したい',next:'result',result:`${pName}さんをもっと深く理解するための質問リスト：\n\n以下の質問を、二人でゆっくり話し合ってみてくださいね。\n\n① 「一番幸せを感じる瞬間は？」\n② 「子供の頃の夢は？」\n③ 「人生で一番影響を受けた人は？」\n④ 「今、一番不安に思っていることは？」\n⑤ 「10年後、どんな自分でいたい？」\n\n一度に全部聞く必要はありません。月に1つずつでOK。\n\n大切なのは「答え」より「対話する時間」そのもの。${pName}さんと向き合う時間が、二人の理解を深めてくれますよ。`},
             {label:'感謝を伝え合いたい',next:'result',result:`感謝を伝え合う。最もシンプルで、最も効果的な方法ですね。\n\n「ありがとうチャレンジ」を提案します：\n\n1週間、毎日お互いに「今日のありがとう」を一つずつ伝え合ってみてくださいね。\n\nルール：\n• 「ありがとう」ではなく「○○してくれてありがとう」と具体的に\n• LINEでもOK、直接でもOK\n• 些細なことでいい（「お茶淹れてくれてありがとう」等）\n\n1週間後、二人の間の空気が変わっていることに気づくはず。\n\n${myName}さんと${pName}さんの関係は、すでに素敵です。それをお互いに「言葉にする」だけで、もっともっと素敵になりますよ。`}]
         },
         // === 注意点 ===
-        s2_caution:{q:'2人の関係で特に気をつけたいことは？',icon:'heart-handshake',color:'var(--danger)',
+        s2_caution:{q:'2人の関係で特に気をつけたいことは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'すれ違いやすいポイント',next:'s3_caut_miss'},{label:'お互いの地雷',next:'s3_caut_ng'},{label:'関係を壊さないために',next:'s3_caut_protect'}]
         },
-        s3_caut_miss:{q:'すれ違いで一番心配なのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_caut_miss:{q:'すれ違いで一番心配なのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'考え方の違い',next:'result',result:`${myName}さんと${pName}さんの考え方の違い：\n\n${myEl}の${myName}さんは${myEl==='fire'?'「まずやってみよう」派':myEl==='earth'?'「しっかり準備してから」派':myEl==='air'?'「いろんな可能性を考えよう」派':'「気持ちを大切にしよう」派'}。\n${pEl}の${pName}さんは${pEl==='fire'?'「スピード重視」':pEl==='earth'?'「確実性重視」':pEl==='air'?'「柔軟性重視」':'「共感重視」'}。\n\nこの違いをすれ違いにしないコツ：\n「あなたの考えも一理あるね」。この一言を口癖にしてみてくださいね。\n\n違いは「問題」ではなく「学び」。お互いの視点を取り入れると、一人では見えなかった景色が見えてきますよ。`},
             {label:'感情の温度差',next:'result',result:`${myName}さんと${pName}さんの感情温度の違い：\n\n${myEl==='fire'||myEl==='water'?myName+'さんは感情の振れ幅が大きいタイプ。':myName+'さんは比較的クールに対処するタイプ。'}\n${pEl==='fire'||pEl==='water'?pName+'さんも感情的になりやすい面があります。':pName+'さんは冷静に対応するタイプです。'}\n\n温度差への対処法：\n① 「今、自分はどんな気持ち？」をお互いに伝え合う\n② 熱くなっている方に「合わせる」のではなく「寄り添う」\n③ クールダウンが必要な時は素直に「少し時間をちょうだい」\n\n感情の温度は違って当然。大切なのは「違い」を否定しないことですよ。`},
             {label:'生活リズムの違い',next:'result',result:`生活リズムのすれ違い。じわじわとストレスになりますよね。\n\n完全に合わせなくて大丈夫。大切なのは「重なる時間を大切にする」こと。\n\n① 1日の中で「二人の時間」を15分だけ確保\n② 「おはよう」と「おやすみ」は必ず伝え合う\n③ 相手のリズムを「変えよう」とせず「理解しよう」とする\n\n${myName}さんと${pName}さん、リズムは違っても心は繋がっています。その繋がりを確認できる「小さな習慣」を一つだけ作ってみてくださいね。`}]
         },
-        s3_caut_ng:{q:'お互いの「やってはいけないこと」を知りたいですか？',icon:'heart-handshake',color:'var(--danger)',
+        s3_caut_ng:{q:'お互いの「やってはいけないこと」を知りたいですか？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'はい、知りたい',next:'result',result:`${myName}さんの地雷：\n${myEl==='fire'?'• 無視されること\n• 軽く扱われること\n• 優柔不断な態度':myEl==='earth'?'• 約束を破ること\n• 急な変更\n• 雑な対応':myEl==='air'?'• 束縛されること\n• 退屈な空気\n• 自由を制限されること':'• 感情を否定されること\n• 「考えすぎ」と言われること\n• 冷たい態度'}\n\n${pName}さんの地雷：\n${pEl==='fire'?'• 無視、軽視\n• 回りくどい態度\n• 否定から入ること':pEl==='earth'?'• 不誠実な態度\n• 金銭面のルーズさ\n• 急かされること':pEl==='air'?'• 束縛\n• 重すぎる空気\n• 行動の監視':pEl==='water'?'• 感情の否定\n• 冷たい言葉\n• 気持ちの軽視':''}\n\nこのリストを覚えておくだけで、無意識に相手を傷つけるリスクがぐっと減りますよ。`}]
         },
-        s3_caut_protect:{q:'関係を守るために一番大切にしたいのは？',icon:'heart-handshake',color:'var(--danger)',
+        s3_caut_protect:{q:'関係を守るために一番大切にしたいのは？',icon:'heart-handshake',color:'var(--primary)',
             opts:[{label:'信頼を壊さないこと',next:'result',result:`${myName}さんと${pName}さんの信頼を守るために：\n\n信頼は「築くのに何年もかかり、壊すのは一瞬」。\n\n絶対に守ってほしいこと：\n① 嘘をつかない（小さな嘘も積もれば大きな不信に）\n② 約束を守る（「些細な約束」こそ大切）\n③ 二人の間のことを外に話さない\n④ 困った時に隠さず相談する\n\n${myName}さんと${pName}さんの間に築かれた信頼は、お二人だけの宝物です。大切に守ってくださいね。`},
             {label:'感謝を忘れないこと',next:'result',result:`感謝。最もシンプルで、最も強力な関係の接着剤ですね。\n\n${myName}さんへの提案：\n\n毎日「${pName}さんのおかげで助かった」を一つ見つけてください。\n\nそしてそれを、言葉にして伝えてください。\n\n「ありがとう」の4文字が、${myName}さんと${pName}さんの関係を何十年も支えてくれますよ。\n\n今日から始めてみてくださいね。`},
             {label:'お互いの成長を応援すること',next:'result',result:`お互いの成長を応援する。最高の関係の形ですね。\n\n${myName}さんと${pName}さんへ：\n\n理想の関係は「一緒にいて安心できる」こと。\nそしてもう一つ。「一緒にいるともっと良い自分になれる」こと。\n\nお互いの夢や挑戦を応援し合い、時に正直なフィードバックを送り合い、成功を一緒に喜ぶ。\n\nそんな関係を、これからも育てていってくださいね。\n\n${myName}さんと${pName}さんの未来を、心から応援しています。`}]
@@ -1676,6 +1769,20 @@ function setAppTheme(theme){
     });
     trackEvent('theme_change',{theme});
 }
+
+// Scroll-triggered card animations
+const fadeObserver=new IntersectionObserver((entries)=>{
+    entries.forEach(entry=>{
+        if(entry.isIntersecting){entry.target.classList.add('visible');fadeObserver.unobserve(entry.target);}
+    });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+function observeFadeUps(){document.querySelectorAll('.fade-up:not(.visible)').forEach(el=>fadeObserver.observe(el));}
+const domObserver=new MutationObserver(()=>{setTimeout(observeFadeUps,50);});
+domObserver.observe(document.body,{childList:true,subtree:true});
+function triggerCardAnimations(){
+    setTimeout(()=>{document.querySelectorAll('.fade-up:not(.visible)').forEach(el=>{el.classList.add('visible');});},100);
+}
+
 function initTheme(){
     let saved=null;
     try{saved=localStorage.getItem('fortuna_theme');}catch(e){}
@@ -1757,11 +1864,16 @@ terms:`<p style="color:var(--text-muted);font-size:11px;margin-bottom:20px;">制
 <ul style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;padding-left:20px;">
 <li>本サービスの内容を、自らが作成したものとして公開・販売すること</li>
 <li>本サービスの鑑定結果を、専門的なアドバイスとして第三者に提供すること</li>
-<li>本サービスのソースコードを無断で複製・改変・再配布すること</li>
+<li>本サービスのソースコード、UI/UXデザイン、画面構成、診断ロジック、テキストコンテンツ等を無断で複製・模倣・改変・再配布すること</li>
+<li>本サービスと実質的に同一または類似のアプリケーションを、App Store、Google Play、その他のプラットフォームにおいて公開すること</li>
 <li>本サービスの運営を妨害する行為</li>
 </ul>
 <h3 style="font-size:14px;font-weight:700;color:var(--text-main);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);">第4条　知的財産権</h3>
-<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスのデザイン、テキスト、ロゴ、ソースコードその他一切のコンテンツに関する著作権・知的財産権は、運営者に帰属します。</p>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスに含まれるすべてのコンテンツ（UI/UXデザイン、画面レイアウト、配色設計、テキスト、ロゴ、アイコン、診断アルゴリズム、ソースコード等）に関する著作権その他一切の知的財産権は、運営者（Jone Lab）に帰属します。</p>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスは2026年4月より開発・公開されており、GitHub上のコミット履歴およびデプロイ記録により開発時系列が証明されます。</p>
+<div style="background:var(--danger-light);border-left:3px solid var(--danger);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;">
+<p style="color:var(--text-main);font-size:13px;font-weight:600;">権利侵害について：本サービスのコンテンツを無断で使用した場合、Apple App Store Content Dispute、Google Play 法的理由によるコンテンツ報告等を通じた通報、および法的措置を含む対応を行います。</p>
+</div>
 <h3 style="font-size:14px;font-weight:700;color:var(--text-main);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);">第5条　免責事項</h3>
 <p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスの鑑定結果は、星座占い・数秘術の一般的な解釈に基づくものであり、科学的根拠を保証するものではありません。鑑定結果の利用はすべてご自身の責任において行ってください。本サービスは予告なく変更、中断、終了する場合があります。</p>
 <h3 style="font-size:14px;font-weight:700;color:var(--text-main);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);">第6条　準拠法・管轄</h3>
