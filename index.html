@@ -17,7 +17,7 @@
         function trackEvent(n,p={}){gtag('event',n,p);}
     </script>
     <meta property="og:title" content="Fortuna — あなたのトリセツ">
-    <meta property="og:description" content="1,600通り以上の組み合わせから、星と数秘があなただけのトリセツを作成。みんなも占ってみてね🔮">
+    <meta property="og:description" content="2,000通り以上の組み合わせから、星と数秘があなただけのトリセツを作成。みんなも占ってみてね🔮">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://jonekun429.github.io/uranai/">
     <meta property="og:image" content="https://jonekun429.github.io/uranai/og-image.png">
@@ -26,9 +26,11 @@
     <meta property="og:site_name" content="Fortuna">
     <meta property="og:locale" content="ja_JP">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://jonekun429.github.io/uranai/">
     <meta name="twitter:title" content="Fortuna — あなたのトリセツ">
-    <meta name="twitter:description" content="1,600通り以上の組み合わせから、星と数秘があなただけのトリセツを作成🔮">
+    <meta name="twitter:description" content="2,000通り以上の組み合わせから、星と数秘があなただけのトリセツを作成🔮">
     <meta name="twitter:image" content="https://jonekun429.github.io/uranai/og-image.png">
+    <meta name="twitter:image:alt" content="Fortuna - 星と数秘が語るあなたのトリセツ。2,000通り以上の診断、完全無料">
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -225,7 +227,7 @@
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#6BA99F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></svg>
         </div>
         <p style="font-family:'Roboto Mono',monospace;font-size:10px;letter-spacing:.35em;text-transform:uppercase;color:#5C8E84;margin-bottom:28px;">Your Energy</p>
-        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">1,600通り以上の中から<br>あなただけの鑑定を</h2>
+        <h2 style="font-size:22px;font-weight:700;color:#E8EDE9;margin-bottom:20px;line-height:1.6;">2,000通り以上の中から<br>あなただけの鑑定を</h2>
         <p style="font-size:14px;line-height:2.2;color:#7A9A91;">12の星座 × 13の運命数 × 5つの性格タイプ。<br>同じ結果は、二つとありません。<br><br>生年月日に刻まれたエネルギーを<br>一緒に読み解いていきましょう。</p>
     </div>
     <div class="ob-slide" data-slide="2" style="position:absolute;top:0;left:0;right:0;bottom:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:0 40px;text-align:center;transition:opacity .5s;opacity:0;pointer-events:none;">
@@ -256,6 +258,9 @@
             <button onclick="closeDrawer()" class="w-8 h-8 flex items-center justify-center rounded-lg" style="color:var(--text-sub);"><i data-lucide="x" class="w-5 h-5"></i></button>
         </div>
         <div class="flex-1 p-4 space-y-1">
+            <button onclick="showLegalModal('howto');closeDrawer();" class="drawer-item w-full text-left flex items-center gap-3 p-3 rounded-xl" style="color:var(--text-main);">
+                <i data-lucide="book-open" class="w-4 h-4" style="color:var(--primary);"></i><span class="t-body font-semibold" style="color:var(--primary);">使い方ガイド</span>
+            </button>
             <button onclick="showLegalModal('privacy');closeDrawer();" class="drawer-item w-full text-left flex items-center gap-3 p-3 rounded-xl" style="color:var(--text-main);">
                 <i data-lucide="shield" class="w-4 h-4" style="color:var(--text-sub);"></i><span class="t-body">プライバシーポリシー</span>
             </button>
@@ -610,30 +615,53 @@ function renderDailyArea(){
     const dateLabel=`${today.getMonth()+1}月${today.getDate()}日（${'日月火水木金土'[today.getDay()]}）`;
 
     area.innerHTML=`
-    <div class="fortune-card p-5 fade-up visible">
-        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
-        <div class="flex items-center gap-2 mb-2 pt-1">
-            <i data-lucide="sun" class="w-4 h-4" style="color:var(--primary);"></i>
-            <span class="t-card-title" style="color:var(--text-sub);">${dateLabel}の占い</span>
-        </div>
-        <p class="t-caption mb-3" style="color:var(--text-muted);">${nick}さん（${zName}）</p>
-        <div class="rounded-lg p-3.5 mb-3" style="background:var(--primary-light);border:2px solid var(--primary);">
-            <p class="t-body font-semibold leading-relaxed" style="color:var(--text-main);">${msg}</p>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:12px;">
-            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">総合運</span><span class="t-caption font-bold" style="color:var(--primary);">${stars(genScore)}</span></div>
-            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">恋愛運</span><span class="t-caption font-bold" style="color:var(--danger);">${stars(loveScore)}</span></div>
-            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">仕事運</span><span class="t-caption font-bold" style="color:var(--cat-tool);">${stars(workScore)}</span></div>
-            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">金　運</span><span class="t-caption font-bold" style="color:var(--cat-book);">${stars(moneyScore)}</span></div>
-        </div>
-        <div class="flex flex-wrap gap-2">
-            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">🎨 ${color}</span>
-            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">🍀 ${item}</span>
-            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">📍 ${spot}</span>
+    <div class="fortune-card fade-up visible" style="padding:0;overflow:hidden;">
+        <button id="daily-toggle" style="width:100%;padding:14px 20px;display:flex;align-items:center;justify-content:space-between;cursor:pointer;border:none;background:none;">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="sun" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                <div style="text-align:left;">
+                    <p class="t-body font-semibold" style="color:var(--text-main);">${dateLabel}の占い</p>
+                    <p style="font-size:11px;color:var(--text-muted);">${nick}さん（${zName}）</p>
+                </div>
+            </div>
+            <i data-lucide="chevron-down" id="daily-chevron" class="w-4 h-4" style="color:var(--text-muted);transition:transform .3s;"></i>
+        </button>
+        <div id="daily-body" style="padding:0 20px 16px;display:block;">
+            <p class="t-body font-semibold leading-relaxed mb-3" style="color:var(--text-main);padding:10px 14px;background:var(--primary-light);border-radius:10px;border:2px solid var(--primary);">${msg}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:12px;">
+                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">総合運</span><span style="font-size:12px;font-weight:700;color:var(--primary);letter-spacing:1px;">${stars(genScore)}</span></div>
+                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">恋愛運</span><span style="font-size:12px;font-weight:700;color:var(--danger);letter-spacing:1px;">${stars(loveScore)}</span></div>
+                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">仕事運</span><span style="font-size:12px;font-weight:700;color:var(--cat-tool);letter-spacing:1px;">${stars(workScore)}</span></div>
+                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">金　運</span><span style="font-size:12px;font-weight:700;color:var(--cat-book);letter-spacing:1px;">${stars(moneyScore)}</span></div>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">🎨 ${color}</span>
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">🍀 ${item}</span>
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">📍 ${spot}</span>
+            </div>
         </div>
     </div>`;
     area.classList.remove('hidden');
     lucide.createIcons();
+    // Toggle collapse
+    document.getElementById('daily-toggle').addEventListener('click',()=>{
+        const body=document.getElementById('daily-body');
+        const chev=document.getElementById('daily-chevron');
+        if(body.style.display==='none'){
+            body.style.display='block';chev.style.transform='rotate(0deg)';
+            try{localStorage.setItem('fortuna_daily_open','1');}catch(e){}
+        } else {
+            body.style.display='none';chev.style.transform='rotate(-90deg)';
+            try{localStorage.setItem('fortuna_daily_open','0');}catch(e){}
+        }
+    });
+    // Restore collapsed state
+    try{
+        if(localStorage.getItem('fortuna_daily_open')==='0'){
+            document.getElementById('daily-body').style.display='none';
+            document.getElementById('daily-chevron').style.transform='rotate(-90deg)';
+        }
+    }catch(e){}
 }
 
 // Run on page load
@@ -2032,7 +2060,7 @@ terms:`<p style="color:var(--text-muted);font-size:11px;margin-bottom:20px;">制
 <h3 style="font-size:14px;font-weight:700;color:var(--text-main);margin:24px 0 8px;padding-bottom:6px;border-bottom:1px solid var(--border-color);">第1条　サービスの概要</h3>
 <p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">本サービスは、西洋占星術（星座占い）と数秘術（運命数）に基づく性格診断・占いをエンターテインメントとして提供するWebアプリケーションです。</p>
 <div style="background:var(--primary-light);border-left:3px solid var(--primary);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;">
-<p style="color:var(--text-main);font-size:13px;line-height:1.8;">本サービスでは、12の星座 × 13の運命数 × リーダー・サポーター・クリエイター・アナリスト・ビルダーの5つの性格タイプなど、多様な要素を組み合わせた<strong>1,600通り以上</strong>のパターンから、あなただけの鑑定結果を導き出します。さらに深掘り診断では4段階の質問を通じて、より精度の高いパーソナルアドバイスをお届けします。</p>
+<p style="color:var(--text-main);font-size:13px;line-height:1.8;">本サービスでは、12の星座 × 13の運命数 × リーダー・サポーター・クリエイター・アナリスト・ビルダーの5つの性格タイプなど、多様な要素を組み合わせた<strong>2,000通り以上</strong>のパターンから、あなただけの鑑定結果を導き出します。さらに深掘り診断では4段階の質問を通じて、より精度の高いパーソナルアドバイスをお届けします。</p>
 </div>
 <div style="background:var(--danger-light);border-left:3px solid var(--danger);padding:12px 16px;border-radius:0 12px 12px 0;margin:16px 0;">
 <p style="color:var(--text-main);font-size:13px;font-weight:600;">重要：本サービスの鑑定結果はエンターテインメントコンテンツです。医療、法律、金融等の専門的なアドバイスとして利用しないでください。</p>
@@ -2062,12 +2090,55 @@ terms:`<p style="color:var(--text-muted);font-size:11px;margin-bottom:20px;">制
 <div style="background:var(--bg-page);border:1px solid var(--border-color);border-radius:12px;padding:16px;margin-bottom:12px;">
 <p style="color:var(--text-sub);line-height:1.8;">開発者：Jone（Jone Lab）<br>Mail: <a href="mailto:jone.lab.app@gmail.com" style="color:var(--primary);">jone.lab.app@gmail.com</a></p>
 </div>
-<p style="color:var(--text-muted);font-size:11px;text-align:center;margin-top:24px;">© 2026 Jone Lab. All rights reserved.</p>`
+<p style="color:var(--text-muted);font-size:11px;text-align:center;margin-top:24px;">© 2026 Jone Lab. All rights reserved.</p>`,
+
+howto:`<div style="text-align:center;margin-bottom:24px;">
+<p style="font-size:28px;margin-bottom:8px;">🔮</p>
+<p style="color:var(--text-main);font-size:16px;font-weight:700;line-height:1.6;">Fortunaの使い方</p>
+<p style="color:var(--text-muted);font-size:12px;">星と数秘が語る、あなただけのトリセツ</p>
+</div>
+
+<h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">✨ 基本の占い</h3>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">ニックネーム・生年月日・性別・状況を入力して「占いを開始する」をタップ。12星座 × 13運命数 × 5つの性格タイプから、あなただけのトリセツが生成されます。</p>
+<div style="background:var(--primary-light);border-radius:12px;padding:14px;margin-bottom:20px;">
+<p style="color:var(--text-main);font-size:13px;line-height:1.8;"><strong>わかること：</strong>基本性格、思考タイプ、人間関係、恋愛運、仕事運、金運、同じ星座の有名人</p>
+</div>
+
+<h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">🔍 深掘り診断（7テーマ）</h3>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:8px;">基本の占い結果の下に、もっと深く知るためのテーマが7つあります。4段階の質問に答えることで、よりパーソナルなアドバイスが届きます。</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">❤️ 恋愛・相性</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">💼 仕事・転職</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">💰 お金・投資</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">👥 人間関係</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">💕 気になる相手</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">🔭 未来をのぞく</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;grid-column:span 2;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">⏳ 残りの寿命</p></div>
+</div>
+
+<h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">☀️ 今日の占い</h3>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">一度占いをすると、次回アクセスからトップ画面に「今日の占い」が自動表示されます。毎日内容が変わるので、毎朝チェックしてみてくださいね。</p>
+<div style="background:var(--warning-bg);border-radius:12px;padding:14px;margin-bottom:20px;">
+<p style="color:var(--warning-text);font-size:13px;line-height:1.8;"><strong>内容：</strong>今日のひとこと、総合運・恋愛運・仕事運・金運（★5段階）、ラッキーカラー・アイテム・スポット</p>
+</div>
+
+<h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">🎨 テーマ切替</h3>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">左上のメニューから5つのテーマを選べます。初回は時間帯に合わせて自動切替（朝〜夕方はライト、夜はダーク）。お好みのテーマを選んで保存もできます。</p>
+
+<h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">📤 結果をシェア</h3>
+<p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">占い結果の下にX・LINE・画像保存のボタンがあります。友達と一緒にトリセツを作って比べると、もっと楽しいですよ。</p>
+
+<div style="background:var(--primary-light);border:2px solid var(--primary);border-radius:12px;padding:16px;margin:24px 0;text-align:center;">
+<p style="color:var(--text-main);font-size:14px;font-weight:700;line-height:1.8;">2,000通り以上の組み合わせから<br>あなただけのトリセツを作ってみてね</p>
+</div>
+
+<p style="color:var(--text-muted);font-size:11px;text-align:center;margin-top:16px;">Fortuna v1.0 — by Jone Lab</p>`
 };
 
 function showLegalModal(type){
-    document.getElementById('legal-modal-title').textContent=type==='privacy'?'プライバシーポリシー':'利用規約';
-    document.getElementById('legal-modal-body').innerHTML=legalContent[type];
+    const titles={privacy:'プライバシーポリシー',terms:'利用規約',howto:'使い方ガイド'};
+    document.getElementById('legal-modal-title').textContent=titles[type]||'';
+    document.getElementById('legal-modal-body').innerHTML=legalContent[type]||'';
     document.getElementById('legal-modal').style.display='block';
 }
 function closeLegalModal(){
