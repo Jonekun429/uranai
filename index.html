@@ -363,6 +363,10 @@
             <h1 class="t-amount-lg mb-3" style="color:var(--primary-dark);letter-spacing:2px;">Fortuna</h1>
             <p class="t-body" style="color:var(--text-sub);">あなたの星と数秘が語る、トリセツ</p>
         </header>
+
+        <!-- 今日のひとこと & 今日の占い (saved user only) -->
+        <div id="daily-area" class="space-y-4 mb-6 hidden"></div>
+
         <div class="fortune-card p-6 fade-up visible">
             <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
             <div class="space-y-5 pt-2">
@@ -546,6 +550,94 @@ function getBirthDateStr(){
 function getZodiacId(m,d){const r=[[1,20,'capricorn'],[1,31,'aquarius'],[2,19,'aquarius'],[2,29,'pisces'],[3,20,'pisces'],[3,31,'aries'],[4,20,'aries'],[4,30,'taurus'],[5,21,'taurus'],[5,31,'gemini'],[6,21,'gemini'],[6,30,'cancer'],[7,22,'cancer'],[7,31,'leo'],[8,22,'leo'],[8,31,'virgo'],[9,22,'virgo'],[9,30,'libra'],[10,23,'libra'],[10,31,'scorpio'],[11,22,'scorpio'],[11,30,'sagittarius'],[12,21,'sagittarius'],[12,31,'capricorn']];for(let i=0;i<r.length;i+=2){if(m===r[i][0]&&d<=r[i][1])return r[i][2];if(m===r[i][0]&&d<=r[i+1][1])return r[i+1][2];}return 'capricorn';}
 function getDestinyNumber(s){let d=s.replace(/-/g,''),sum;while(d.length>1){sum=d.split('').reduce((a,b)=>a+parseInt(b),0);if([11,22,33].includes(sum))return sum;d=sum.toString();}return parseInt(d);}
 
+// ==========================================
+// DAILY FORTUNE & DAILY MESSAGE (no AI)
+// ==========================================
+function dailySeed(zId){
+    const today=new Date();
+    const ds=today.getFullYear()*10000+(today.getMonth()+1)*100+today.getDate();
+    let h=0;for(let i=0;i<zId.length;i++){h=((h<<5)-h)+zId.charCodeAt(i);h|=0;}
+    return Math.abs((ds*2654435761+h)>>>0);
+}
+function seededPick(arr,seed){return arr[seed%arr.length];}
+
+const dailyMessages={
+    aries:['直感を信じて。今日のあなたの判断は正しい','「やりたい」と思ったことに即行動。今日はスピードが味方','誰かのために動くと、自分にも良いことが返ってくる日','エネルギーを出しすぎないで。今日は少し力を抜いてちょうどいい','新しい出会いの予感。アンテナを広げておいて','思い切った決断が吉。迷ったら前に進んで','今日は「聞き上手」を心がけると人間関係が好転する','午後から運気上昇。大事な予定は午後に入れて'],
+    taurus:['今日は自分へのご褒美を。小さな贅沢が幸運を呼ぶ','焦らなくて大丈夫。あなたのペースが正解','コツコツ続けてきたことに成果が見え始める日','五感を満たす時間を。美味しいものが運気を上げる','変化を恐れず、一歩だけ踏み出してみて','信頼できる人との時間が心を満たしてくれる日','お金の使い方を見直すと良いヒントが見つかる','「ありがとう」を多めに。感謝が巡り巡って返ってくる'],
+    gemini:['好奇心のままに動いてOK。今日は新しい発見がある','言葉の力が強い日。大切な人に気持ちを伝えて','情報のインプットよりアウトプットを意識して','二つのことで迷ったら、ワクワクする方を選んで','フットワーク軽く。今日の出会いが未来を変えるかも','SNSで思わぬ良い情報に巡り合える日','午前中にクリエイティブな作業を。アイデアが湧きやすい','友達との会話から大きなヒントが見つかる日'],
+    cancer:['今日は自分の気持ちを大切に。無理に合わせなくてOK','家族や親しい人との時間が心を温めてくれる','直感が冴えている日。なんとなく気になることを信じて','料理や掃除など、暮らしを整えると運気UP','過去の経験が今日の問題を解決するヒントになる','自分の「好き」を大切にすると良い流れが生まれる','甘いものが幸運のカギ。自分にちょっとしたご褒美を','水辺に行くと気持ちがリセットされる日'],
+    leo:['今日のあなたは輝いている。自信を持って堂々と','誰かを褒めると、自分も褒められる日','クリエイティブなことに挑戦すると吉。表現力が冴える','リーダーシップを発揮するチャンス。周りを巻き込んで','おしゃれに気合いを入れると運気が上がる日','過去の成功体験を思い出して。あなたならできる','SNSの発信が思わぬ反響を呼ぶかも','夕方以降に嬉しいニュースが届く予感'],
+    virgo:['細部へのこだわりが評価される日。丁寧さが武器','健康を意識すると運気UP。軽い運動や野菜多めの食事を','完璧じゃなくてもOK。今日は「80点で出す」を意識して','整理整頓すると頭もスッキリ。デスク周りを片付けて','誰かの相談に乗ると、自分の悩みも解決するヒントが','数字やデータに注目すると良い判断ができる日','ルーティンの中に小さな変化を入れると新鮮な気持ちに','読書やインプットの時間が未来の自分への投資になる'],
+    libra:['バランスを意識して。頑張りすぎも休みすぎもほどほどに','美しいものに触れると運気が上がる日','人間関係のキーパーソンと連絡を取ると吉','迷った時は「自分がどうしたいか」を基準に','コーディネートにこだわると気分が上がる日','対話の中から素敵なアイデアが生まれる予感','今日は「イエス」を多めに。チャンスの扉が開く','夜のリラックスタイムを大切に。明日への活力になる'],
+    scorpio:['深く考える力が冴える日。本質を見抜ける','信頼できる人に本音を話すと心が軽くなる','直感が的中しやすい日。第六感を信じて','一人の時間が新しいアイデアを生む','過去に手放したものが違う形で戻ってくる予感','集中力がMAXの日。ここぞという作業を片付けて','秘密の計画を進めるのに最適な日','夜に深い気づきがありそう。日記をつけてみて'],
+    sagittarius:['冒険心を大切に。今日は新しい場所やお店に行ってみて','楽観的な気持ちが幸運を引き寄せる日','学びの意欲が高い日。気になる分野を深掘りしてみて','遠くの友人に連絡を取ると良いニュースが','自由な発想が評価される。型にはまらなくてOK','旅行の計画を立てると運気が上がる','笑いが幸運のカギ。ユーモアを忘れずに','午後から行動力UP。思い立ったが吉日'],
+    capricorn:['着実に進める日。一歩一歩が大きな成果につながる','目上の人からの評価が上がりやすい日','計画を立て直すのに最適。長期目標を見直してみて','真面目さが報われる日。コツコツやってきたことに光が','自分に厳しくなりすぎないで。今日は少し甘くてOK','キャリアに関する良いヒントが得られる予感','お金の管理を見直すと思わぬ節約ポイントが見つかる','夜は早めに休んで。質の良い睡眠が明日の運気を上げる'],
+    aquarius:['独自のアイデアが光る日。人と違うことを恐れないで','テクノロジーやSNSから良い情報が入ってくる日','友人関係が広がるチャンス。新しいコミュニティに飛び込んで','常識にとらわれない発想が問題を解決する','社会貢献やボランティアに触れると心が満たされる','未来のビジョンを描くのに最適な日','グループの中であなたの意見が求められる場面がありそう','夜にインスピレーションが降りてくる予感'],
+    pisces:['感性が研ぎ澄まされる日。アートや音楽に触れて','優しさが巡り巡って返ってくる日','夢の中にヒントがあるかも。今朝見た夢を思い出して','水に関することが幸運のカギ。お風呂にゆっくり浸かって','共感力が高い日。誰かの話を聞いてあげるだけで十分','直感に従って行動すると不思議な縁に導かれる','クリエイティブな活動に没頭すると心が安定する','自分を守る境界線を意識して。優しすぎなくて大丈夫']
+};
+
+const luckyColors=['レッド','ブルー','グリーン','イエロー','ピンク','パープル','オレンジ','ホワイト','ゴールド','シルバー','ネイビー','ラベンダー','ミント','コーラル','ターコイズ','ベージュ'];
+const luckyItems=['コーヒー','チョコレート','ハンカチ','お守り','花','本','キャンドル','手紙','音楽','紅茶','フルーツ','ノート','アロマ','スイーツ','鏡','帽子','マスキングテープ','ドライフラワー'];
+const luckySpots=['カフェ','公園','本屋','神社','駅前','川沿い','展望台','図書館','商店街','美術館','海辺','屋上','花屋','映画館','温泉','パン屋'];
+
+function renderDailyArea(){
+    const area=document.getElementById('daily-area');
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e){}
+    if(!saved||!saved.year||!saved.month||!saved.day){area.classList.add('hidden');return;}
+
+    const m=parseInt(saved.month),d=parseInt(saved.day);
+    const zId=getZodiacId(m,d);
+    const zName=db.zodiac[zId]?db.zodiac[zId].name:'';
+    const seed=dailySeed(zId);
+    const nick=saved.name||'ゲスト';
+
+    // Daily message
+    const msgs=dailyMessages[zId]||dailyMessages.aries;
+    const msg=seededPick(msgs,seed);
+    const color=seededPick(luckyColors,seed+1);
+    const item=seededPick(luckyItems,seed+2);
+    const spot=seededPick(luckySpots,seed+3);
+
+    // Daily fortune scores (1-5 stars, seeded)
+    const genScore=((seed%5)+1);
+    const loveScore=(((seed>>3)%5)+1);
+    const workScore=(((seed>>6)%5)+1);
+    const moneyScore=(((seed>>9)%5)+1);
+    const stars=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);
+
+    const today=new Date();
+    const dateLabel=`${today.getMonth()+1}月${today.getDate()}日（${'日月火水木金土'[today.getDay()]}）`;
+
+    area.innerHTML=`
+    <div class="fortune-card p-5 fade-up visible">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
+        <div class="flex items-center gap-2 mb-2 pt-1">
+            <i data-lucide="sun" class="w-4 h-4" style="color:var(--primary);"></i>
+            <span class="t-card-title" style="color:var(--text-sub);">${dateLabel}の占い</span>
+        </div>
+        <p class="t-caption mb-3" style="color:var(--text-muted);">${nick}さん（${zName}）</p>
+        <div class="rounded-lg p-3.5 mb-3" style="background:var(--primary-light);border:2px solid var(--primary);">
+            <p class="t-body font-semibold leading-relaxed" style="color:var(--text-main);">${msg}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px 12px;margin-bottom:12px;">
+            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">総合運</span><span class="t-caption font-bold" style="color:var(--primary);">${stars(genScore)}</span></div>
+            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">恋愛運</span><span class="t-caption font-bold" style="color:var(--danger);">${stars(loveScore)}</span></div>
+            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">仕事運</span><span class="t-caption font-bold" style="color:var(--cat-tool);">${stars(workScore)}</span></div>
+            <div class="flex items-center gap-2"><span class="t-caption" style="color:var(--text-muted);">金　運</span><span class="t-caption font-bold" style="color:var(--cat-book);">${stars(moneyScore)}</span></div>
+        </div>
+        <div class="flex flex-wrap gap-2">
+            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">🎨 ${color}</span>
+            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">🍀 ${item}</span>
+            <span class="px-2.5 py-1 rounded-full t-caption" style="background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">📍 ${spot}</span>
+        </div>
+    </div>`;
+    area.classList.remove('hidden');
+    lucide.createIcons();
+}
+
+// Run on page load
+renderDailyArea();
 
 // Caution advice by zodiac for base/thought/relation cards
 function getCaution(zId,cat){
