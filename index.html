@@ -573,50 +573,44 @@ function buildShareUrl(){return 'https://jonekun429.github.io/uranai/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-x').addEventListener('click',()=>{
-        // Generate and save image first, then open X
+        // Save image first, then open X app directly
         generateShareBlob(blob=>{
-            saveImageToDevice(blob);
+            downloadBlob(blob);
             setTimeout(()=>{
                 const text=buildShareTextX();
-                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
-                showToast('📷 画像はカメラロールに保存済み！投稿に添付してね');
-            },500);
+                // Try X app URL scheme first, fallback to web
+                const xAppUrl=`twitter://post?message=${encodeURIComponent(text)}`;
+                const xWebUrl=`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
+                const opened=window.open(xAppUrl,'_self');
+                // Fallback: if app didn't open after short delay, try web
+                setTimeout(()=>{
+                    try{window.open(xWebUrl,'_blank');}catch(e){}
+                },1500);
+                showToast('📷 画像を保存しました！X投稿に添付してね');
+            },600);
         });
         trackEvent('share',{method:'x',content_type:'fortune_result'});
     });
     document.getElementById('share-line').addEventListener('click',()=>{
-        // Generate and save image first, then open LINE
+        // Save image first, then open LINE
         generateShareBlob(blob=>{
-            saveImageToDevice(blob);
+            downloadBlob(blob);
             setTimeout(()=>{
                 const text=buildShareTextLine();
                 window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
-                showToast('📷 画像はカメラロールに保存済み！LINEで添付してね');
-            },500);
+                showToast('📷 画像を保存しました！LINEで添付してね');
+            },600);
         });
         trackEvent('share',{method:'line',content_type:'fortune_result'});
     });
     document.getElementById('share-ig').addEventListener('click',()=>{
-        generateShareBlob(blob=>saveImageToDevice(blob));
+        generateShareBlob(blob=>downloadBlob(blob));
         trackEvent('share',{method:'image_save',content_type:'fortune_result'});
     });
 });
 
-function saveImageToDevice(blob){
-    if(!blob)return;
-    // Try Web Share API (best for mobile - saves or shares natively)
-    if(navigator.canShare && navigator.canShare({files:[new File([blob],'fortuna.png',{type:'image/png'})]})){
-        const file=new File([blob],'fortuna-'+shareData.nickname+'.png',{type:'image/png'});
-        navigator.share({files:[file]}).catch(()=>{
-            // User cancelled share sheet - fallback to download
-            downloadBlob(blob);
-        });
-    } else {
-        downloadBlob(blob);
-    }
-}
-
 function downloadBlob(blob){
+    if(!blob)return;
     const u=URL.createObjectURL(blob);
     const a=document.createElement('a');
     a.href=u;
@@ -624,7 +618,6 @@ function downloadBlob(blob){
     a.style.display='none';
     document.body.appendChild(a);
     a.click();
-    // Cleanup after a short delay
     setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(u);},500);
     showToast('📷 画像を保存しました');
 }
@@ -653,9 +646,16 @@ function generateShareBlob(callback){
     ctx.strokeStyle='#5C8E8460';ctx.lineWidth=1.5;
     ctx.beginPath();ctx.moveTo(360,310);ctx.lineTo(720,310);ctx.stroke();
 
-    // Name + title
-    ctx.fillStyle='#2B3830';ctx.font='700 52px sans-serif';
-    ctx.fillText(`${shareData.nickname}さん のトリセツ`,w/2,420);
+    // Name + title (auto-fit)
+    const nameText=`${shareData.nickname}さん のトリセツ`;
+    let nameFontSize=52;
+    ctx.font=`700 ${nameFontSize}px sans-serif`;
+    while(ctx.measureText(nameText).width>w-200 && nameFontSize>28){
+        nameFontSize-=2;
+        ctx.font=`700 ${nameFontSize}px sans-serif`;
+    }
+    ctx.fillStyle='#2B3830';
+    ctx.fillText(nameText,w/2,420);
 
     // Zodiac badge area
     ctx.fillStyle='#EDF4F2';
