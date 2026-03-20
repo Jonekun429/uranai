@@ -564,7 +564,18 @@ function dailySeed(zId){
     let h=0;for(let i=0;i<zId.length;i++){h=((h<<5)-h)+zId.charCodeAt(i);h|=0;}
     return Math.abs((ds*2654435761+h)>>>0);
 }
-function seededPick(arr,seed){return arr[seed%arr.length];}
+function mulberry32(seed){
+    return function(){
+        seed|=0;seed=seed+0x6D2B79F5|0;
+        let t=Math.imul(seed^seed>>>15,1|seed);
+        t=t+Math.imul(t^t>>>7,61|t)^t;
+        return((t^t>>>14)>>>0)/4294967296;
+    };
+}
+function seededPickN(arr,seed,n){
+    const rng=mulberry32(seed+n*7919);
+    return arr[Math.floor(rng()*arr.length)];
+}
 
 const dailyMessages={
     aries:['直感を信じて。今日のあなたの判断は正しい','「やりたい」と思ったことに即行動。今日はスピードが味方','誰かのために動くと、自分にも良いことが返ってくる日','エネルギーを出しすぎないで。今日は少し力を抜いてちょうどいい','新しい出会いの予感。アンテナを広げておいて','思い切った決断が吉。迷ったら前に進んで','今日は「聞き上手」を心がけると人間関係が好転する','午後から運気上昇。大事な予定は午後に入れて'],
@@ -573,7 +584,7 @@ const dailyMessages={
     cancer:['今日は自分の気持ちを大切に。無理に合わせなくてOK','家族や親しい人との時間が心を温めてくれる','直感が冴えている日。なんとなく気になることを信じて','料理や掃除など、暮らしを整えると運気UP','過去の経験が今日の問題を解決するヒントになる','自分の「好き」を大切にすると良い流れが生まれる','甘いものが幸運のカギ。自分にちょっとしたご褒美を','水辺に行くと気持ちがリセットされる日'],
     leo:['今日のあなたは輝いている。自信を持って堂々と','誰かを褒めると、自分も褒められる日','クリエイティブなことに挑戦すると吉。表現力が冴える','リーダーシップを発揮するチャンス。周りを巻き込んで','おしゃれに気合いを入れると運気が上がる日','過去の成功体験を思い出して。あなたならできる','SNSの発信が思わぬ反響を呼ぶかも','夕方以降に嬉しいニュースが届く予感'],
     virgo:['細部へのこだわりが評価される日。丁寧さが武器','健康を意識すると運気UP。軽い運動や野菜多めの食事を','完璧じゃなくてもOK。今日は「80点で出す」を意識して','整理整頓すると頭もスッキリ。デスク周りを片付けて','誰かの相談に乗ると、自分の悩みも解決するヒントが','数字やデータに注目すると良い判断ができる日','ルーティンの中に小さな変化を入れると新鮮な気持ちに','読書やインプットの時間が未来の自分への投資になる'],
-    libra:['バランスを意識して。頑張りすぎも休みすぎもほどほどに','美しいものに触れると運気が上がる日','人間関係のキーパーソンと連絡を取ると吉','迷った時は「自分がどうしたいか」を基準に','コーディネートにこだわると気分が上がる日','対話の中から素敵なアイデアが生まれる予感','今日は「イエス」を多めに。チャンスの扉が開く','夜のリラックスタイムを大切に。明日への活力になる'],
+    libra:['バランスを意識して。頑張りすぎも休みすぎもほどほどに','美しいものに触れると運気が上がる日','人間関係のキーパーソンと連絡を取ると吉','迷った時は「自分がどうしたいか」を基準に','コーディネートにこだわると気分が上がる日','対話の中から素敵なアイデアが生まれる予感','今日は誘いに「いいね！」と乗ってみて。チャンスの扉が開く','夜のリラックスタイムを大切に。明日への活力になる'],
     scorpio:['深く考える力が冴える日。本質を見抜ける','信頼できる人に本音を話すと心が軽くなる','直感が的中しやすい日。第六感を信じて','一人の時間が新しいアイデアを生む','過去に手放したものが違う形で戻ってくる予感','集中力がMAXの日。ここぞという作業を片付けて','秘密の計画を進めるのに最適な日','夜に深い気づきがありそう。日記をつけてみて'],
     sagittarius:['冒険心を大切に。今日は新しい場所やお店に行ってみて','楽観的な気持ちが幸運を引き寄せる日','学びの意欲が高い日。気になる分野を深掘りしてみて','遠くの友人に連絡を取ると良いニュースが','自由な発想が評価される。型にはまらなくてOK','旅行の計画を立てると運気が上がる','笑いが幸運のカギ。ユーモアを忘れずに','午後から行動力UP。思い立ったが吉日'],
     capricorn:['着実に進める日。一歩一歩が大きな成果につながる','目上の人からの評価が上がりやすい日','計画を立て直すのに最適。長期目標を見直してみて','真面目さが報われる日。コツコツやってきたことに光が','自分に厳しくなりすぎないで。今日は少し甘くてOK','キャリアに関する良いヒントが得られる予感','お金の管理を見直すと思わぬ節約ポイントが見つかる','夜は早めに休んで。質の良い睡眠が明日の運気を上げる'],
@@ -599,16 +610,17 @@ function renderDailyArea(){
 
     // Daily message
     const msgs=dailyMessages[zId]||dailyMessages.aries;
-    const msg=seededPick(msgs,seed);
-    const color=seededPick(luckyColors,seed+1);
-    const item=seededPick(luckyItems,seed+2);
-    const spot=seededPick(luckySpots,seed+3);
+    const msg=seededPickN(msgs,seed,0);
+    const color=seededPickN(luckyColors,seed,1);
+    const item=seededPickN(luckyItems,seed,2);
+    const spot=seededPickN(luckySpots,seed,3);
 
     // Daily fortune scores (1-5 stars, seeded)
-    const genScore=((seed%5)+1);
-    const loveScore=(((seed>>3)%5)+1);
-    const workScore=(((seed>>6)%5)+1);
-    const moneyScore=(((seed>>9)%5)+1);
+    const rng=mulberry32(seed+12345);
+    const genScore=Math.floor(rng()*5)+1;
+    const loveScore=Math.floor(rng()*5)+1;
+    const workScore=Math.floor(rng()*5)+1;
+    const moneyScore=Math.floor(rng()*5)+1;
     const stars=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);
 
     const today=new Date();
@@ -635,9 +647,9 @@ function renderDailyArea(){
                 <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">金　運</span><span style="font-size:12px;font-weight:700;color:var(--cat-book);letter-spacing:1px;">${stars(moneyScore)}</span></div>
             </div>
             <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">🎨 ${color}</span>
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">🍀 ${item}</span>
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">📍 ${spot}</span>
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">ラッキーカラー：${color}</span>
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">ラッキーアイテム：${item}</span>
+                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">ラッキースポット：${spot}</span>
             </div>
         </div>
     </div>`;
@@ -655,9 +667,15 @@ function renderDailyArea(){
             try{localStorage.setItem('fortuna_daily_open','0');}catch(e){}
         }
     });
-    // Restore collapsed state
+    // Restore collapsed state (but reset on new day)
     try{
-        if(localStorage.getItem('fortuna_daily_open')==='0'){
+        const lastDate=localStorage.getItem('fortuna_daily_date');
+        const todayStr=today.toDateString();
+        if(lastDate!==todayStr){
+            // New day - show open
+            localStorage.setItem('fortuna_daily_date',todayStr);
+            localStorage.setItem('fortuna_daily_open','1');
+        } else if(localStorage.getItem('fortuna_daily_open')==='0'){
             document.getElementById('daily-body').style.display='none';
             document.getElementById('daily-chevron').style.transform='rotate(-90deg)';
         }
