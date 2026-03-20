@@ -507,7 +507,35 @@ const db={zodiac:{aries:{name:'牡羊座',icon:'flame',base:{sub:'情熱的な�
     yEl.addEventListener('change',updateDays);
     mEl.addEventListener('change',updateDays);
     updateDays();
+    // Restore saved user data
+    try{
+        const saved=JSON.parse(localStorage.getItem('fortuna_user'));
+        if(saved){
+            if(saved.name) document.getElementById('name').value=saved.name;
+            if(saved.year){yEl.value=saved.year;}
+            if(saved.month){mEl.value=saved.month;}
+            updateDays();
+            if(saved.day){dEl.value=saved.day;}
+            if(saved.gender) document.getElementById('gender').value=saved.gender;
+            if(saved.status) document.getElementById('status').value=saved.status;
+        }
+    }catch(e){}
 })();
+
+// Save user input to localStorage
+function saveUserInput(){
+    try{
+        const data={
+            name:document.getElementById('name').value.trim(),
+            year:document.getElementById('birth-year').value,
+            month:document.getElementById('birth-month').value,
+            day:document.getElementById('birth-day').value,
+            gender:document.getElementById('gender').value,
+            status:document.getElementById('status').value
+        };
+        localStorage.setItem('fortuna_user',JSON.stringify(data));
+    }catch(e){}
+}
 
 function getBirthDateStr(){
     const y=document.getElementById('birth-year').value,m=document.getElementById('birth-month').value,d=document.getElementById('birth-day').value;
@@ -737,6 +765,7 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     const name=document.getElementById('name').value.trim()||'ゲスト',dateStr=getBirthDateStr(),status=document.getElementById('status').value;
     if(!dateStr){document.getElementById('error-msg').classList.remove('hidden');return;}
     document.getElementById('error-msg').classList.add('hidden');
+    saveUserInput();
     trackEvent('fortune_start',{status});
     const dateObj=new Date(dateStr),m=dateObj.getMonth()+1,d=dateObj.getDate(),zId=getZodiacId(m,d),nId=getDestinyNumber(dateStr),zData=db.zodiac[zId],nData=db.numerology[nId];
     shareData={zodiacName:zData.name,zodiacSub:zData.base.sub,numSub:nData.job.sub,nickname:name,keywords:zData.base.points.slice(0,4),moneyHint:nData.money,thoughtSub:zData.thought.sub,relationSub:zData.relation.sub};
@@ -1841,10 +1870,14 @@ function triggerCardAnimations(){
 function initTheme(){
     let saved=null;
     try{saved=localStorage.getItem('fortuna_theme');}catch(e){}
-    if(saved){document.documentElement.setAttribute('data-theme',saved);}
-    else{
-        // Default to dark
-        document.documentElement.setAttribute('data-theme','dark');
+    if(saved){
+        document.documentElement.setAttribute('data-theme',saved);
+    } else {
+        // Auto theme based on time of day
+        const hour=new Date().getHours();
+        // 6:00-17:59 → light, 18:00-5:59 → dark
+        const autoTheme=(hour>=6 && hour<18)?'light':'dark';
+        document.documentElement.setAttribute('data-theme',autoTheme);
     }
 }
 initTheme();
