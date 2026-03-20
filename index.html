@@ -573,34 +573,13 @@ function buildShareUrl(){return 'https://jonekun429.github.io/uranai/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-x').addEventListener('click',()=>{
-        // Save image first, then open X app directly
-        generateShareBlob(blob=>{
-            downloadBlob(blob);
-            setTimeout(()=>{
-                const text=buildShareTextX();
-                // Try X app URL scheme first, fallback to web
-                const xAppUrl=`twitter://post?message=${encodeURIComponent(text)}`;
-                const xWebUrl=`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`;
-                const opened=window.open(xAppUrl,'_self');
-                // Fallback: if app didn't open after short delay, try web
-                setTimeout(()=>{
-                    try{window.open(xWebUrl,'_blank');}catch(e){}
-                },1500);
-                showToast('📷 画像を保存しました！X投稿に添付してね');
-            },600);
-        });
+        const text=buildShareTextX();
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
         trackEvent('share',{method:'x',content_type:'fortune_result'});
     });
     document.getElementById('share-line').addEventListener('click',()=>{
-        // Save image first, then open LINE
-        generateShareBlob(blob=>{
-            downloadBlob(blob);
-            setTimeout(()=>{
-                const text=buildShareTextLine();
-                window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
-                showToast('📷 画像を保存しました！LINEで添付してね');
-            },600);
-        });
+        const text=buildShareTextLine();
+        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
         trackEvent('share',{method:'line',content_type:'fortune_result'});
     });
     document.getElementById('share-ig').addEventListener('click',()=>{
