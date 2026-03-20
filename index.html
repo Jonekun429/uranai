@@ -640,21 +640,45 @@ function renderDailyArea(){
         </button>
         <div id="daily-body" style="padding:0 20px 16px;display:block;">
             <p class="t-body font-semibold leading-relaxed mb-3" style="color:var(--text-main);padding:10px 14px;background:var(--primary-light);border-radius:10px;border:2px solid var(--primary);">${msg}</p>
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px 16px;margin-bottom:12px;">
-                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">総合運</span><span style="font-size:12px;font-weight:700;color:var(--primary);letter-spacing:1px;">${stars(genScore)}</span></div>
-                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">恋愛運</span><span style="font-size:12px;font-weight:700;color:var(--danger);letter-spacing:1px;">${stars(loveScore)}</span></div>
-                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">仕事運</span><span style="font-size:12px;font-weight:700;color:var(--cat-tool);letter-spacing:1px;">${stars(workScore)}</span></div>
-                <div class="flex items-center justify-between"><span style="font-size:12px;color:var(--text-muted);">金　運</span><span style="font-size:12px;font-weight:700;color:var(--cat-book);letter-spacing:1px;">${stars(moneyScore)}</span></div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">総合運</p><p style="font-size:20px;letter-spacing:2px;color:var(--primary);">${stars(genScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">恋愛運</p><p style="font-size:20px;letter-spacing:2px;color:var(--danger);">${stars(loveScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">仕事運</p><p style="font-size:20px;letter-spacing:2px;color:var(--cat-tool);">${stars(workScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">金　運</p><p style="font-size:20px;letter-spacing:2px;color:var(--cat-book);">${stars(moneyScore)}</p></div>
             </div>
-            <div class="flex flex-wrap gap-2">
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">ラッキーカラー：${color}</span>
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--warning-bg);color:var(--warning-text);border:var(--border-w) solid var(--border-color);">ラッキーアイテム：${item}</span>
-                <span class="px-2.5 py-1 rounded-full" style="font-size:11px;background:var(--danger-light);color:var(--danger);border:var(--border-w) solid var(--border-color);">ラッキースポット：${spot}</span>
+            <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);">
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">カラー</p><p style="font-size:13px;font-weight:700;color:var(--primary);">${color}</p></div>
+                <div style="width:1px;background:var(--border-color);"></div>
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">アイテム</p><p style="font-size:13px;font-weight:700;color:var(--warning-text);">${item}</p></div>
+                <div style="width:1px;background:var(--border-color);"></div>
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">スポット</p><p style="font-size:13px;font-weight:700;color:var(--danger);">${spot}</p></div>
+            </div>
+            <div class="flex justify-end mt-3">
+                <button id="daily-share-x" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;border:var(--border-w) solid var(--border-color);background:var(--bg-page);cursor:pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--text-sub)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span style="font-size:11px;font-weight:600;color:var(--text-sub);">Xに投稿</span>
+                </button>
             </div>
         </div>
     </div>`;
     area.classList.remove('hidden');
     lucide.createIcons();
+
+    // Daily X share
+    document.getElementById('daily-share-x').addEventListener('click',()=>{
+        const starsText=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);
+        const text=`☀️ ${dateLabel}の運勢（${zName}）\n\n` +
+            `${msg}\n\n` +
+            `総合${starsText(genScore)} 恋愛${starsText(loveScore)}\n` +
+            `仕事${starsText(workScore)} 金運${starsText(moneyScore)}\n\n` +
+            `🎨${color} 🍀${item} 📍${spot}\n\n` +
+            `みんなも今日の運勢チェックしてみて🔮\n` +
+            `${buildShareUrl()}\n\n` +
+            `#Fortuna #今日の運勢`;
+        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
+        trackEvent('share',{method:'x',content_type:'daily_fortune'});
+    });
+
     // Toggle collapse
     document.getElementById('daily-toggle').addEventListener('click',()=>{
         const body=document.getElementById('daily-body');
@@ -743,7 +767,7 @@ function buildShareTextLine(){
         `${buildShareUrl()}`;
 }
 
-function buildShareUrl(){return 'https://jonekun429.github.io/uranai/';}
+function buildShareUrl(){return 'https://jonekun429.github.io/uranai/?v=3';}
 
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-x').addEventListener('click',()=>{
