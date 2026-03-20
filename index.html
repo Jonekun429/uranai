@@ -569,23 +569,67 @@ function buildShareTextLine(){
         `${buildShareUrl()}`;
 }
 
-function buildShareUrl(){return 'https://jonekun429.github.io/fortuna/';}
+function buildShareUrl(){return 'https://jonekun429.github.io/uranai/';}
 
 document.addEventListener('DOMContentLoaded',()=>{
     document.getElementById('share-x').addEventListener('click',()=>{
-        const text=buildShareTextX();
-        window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
+        // Generate and save image first, then open X
+        generateShareBlob(blob=>{
+            saveImageToDevice(blob);
+            setTimeout(()=>{
+                const text=buildShareTextX();
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}`,'_blank');
+                showToast('📷 画像はカメラロールに保存済み！投稿に添付してね');
+            },500);
+        });
         trackEvent('share',{method:'x',content_type:'fortune_result'});
     });
     document.getElementById('share-line').addEventListener('click',()=>{
-        const text=buildShareTextLine();
-        window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
+        // Generate and save image first, then open LINE
+        generateShareBlob(blob=>{
+            saveImageToDevice(blob);
+            setTimeout(()=>{
+                const text=buildShareTextLine();
+                window.open(`https://line.me/R/msg/text/?${encodeURIComponent(text)}`,'_blank');
+                showToast('📷 画像はカメラロールに保存済み！LINEで添付してね');
+            },500);
+        });
         trackEvent('share',{method:'line',content_type:'fortune_result'});
     });
-    document.getElementById('share-ig').addEventListener('click',()=>{generateShareImage();trackEvent('share',{method:'instagram_image',content_type:'fortune_result'});});
+    document.getElementById('share-ig').addEventListener('click',()=>{
+        generateShareBlob(blob=>saveImageToDevice(blob));
+        trackEvent('share',{method:'image_save',content_type:'fortune_result'});
+    });
 });
 
-function generateShareImage(){
+function saveImageToDevice(blob){
+    if(!blob)return;
+    // Try Web Share API (best for mobile - saves or shares natively)
+    if(navigator.canShare && navigator.canShare({files:[new File([blob],'fortuna.png',{type:'image/png'})]})){
+        const file=new File([blob],'fortuna-'+shareData.nickname+'.png',{type:'image/png'});
+        navigator.share({files:[file]}).catch(()=>{
+            // User cancelled share sheet - fallback to download
+            downloadBlob(blob);
+        });
+    } else {
+        downloadBlob(blob);
+    }
+}
+
+function downloadBlob(blob){
+    const u=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=u;
+    a.download='fortuna-'+(shareData.nickname||'result')+'.png';
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    // Cleanup after a short delay
+    setTimeout(()=>{document.body.removeChild(a);URL.revokeObjectURL(u);},500);
+    showToast('📷 画像を保存しました');
+}
+
+function generateShareBlob(callback){
     const c=document.getElementById('share-canvas'),ctx=c.getContext('2d'),w=1080,h=1920;
     // Background
     ctx.fillStyle='#F6F7F5';ctx.fillRect(0,0,w,h);
@@ -685,15 +729,11 @@ function generateShareImage(){
     ctx.fillStyle='#7E928C';ctx.font='400 22px sans-serif';
     ctx.fillText('星と数秘が語る、あなたのトリセツ',w/2,1790);
     ctx.fillStyle='#5C8E84';ctx.font='600 24px monospace';
-    ctx.fillText('jonekun429.github.io/fortuna',w/2,1850);
+    ctx.fillText('jonekun429.github.io/uranai',w/2,1850);
 
     c.toBlob(blob=>{
         if(!blob)return;
-        const u=URL.createObjectURL(blob),a=document.createElement('a');
-        a.href=u;a.download='fortuna-'+shareData.nickname+'.png';
-        document.body.appendChild(a);a.click();document.body.removeChild(a);
-        setTimeout(()=>URL.revokeObjectURL(u),1000);
-        showToast('画像を保存しました');
+        if(callback)callback(blob);
     },'image/png');
 }
 
