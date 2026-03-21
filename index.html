@@ -215,7 +215,6 @@
         .progress-track{width:200px;height:2px;background:var(--border-color);border-radius:1px;overflow:hidden;}
         .progress-fill{height:100%;background:var(--primary);width:0%;transition:width linear;}
         .toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom,8px));left:50%;transform:translateX(-50%) translateY(20px);background:var(--bg-card);border:var(--border-w) solid var(--border-color);color:var(--text-main);padding:12px 24px;border-radius:var(--radius);font-size:13px;font-weight:600;box-shadow:var(--shadow-lg);opacity:0;transition:all .4s;z-index:200;pointer-events:none;white-space:nowrap;}
-        #bnav-center:active{transform:scale(0.95)!important;}
         .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
         .drawer-item:hover,.drawer-item:active{background:var(--primary-light);}
         #drawer.open{transform:translateX(0);}
@@ -435,165 +434,188 @@
 <div id="toast" class="toast"></div>
 
 <!-- MAIN -->
-<main class="relative z-10 w-full max-w-md mx-auto px-4 pt-16 pb-32" style="min-height:100dvh;padding-bottom:100px;">
+<main class="relative z-10 w-full max-w-md mx-auto px-4 pt-8 pb-32" style="min-height:100dvh;padding-bottom:100px;">
 
-    <!-- INPUT -->
-    <section id="input-section">
-        <header class="text-center mb-10 fade-up visible">
-            <p class="mono-font t-card-title mb-3" style="color:var(--primary);">TORISETSU</p>
-            <h1 class="t-amount-lg mb-1" style="color:var(--primary-dark);letter-spacing:2px;">トリセツ</h1><p class="t-caption mb-3" style="color:var(--text-muted);letter-spacing:1px;">〜あなたの性格〜</p>
-            <p class="t-body" style="color:var(--text-sub);">あなたの星と数秘が語る、トリセツ</p>
+    <!-- ======== PAGE: DAILY (今日の占い) ======== -->
+    <section id="page-daily" class="app-page">
+        <header class="text-center mb-6">
+            <p class="mono-font t-card-title mb-2" style="color:var(--primary);">TODAY'S FORTUNE</p>
+            <h1 class="t-amount-lg mb-1" style="color:var(--primary-dark);">今日の占い</h1>
         </header>
+        <div id="daily-area-page" class="space-y-4"></div>
+        <div id="daily-need-register" class="hidden">
+            <div class="fortune-card p-6 text-center">
+                <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--primary-light);border:2px solid var(--primary);">
+                    <i data-lucide="user-plus" class="w-5 h-5" style="color:var(--primary);"></i>
+                </div>
+                <p class="t-service mb-2" style="color:var(--text-main);">まずは自分の情報を登録</p>
+                <p class="t-body mb-4" style="color:var(--text-sub);">生年月日を入力すると、毎日の占いが見られるようになります</p>
+                <button onclick="switchPage('self')" class="btn-primary w-full"><i data-lucide="sparkles" class="w-4 h-4"></i><span>自分のトリセツを作る</span></button>
+            </div>
+        </div>
+    </section>
 
-        <!-- 今日のひとこと & 今日の占い (saved user only) -->
-        <div id="daily-area" class="space-y-4 mb-6 hidden"></div>
+    <!-- ======== PAGE: SELF (自分のトリセツ) ======== -->
+    <section id="page-self" class="app-page hidden">
+        <div id="self-input-section">
+            <header class="text-center mb-8 fade-up visible">
+                <p class="mono-font t-card-title mb-2" style="color:var(--primary);">TORISETSU</p>
+                <h1 class="t-amount-lg mb-1" style="color:var(--primary-dark);letter-spacing:2px;">トリセツ</h1>
+                <p class="t-caption mb-3" style="color:var(--text-muted);letter-spacing:1px;">〜あなたの性格〜</p>
+            </header>
+            <div class="fortune-card p-6 fade-up visible">
+                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
+                <div class="space-y-5 pt-2">
+                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">ニックネーム</label><input type="text" id="name" placeholder="例: ジョン" class="form-input" maxlength="20"></div>
+                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">生年月日</label>
+                        <div class="flex items-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);overflow:hidden;">
+                            <select id="birth-year" class="birth-select" style="flex:1.2;"><option value="">年</option></select>
+                            <span class="birth-sep">/</span>
+                            <select id="birth-month" class="birth-select"><option value="">月</option></select>
+                            <span class="birth-sep">/</span>
+                            <select id="birth-day" class="birth-select"><option value="">日</option></select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">性別</label><select id="gender" class="form-input"><option value="unspecified">回答しない</option><option value="female">女性</option><option value="male">男性</option></select></div>
+                        <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">現在の状況</label><select id="status" class="form-input"><option value="single_free">フリー</option><option value="single_partnered">パートナー有</option><option value="married">既婚</option></select></div>
+                    </div>
+                    <button id="predict-btn" class="btn-primary mt-4"><i data-lucide="sparkles" class="w-4 h-4"></i><span>占いを開始する</span></button>
+                    <p id="error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を選択してください</p>
+                </div>
+            </div>
+            <p class="text-center t-caption mt-6 fade-up visible" style="color:var(--text-muted);">入力データは端末内でのみ処理されます</p>
+        </div>
 
-        <div class="fortune-card p-6 fade-up visible">
-            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
-            <div class="space-y-5 pt-2">
-                <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">ニックネーム</label><input type="text" id="name" placeholder="例: ジョン" class="form-input" maxlength="20"></div>
-                <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">生年月日</label>
-                    <div class="flex items-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);overflow:hidden;">
-                        <select id="birth-year" class="birth-select" style="flex:1.2;"><option value="">年</option></select>
-                        <span class="birth-sep">/</span>
-                        <select id="birth-month" class="birth-select"><option value="">月</option></select>
-                        <span class="birth-sep">/</span>
-                        <select id="birth-day" class="birth-select"><option value="">日</option></select>
+        <!-- RESULT (self) -->
+        <div id="result-section" class="hidden">
+            <header class="text-center mb-6 fade-up">
+                <p class="mono-font t-card-title mb-2" style="color:var(--primary);">ANALYSIS COMPLETE</p>
+                <h2 class="t-amount-lg" style="color:var(--primary-dark);"><span id="result-name"></span>さん のトリセツ</h2>
+                <p class="t-caption mt-2 mono-font" style="color:var(--text-muted);" id="result-type-label"></p>
+                <p class="t-caption mt-1" style="color:var(--text-muted);font-size:11px;line-height:1.6;" id="result-method-note">※ 西洋占星術（星座）と数秘術（運命数）を組み合わせた鑑定です</p>
+            </header>
+            <div id="cards-container" class="space-y-4"></div>
+            <div class="fortune-card p-5 mt-6 fade-up d7">
+                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
+                <div class="flex items-center gap-2 mb-4 pt-1"><i data-lucide="share-2" class="w-4 h-4" style="color:var(--primary);"></i><p class="t-card-title" style="color:var(--text-sub);">結果をシェア</p></div>
+                <p class="t-caption mb-4" style="color:var(--text-muted);">個人情報は含まれません。性格タイプのみ共有されます。</p>
+                <div class="flex gap-3">
+                    <button id="share-x" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="t-caption font-semibold">X</span></button>
+                    <button id="share-line" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.813 2 10.5c0 3.727 3.058 6.856 7.19 7.853.28.06.66.184.756.423.087.216.057.555.028.773l-.122.734c-.037.224-.174.876.768.477.942-.4 5.087-2.995 6.94-5.127C19.48 13.578 22 12.18 22 10.5 22 5.813 17.52 2 12 2z"/></svg><span class="t-caption font-semibold">LINE</span></button>
+                    <button id="share-ig" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg><span class="t-caption font-semibold">画像保存</span></button>
+                </div>
+            </div>
+            <div class="mt-8 fade-up d8">
+                <div class="flex items-center gap-2.5 mb-4">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="sparkles" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                    <div><p class="t-service" style="color:var(--text-main);">もっと深く知る</p><p class="t-caption" style="color:var(--text-muted);">気になるテーマをタップして深掘り</p></div>
+                </div>
+                <div class="grid grid-cols-2 gap-3" id="premium-categories">
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="love"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--danger-light);"><i data-lucide="heart" class="w-4 h-4" style="color:var(--danger);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">恋愛・相性</p><p class="t-caption" style="color:var(--text-muted);">相性・恋愛傾向を3段階で</p></button>
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="career"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="briefcase" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">仕事・転職</p><p class="t-caption" style="color:var(--text-muted);">適職・行動プランまで</p></button>
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="money"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="coins" class="w-4 h-4" style="color:var(--warning-text);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">お金・投資</p><p class="t-caption" style="color:var(--text-muted);">金運タイプ・行動指針</p></button>
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p><p class="t-caption" style="color:var(--text-muted);">悩みの根本・解決策</p></button>
+                </div>
+                <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future"><div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--primary-light);"><i data-lucide="telescope" class="w-5 h-5" style="color:var(--primary);"></i></div><div><p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">あなたの未来</p><p class="t-caption" style="color:var(--text-muted);">1年後〜10年後のあなたを占う</p></div></button>
+                <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime"><div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--danger-light);"><i data-lucide="hourglass" class="w-5 h-5" style="color:var(--danger);"></i></div><div><p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの時間</p><p class="t-caption" style="color:var(--text-muted);">あなたのチャクラから寿命が計算されました</p></div></button>
+                <div id="deep-dive-area" class="mt-4 space-y-4"></div>
+            </div>
+            <div id="paywall-gate" class="hidden mt-6">
+                <div class="fortune-card p-6 relative overflow-hidden" style="border-color:var(--primary);">
+                    <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary-dark),transparent);"></div>
+                    <div class="absolute -right-8 -bottom-8 opacity-5"><i data-lucide="lock" class="w-40 h-40" style="color:var(--primary);"></i></div>
+                    <div class="relative z-10 text-center">
+                        <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="crown" class="w-5 h-5" style="color:var(--primary);"></i></div>
+                        <p class="t-service mb-2" style="color:var(--primary-dark);">トリセツ Premium</p>
+                        <p class="t-body leading-relaxed mb-4" style="color:var(--text-sub);">全カテゴリの深掘りや毎月の運勢アップデートをご利用いただけます。</p>
+                        <button id="paywall-btn" class="btn-primary w-full mb-3"><i data-lucide="crown" class="w-4 h-4"></i><span>プレミアムに登録する</span></button>
+                        <p class="t-caption" style="color:var(--text-muted);">現在準備中です</p>
                     </div>
                 </div>
-                <div class="grid grid-cols-2 gap-4">
-                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">性別</label><select id="gender" class="form-input"><option value="unspecified">回答しない</option><option value="female">女性</option><option value="male">男性</option></select></div>
-                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">現在の状況</label><select id="status" class="form-input"><option value="single_free">フリー</option><option value="single_partnered">パートナー有</option><option value="married">既婚</option></select></div>
-                </div>
-                <button id="predict-btn" class="btn-primary mt-4"><i data-lucide="sparkles" class="w-4 h-4"></i><span>占いを開始する</span></button>
-                <p id="error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を選択してください</p>
             </div>
+            <div class="mt-6 fade-up d8"><button id="reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>最初からやり直す</span></button></div>
         </div>
-        <p class="text-center t-caption mt-6 fade-up visible" style="color:var(--text-muted);">入力データは端末内でのみ処理されます</p>
     </section>
 
-    <!-- RESULT -->
-    <section id="result-section" class="hidden">
-        <header class="text-center mb-6 fade-up">
-            <p class="mono-font t-card-title mb-2" style="color:var(--primary);">ANALYSIS COMPLETE</p>
-            <h2 class="t-amount-lg" style="color:var(--primary-dark);"><span id="result-name"></span>さん のトリセツ</h2>
-            <p class="t-caption mt-2 mono-font" style="color:var(--text-muted);" id="result-type-label"></p>
-            <p class="t-caption mt-1" style="color:var(--text-muted);font-size:11px;line-height:1.6;" id="result-method-note">※ 西洋占星術（星座）と数秘術（運命数）を組み合わせた鑑定です</p>
-        </header>
-        <div id="cards-container" class="space-y-4"></div>
-
-        <!-- SHARE -->
-        <div class="fortune-card p-5 mt-6 fade-up d7">
-            <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
-            <div class="flex items-center gap-2 mb-4 pt-1"><i data-lucide="share-2" class="w-4 h-4" style="color:var(--primary);"></i><p class="t-card-title" style="color:var(--text-sub);">結果をシェア</p></div>
-            <p class="t-caption mb-4" style="color:var(--text-muted);">個人情報は含まれません。性格タイプのみ共有されます。</p>
-            <div class="flex gap-3">
-                <button id="share-x" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg><span class="t-caption font-semibold">X</span></button>
-                <button id="share-line" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 5.813 2 10.5c0 3.727 3.058 6.856 7.19 7.853.28.06.66.184.756.423.087.216.057.555.028.773l-.122.734c-.037.224-.174.876.768.477.942-.4 5.087-2.995 6.94-5.127C19.48 13.578 22 12.18 22 10.5 22 5.813 17.52 2 12 2z"/></svg><span class="t-caption font-semibold">LINE</span></button>
-                <button id="share-ig" class="share-btn"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1.5"/></svg><span class="t-caption font-semibold">画像保存</span></button>
-            </div>
-        </div>
-
-        <!-- PREMIUM DEEP DIVE -->
-        <div class="mt-8 fade-up d8">
-            <div class="flex items-center gap-2.5 mb-4">
-                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="sparkles" class="w-4 h-4" style="color:var(--primary);"></i></div>
-                <div>
-                    <p class="t-service" style="color:var(--text-main);">もっと深く知る</p>
-                    <p class="t-caption" style="color:var(--text-muted);">気になるテーマをタップして深掘り</p>
+    <!-- ======== PAGE: OTHER (相手のトリセツ) ======== -->
+    <section id="page-other" class="app-page hidden">
+        <div id="other-input-section">
+            <header class="text-center mb-8">
+                <p class="mono-font t-card-title mb-2" style="color:var(--primary);">PARTNER ANALYSIS</p>
+                <h1 class="t-amount-lg mb-1" style="color:var(--primary-dark);">相手のトリセツ</h1>
+                <p class="t-caption" style="color:var(--text-muted);">気になる相手の性格を占います</p>
+            </header>
+            <div class="fortune-card p-6">
+                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary),transparent);"></div>
+                <div class="space-y-5 pt-2">
+                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">相手のニックネーム</label><input type="text" id="other-name" placeholder="例: さくら" class="form-input" maxlength="20"></div>
+                    <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">相手の生年月日</label>
+                        <div class="flex items-center" style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:var(--radius-btn);overflow:hidden;">
+                            <select id="other-birth-year" class="birth-select" style="flex:1.2;"><option value="">年</option></select>
+                            <span class="birth-sep">/</span>
+                            <select id="other-birth-month" class="birth-select"><option value="">月</option></select>
+                            <span class="birth-sep">/</span>
+                            <select id="other-birth-day" class="birth-select"><option value="">日</option></select>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">性別</label><select id="other-gender" class="form-input"><option value="unspecified">回答しない</option><option value="female">女性</option><option value="male">男性</option></select></div>
+                        <div><label class="block t-label mb-1.5" style="color:var(--text-sub);">相手との関係</label><select id="other-relation" class="form-input"><option value="friend">友人</option><option value="colleague">同僚</option><option value="crush">気になる人</option><option value="partner">恋人・配偶者</option></select></div>
+                    </div>
+                    <button id="other-predict-btn" class="btn-primary mt-4"><i data-lucide="users" class="w-4 h-4"></i><span>相手のトリセツを作る</span></button>
+                    <p id="other-error-msg" class="t-caption text-center font-bold hidden" style="color:var(--danger);">生年月日を選択してください</p>
                 </div>
             </div>
-            <div class="grid grid-cols-2 gap-3" id="premium-categories">
-                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="love">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--danger-light);"><i data-lucide="heart" class="w-4 h-4" style="color:var(--danger);"></i></div>
-                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">恋愛・相性</p>
-                    <p class="t-caption" style="color:var(--text-muted);">相性・恋愛傾向を3段階で</p>
-                </button>
-                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="career">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="briefcase" class="w-4 h-4" style="color:var(--primary);"></i></div>
-                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">仕事・転職</p>
-                    <p class="t-caption" style="color:var(--text-muted);">適職・行動プランまで</p>
-                </button>
-                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="money">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="coins" class="w-4 h-4" style="color:var(--warning-text);"></i></div>
-                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">お金・投資</p>
-                    <p class="t-caption" style="color:var(--text-muted);">金運タイプ・行動指針</p>
-                </button>
-                <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation">
-                    <div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div>
-                    <p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p>
-                    <p class="t-caption" style="color:var(--text-muted);">悩みの根本・解決策</p>
-                </button>
-            </div>
-            <!-- Compatibility special category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="compat">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,var(--danger-light),#F5E8EF);"><i data-lucide="heart-handshake" class="w-5 h-5" style="color:var(--danger);"></i></div>
-                <div>
-                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">気になる相手との相性</p>
-                    <p class="t-caption" style="color:var(--text-muted);">2人の関係を深く読み解く</p>
-                </div>
-            </button>
-            <!-- Future category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--primary-light);"><i data-lucide="telescope" class="w-5 h-5" style="color:var(--primary);"></i></div>
-                <div>
-                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">あなたの未来</p>
-                    <p class="t-caption" style="color:var(--text-muted);">1年後〜10年後のあなたを占う</p>
-                </div>
-            </button>
-            <!-- Lifetime category -->
-            <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime">
-                <div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--danger-light);"><i data-lucide="hourglass" class="w-5 h-5" style="color:var(--danger);"></i></div>
-                <div>
-                    <p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの時間</p>
-                    <p class="t-caption" style="color:var(--text-muted);">あなたのチャクラから寿命が計算されました</p>
-                </div>
-            </button>
-            <!-- Dynamic step container -->
-            <div id="deep-dive-area" class="mt-4 space-y-4"></div>
-        </div>
-
-        <!-- Paywall Gate -->
-        <div id="paywall-gate" class="hidden mt-6">
-            <div class="fortune-card p-6 relative overflow-hidden" style="border-color:var(--primary);">
-                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary-dark),transparent);"></div>
-                <div class="absolute -right-8 -bottom-8 opacity-5"><i data-lucide="lock" class="w-40 h-40" style="color:var(--primary);"></i></div>
-                <div class="relative z-10 text-center">
-                    <div class="w-12 h-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="crown" class="w-5 h-5" style="color:var(--primary);"></i></div>
-                    <p class="t-service mb-2" style="color:var(--primary-dark);">トリセツ Premium</p>
-                    <p class="t-body leading-relaxed mb-4" style="color:var(--text-sub);">全カテゴリの深掘りや毎月の運勢アップデートをご利用いただけます。</p>
-                    <button id="paywall-btn" class="btn-primary w-full mb-3"><i data-lucide="crown" class="w-4 h-4"></i><span>プレミアムに登録する</span></button>
-                    <p class="t-caption" style="color:var(--text-muted);">現在準備中です</p>
+            <div id="other-self-note" class="hidden mt-4">
+                <div class="fortune-card p-4 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full flex items-center justify-center shrink-0" style="background:var(--primary-light);"><i data-lucide="user-check" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                    <div>
+                        <p class="t-caption font-semibold" style="color:var(--text-main);">あなたの情報は登録済み</p>
+                        <p class="t-caption" style="color:var(--text-muted);" id="other-self-label"></p>
+                    </div>
                 </div>
             </div>
         </div>
-
-        <div class="mt-6 fade-up d8"><button id="reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>最初からやり直す</span></button></div>
+        <!-- RESULT (other) -->
+        <div id="other-result-section" class="hidden">
+            <header class="text-center mb-6 fade-up">
+                <p class="mono-font t-card-title mb-2" style="color:var(--primary);">PARTNER ANALYSIS</p>
+                <h2 class="t-amount-lg" style="color:var(--primary-dark);"><span id="other-result-name"></span>さん のトリセツ</h2>
+                <p class="t-caption mt-2 mono-font" style="color:var(--text-muted);" id="other-result-type-label"></p>
+            </header>
+            <div id="other-cards-container" class="space-y-4"></div>
+            <!-- Compare button -->
+            <div id="compare-section" class="hidden mt-6">
+                <button id="compare-btn" class="btn-primary w-full"><i data-lucide="git-compare" class="w-4 h-4"></i><span>自分との相性を比較する</span></button>
+            </div>
+            <div id="compare-result" class="mt-4 space-y-4"></div>
+            <div class="mt-6"><button id="other-reset-btn" class="btn-ghost w-full"><i data-lucide="rotate-ccw" class="w-4 h-4"></i><span>別の人を占う</span></button></div>
+        </div>
     </section>
+
 </main>
 
 <!-- BOTTOM NAVIGATION -->
 <nav id="bottom-nav" style="position:fixed;bottom:0;left:0;right:0;z-index:50;">
-    <div style="max-width:420px;margin:0 auto;display:flex;align-items:flex-end;justify-content:space-around;background:var(--bg-card);border-top:var(--border-w) solid var(--border-color);box-shadow:0 -2px 12px rgba(0,0,0,0.06);padding:6px 4px calc(8px + env(safe-area-inset-bottom,0px));position:relative;">
-        <button onclick="navTo('daily')" class="bnav-btn" data-nav="daily" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;">
+    <div style="max-width:420px;margin:0 auto;display:flex;align-items:center;justify-content:space-around;background:var(--bg-card);border-top:var(--border-w) solid var(--border-color);box-shadow:0 -2px 12px rgba(0,0,0,0.06);padding:6px 4px calc(8px + env(safe-area-inset-bottom,0px));">
+        <button onclick="navTo('fortune')" class="bnav-btn" data-nav="fortune" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 0;">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bnav-icon"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--primary);">自分を占う</span>
+        </button>
+        <button onclick="navTo('daily')" class="bnav-btn" data-nav="daily" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bnav-icon"><circle cx="12" cy="12" r="4"/><path d="M12 2v2"/><path d="M12 20v2"/><path d="m4.93 4.93 1.41 1.41"/><path d="m17.66 17.66 1.41 1.41"/><path d="M2 12h2"/><path d="M20 12h2"/><path d="m6.34 17.66-1.41 1.41"/><path d="m19.07 4.93-1.41 1.41"/></svg>
-            <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">今日</span>
+            <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">今日の占い</span>
         </button>
-        <button onclick="navTo('compat')" class="bnav-btn" data-nav="compat" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;">
+        <button onclick="navTo('compat')" class="bnav-btn" data-nav="compat" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bnav-icon"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-            <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">相性</span>
+            <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">相性占い</span>
         </button>
-        <!-- Center floating button -->
-        <div style="flex:1;display:flex;justify-content:center;position:relative;">
-            <button onclick="navTo('fortune')" id="bnav-center" style="position:absolute;bottom:6px;width:52px;height:52px;border-radius:50%;background:var(--primary);border:3px solid var(--bg-card);box-shadow:0 2px 12px rgba(0,0,0,0.15);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .2s;">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
-            </button>
-        </div>
-        <button onclick="navTo('share')" class="bnav-btn" data-nav="share" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;">
+        <button onclick="navTo('share')" class="bnav-btn" data-nav="share" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bnav-icon"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" x2="15.42" y1="13.51" y2="17.49"/><line x1="15.41" x2="8.59" y1="6.51" y2="10.49"/></svg>
             <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">共有</span>
         </button>
-        <button onclick="navTo('menu')" class="bnav-btn" data-nav="menu" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:4px 0;">
+        <button onclick="navTo('menu')" class="bnav-btn" data-nav="menu" style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px;background:none;border:none;cursor:pointer;padding:6px 0;">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--text-muted)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="bnav-icon"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
             <span class="bnav-label" style="font-size:9px;font-weight:600;color:var(--text-muted);">メニュー</span>
         </button>
@@ -811,7 +833,7 @@ function renderDailyArea(){
 }
 
 // Run on page load
-renderDailyArea();
+renderDailyPage();
 
 // Caution advice by zodiac for base/thought/relation cards
 function getCaution(zId,cat){
@@ -1045,7 +1067,7 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     let step=0;if(_scanStepTimer)clearInterval(_scanStepTimer);
     _scanStepTimer=setInterval(()=>{scanText.style.opacity='0';scanText.style.filter='blur(4px)';setTimeout(()=>{if(step<scanMessages.length){scanText.textContent=scanMessages[step];scanText.style.opacity='1';scanText.style.filter='blur(0)';step++;}},400);if(step>=scanMessages.length){clearInterval(_scanStepTimer);_scanStepTimer=null;}},2000);
     if(_scanMainTimer)clearTimeout(_scanMainTimer);
-    _scanMainTimer=setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();triggerCardAnimations();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';_scanMainTimer=null;},700);},10500);
+    _scanMainTimer=setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('self-input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();triggerCardAnimations();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';_scanMainTimer=null;},700);},10500);
 });
 
 document.getElementById('reset-btn').addEventListener('click',()=>{
@@ -1061,7 +1083,7 @@ document.getElementById('reset-btn').addEventListener('click',()=>{
     const st=document.getElementById('scan-text');st.textContent='Initializing...';st.style.opacity='1';st.style.filter='blur(0)';
     // Reset UI
     document.getElementById('result-section').classList.add('hidden');
-    document.getElementById('input-section').classList.remove('hidden');
+    document.getElementById('self-input-section').classList.remove('hidden');
     document.getElementById('cards-container').innerHTML='';
     document.getElementById('deep-dive-area').innerHTML='';
     document.getElementById('paywall-gate').classList.add('hidden');
@@ -2375,18 +2397,19 @@ function hideOnboarding(){document.getElementById('onboarding').style.display='n
 function obNewSelect(type){
     hideOnboarding();
     trackEvent('ob_new_select',{type});
-    window.scrollTo({top:0});
+    if(type==='daily'){switchPage('daily');}
+    else if(type==='other'){switchPage('other');}
+    else {switchPage('self');}
 }
 function obReturnSelect(type){
     hideOnboarding();
     trackEvent('ob_return_select',{type});
     if(type==='daily'){
-        const da=document.getElementById('daily-area');
-        if(da&&!da.classList.contains('hidden')){
-            setTimeout(()=>{da.scrollIntoView({behavior:'smooth',block:'start'});},200);
-        }
+        switchPage('daily');
+    } else if(type==='other'){
+        switchPage('other');
     } else {
-        window.scrollTo({top:0});
+        switchPage('self');
     }
 }
 
@@ -2437,6 +2460,232 @@ function copyAppUrl(){
 })();
 
 // ==========================================
+// PAGE SWITCHING
+// ==========================================
+let currentPage='daily';
+function switchPage(page){
+    currentPage=page;
+    document.querySelectorAll('.app-page').forEach(p=>p.classList.add('hidden'));
+    const target=document.getElementById('page-'+page);
+    if(target){target.classList.remove('hidden');}
+    window.scrollTo({top:0});
+    // Update bottom nav active
+    document.querySelectorAll('.bnav-btn').forEach(b=>{
+        const navMap={daily:'daily',self:'self',other:'compat'};
+        const isActive=b.dataset.nav===(navMap[page]||'');
+        const color=isActive?'var(--primary)':'var(--text-muted)';
+        b.querySelectorAll('.bnav-icon').forEach(svg=>{svg.setAttribute('stroke',color);});
+        b.querySelectorAll('.bnav-label').forEach(s=>{s.style.color=color;});
+    });
+    // Daily page: render if needed
+    if(page==='daily'){renderDailyPage();}
+    // Other page: show self info if available
+    if(page==='other'){showOtherSelfNote();}
+    lucide.createIcons();
+    trackEvent('page_switch',{page});
+}
+
+function renderDailyPage(){
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e){}
+    if(!saved||!saved.year||!saved.month||!saved.day){
+        document.getElementById('daily-need-register').classList.remove('hidden');
+        document.getElementById('daily-area-page').innerHTML='';
+        return;
+    }
+    document.getElementById('daily-need-register').classList.add('hidden');
+    // Reuse renderDailyArea logic but target daily-area-page
+    const today=new Date();
+    const m=parseInt(saved.month),d=parseInt(saved.day);
+    const zId=getZodiacId(m,d);
+    const zName=db.zodiac[zId]?db.zodiac[zId].name:'';
+    const seed=dailySeed(zId);
+    const nick=saved.name||'ゲスト';
+    const dow=['日','月','火','水','木','金','土'][today.getDay()];
+    const dateLabel=`${today.getMonth()+1}月${today.getDate()}日（${dow}）`;
+    const msgs=dailyMessages[zId]||dailyMessages.aries;
+    const msg=seededPickN(msgs,seed,0);
+    const color=seededPickN(luckyColors,seed,1);
+    const item=seededPickN(luckyItems,seed,2);
+    const spot=seededPickN(luckySpots,seed,3);
+    const rng=mulberry32(seed+12345);
+    const genScore=Math.floor(rng()*5)+1,loveScore=Math.floor(rng()*5)+1,workScore=Math.floor(rng()*5)+1,moneyScore=Math.floor(rng()*5)+1;
+    const stars=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);
+    const area=document.getElementById('daily-area-page');
+    area.innerHTML=`
+    <div class="fortune-card" style="padding:0;overflow:hidden;">
+        <div style="padding:16px 20px 12px;">
+            <div class="flex items-center gap-2.5">
+                <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><i data-lucide="sun" class="w-4 h-4" style="color:var(--primary);"></i></div>
+                <div style="text-align:left;">
+                    <p class="t-body font-semibold" style="color:var(--text-main);">${dateLabel}の占い</p>
+                    <p style="font-size:11px;color:var(--text-muted);">${nick}さん（${zName}）</p>
+                </div>
+            </div>
+        </div>
+        <div style="padding:0 20px 16px;">
+            <p class="t-body font-semibold leading-relaxed mb-3" style="color:var(--text-main);padding:10px 14px;background:var(--primary-light);border-radius:10px;border:2px solid var(--primary);">${msg}</p>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;">
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">総合運</p><p style="font-size:20px;letter-spacing:2px;color:var(--primary);">${stars(genScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">恋愛運</p><p style="font-size:20px;letter-spacing:2px;color:var(--danger);">${stars(loveScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">仕事運</p><p style="font-size:20px;letter-spacing:2px;color:var(--cat-tool);">${stars(workScore)}</p></div>
+                <div style="padding:10px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:4px;">金　運</p><p style="font-size:20px;letter-spacing:2px;color:var(--cat-book);">${stars(moneyScore)}</p></div>
+            </div>
+            <div style="display:flex;justify-content:space-between;padding:10px 14px;background:var(--primary-light);border-radius:10px;border:var(--border-w) solid var(--border-color);">
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">カラー</p><p style="font-size:13px;font-weight:700;color:var(--primary);">${color}</p></div>
+                <div style="width:1px;background:var(--border-color);"></div>
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">アイテム</p><p style="font-size:13px;font-weight:700;color:var(--warning-text);">${item}</p></div>
+                <div style="width:1px;background:var(--border-color);"></div>
+                <div class="text-center" style="flex:1;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">スポット</p><p style="font-size:13px;font-weight:700;color:var(--danger);">${spot}</p></div>
+            </div>
+            <div class="flex justify-end mt-3">
+                <button onclick="shareDailyToX('${dateLabel}','${zName}','${msg}','${color}','${item}','${spot}',${genScore},${loveScore},${workScore},${moneyScore})" style="display:flex;align-items:center;gap:5px;padding:6px 14px;border-radius:20px;border:var(--border-w) solid var(--border-color);background:var(--bg-page);cursor:pointer;">
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="var(--text-sub)"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+                    <span style="font-size:11px;font-weight:600;color:var(--text-sub);">Xに投稿</span>
+                </button>
+            </div>
+        </div>
+    </div>`;
+    lucide.createIcons();
+}
+
+function shareDailyToX(dateLabel,zName,msg,color,item,spot,gen,love,work,money){
+    const starsText=(n)=>'★'.repeat(n)+'☆'.repeat(5-n);
+    const text=`${dateLabel}の運勢（${zName}）\n\n${msg}\n\n総合${starsText(gen)} 恋愛${starsText(love)}\n仕事${starsText(work)} 金運${starsText(money)}\n\nカラー:${color} / アイテム:${item} / スポット:${spot}\n\nみんなも今日の運勢チェックしてみて\n${buildShareUrl()}\n\n#トリセツ #今日の運勢`;
+    window.open('https://twitter.com/intent/tweet?text='+encodeURIComponent(text),'_blank');
+    trackEvent('share',{method:'x',content_type:'daily_fortune'});
+}
+
+// ==========================================
+// OTHER PERSON FORTUNE
+// ==========================================
+function showOtherSelfNote(){
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e){}
+    const note=document.getElementById('other-self-note');
+    const label=document.getElementById('other-self-label');
+    if(saved&&saved.year&&saved.month&&saved.day){
+        const zId=getZodiacId(parseInt(saved.month),parseInt(saved.day));
+        const zName=db.zodiac[zId]?db.zodiac[zId].name:'';
+        note.classList.remove('hidden');
+        label.textContent=`${saved.name||'ゲスト'}さん（${zName}）`;
+    } else {
+        note.classList.add('hidden');
+    }
+}
+
+// Init other person birth selectors
+(function initOtherBirth(){
+    const yy=document.getElementById('other-birth-year');
+    const mm=document.getElementById('other-birth-month');
+    const dd=document.getElementById('other-birth-day');
+    if(!yy)return;
+    const cy=new Date().getFullYear();
+    for(let y=cy;y>=1930;y--){const o=document.createElement('option');o.value=y;o.textContent=y;yy.appendChild(o);}
+    for(let m=1;m<=12;m++){const o=document.createElement('option');o.value=m;o.textContent=m;mm.appendChild(o);}
+    for(let d=1;d<=31;d++){const o=document.createElement('option');o.value=d;o.textContent=d;dd.appendChild(o);}
+})();
+
+// Other predict button
+document.getElementById('other-predict-btn')?.addEventListener('click',function(){
+    const name=document.getElementById('other-name').value.trim()||'相手';
+    const y=document.getElementById('other-birth-year').value;
+    const m=document.getElementById('other-birth-month').value;
+    const d=document.getElementById('other-birth-day').value;
+    if(!y||!m||!d){document.getElementById('other-error-msg').classList.remove('hidden');return;}
+    document.getElementById('other-error-msg').classList.add('hidden');
+    const zId=getZodiacId(parseInt(m),parseInt(d));
+    const zData=db.zodiac[zId];
+    const nId=getDestinyNumber(parseInt(y),parseInt(m),parseInt(d));
+    const nData=db.numerology[nId];
+    const relation=document.getElementById('other-relation').value;
+    // Render other person's result (reuse same card renderers)
+    document.getElementById('other-input-section').classList.add('hidden');
+    document.getElementById('other-result-section').classList.remove('hidden');
+    document.getElementById('other-result-name').textContent=name;
+    document.getElementById('other-result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;
+    const c=document.getElementById('other-cards-container');
+    c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+
+        renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+
+        renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+
+        renderWorkCard(nData.job,4)+renderMoneyCard(nData.money,5);
+    // Show compare button if self data exists
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e){}
+    if(saved&&saved.year&&saved.month&&saved.day){
+        document.getElementById('compare-section').classList.remove('hidden');
+        // Store other person data for comparison
+        window._otherPerson={name,zId,zData,nId,nData,relation,year:parseInt(y),month:parseInt(m),day:parseInt(d)};
+    }
+    lucide.createIcons();
+    triggerCardAnimations();
+    window.scrollTo({top:0,behavior:'smooth'});
+    trackEvent('other_fortune_complete',{zodiac:zId,destiny_number:nId,relation});
+});
+
+// Compare button
+document.getElementById('compare-btn')?.addEventListener('click',function(){
+    let saved=null;
+    try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e){}
+    if(!saved||!window._otherPerson)return;
+    const self={
+        name:saved.name||'あなた',
+        zId:getZodiacId(parseInt(saved.month),parseInt(saved.day)),
+        nId:getDestinyNumber(parseInt(saved.year),parseInt(saved.month),parseInt(saved.day))
+    };
+    const other=window._otherPerson;
+    const selfZ=db.zodiac[self.zId];
+    const otherZ=db.zodiac[other.zId];
+    // Compatibility score (seed-based, deterministic)
+    const compSeed=Math.abs((self.zId.charCodeAt(0)*31+other.zId.charCodeAt(0))*2654435761>>>0);
+    const rng=mulberry32(compSeed);
+    const overallScore=Math.floor(rng()*41)+60;// 60-100
+    const commScore=Math.floor(rng()*41)+60;
+    const valueScore=Math.floor(rng()*41)+60;
+    const growthScore=Math.floor(rng()*41)+60;
+    const elements={aries:'fire',taurus:'earth',gemini:'air',cancer:'water',leo:'fire',virgo:'earth',libra:'air',scorpio:'water',sagittarius:'fire',capricorn:'earth',aquarius:'air',pisces:'water'};
+    const selfEl=elements[self.zId]||'fire';
+    const otherEl=elements[other.zId]||'fire';
+    const elCompat={'fire-fire':'情熱的だが衝突も多い関係','fire-air':'最高の組み合わせ。お互いを高め合える','fire-earth':'バランスが取れる補完的な関係','fire-water':'対照的だからこそ学び合える','air-air':'知的で自由な関係','air-earth':'安定と刺激のバランス','air-water':'感性と論理の融合','earth-earth':'堅実で安定した関係','earth-water':'自然体で居心地の良い関係','water-water':'深い共感で結ばれる関係'};
+    const elKey=[selfEl,otherEl].sort().join('-');
+    const elDesc=elCompat[elKey]||'お互いの個性を認め合える関係';
+    const container=document.getElementById('compare-result');
+    container.innerHTML=`
+    <div class="fortune-card p-5 fade-up">
+        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger),transparent);"></div>
+        <div class="flex items-center gap-2.5 mb-4 pt-1"><i data-lucide="heart-handshake" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--danger);">${self.name} × ${other.name} の相性</span></div>
+        <div class="text-center mb-4">
+            <p style="font-size:48px;font-weight:800;color:var(--primary);">${overallScore}<span style="font-size:16px;color:var(--text-muted);">%</span></p>
+            <p class="t-caption" style="color:var(--text-muted);">${selfZ.name} × ${otherZ.name}</p>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">コミュニケーション</p><p style="font-size:18px;font-weight:800;color:var(--primary);">${commScore}%</p></div>
+            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">価値観</p><p style="font-size:18px;font-weight:800;color:var(--cat-tool);">${valueScore}%</p></div>
+            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">成長</p><p style="font-size:18px;font-weight:800;color:var(--cat-book);">${growthScore}%</p></div>
+        </div>
+        <div class="rounded-lg p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);">
+            <p class="t-body font-semibold leading-relaxed" style="color:var(--primary);">${elDesc}</p>
+        </div>
+    </div>`;
+    this.classList.add('hidden');
+    lucide.createIcons();
+    triggerCardAnimations();
+    trackEvent('compare_complete',{self_zodiac:self.zId,other_zodiac:other.zId,score:overallScore});
+});
+
+// Other reset
+document.getElementById('other-reset-btn')?.addEventListener('click',function(){
+    document.getElementById('other-result-section').classList.add('hidden');
+    document.getElementById('other-input-section').classList.remove('hidden');
+    document.getElementById('other-cards-container').innerHTML='';
+    document.getElementById('compare-result').innerHTML='';
+    document.getElementById('compare-section').classList.add('hidden');
+    document.getElementById('compare-btn').classList.remove('hidden');
+    document.getElementById('other-name').value='';
+    window.scrollTo({top:0});
+});
+
+// ==========================================
 // BOTTOM NAVIGATION
 // ==========================================
 function navTo(target){
@@ -2446,26 +2695,16 @@ function navTo(target){
         b.querySelectorAll('.bnav-icon').forEach(svg=>{svg.setAttribute('stroke',color);});
         b.querySelectorAll('.bnav-label').forEach(s=>{s.style.color=color;});
     });
-    const center=document.getElementById('bnav-center');
-    if(target==='fortune'){center.style.transform='scale(1.1)';setTimeout(()=>{center.style.transform='scale(1)';},200);}
 
     if(target==='daily'){
         hideOnboarding();
-        const da=document.getElementById('daily-area');
-        if(da&&!da.classList.contains('hidden')){da.scrollIntoView({behavior:'smooth',block:'start'});}
-        else{window.scrollTo({top:0,behavior:'smooth'});}
+        switchPage('daily');
     } else if(target==='fortune'){
         hideOnboarding();
-        const resultVisible=!document.getElementById('result-section').classList.contains('hidden');
-        if(resultVisible){document.getElementById('reset-btn').click();}
-        window.scrollTo({top:0,behavior:'smooth'});
+        switchPage('self');
     } else if(target==='compat'){
         hideOnboarding();
-        const resultVisible=!document.getElementById('result-section').classList.contains('hidden');
-        if(resultVisible){
-            const compatBtn=document.querySelector('[data-cat="compat"]');
-            if(compatBtn){compatBtn.scrollIntoView({behavior:'smooth',block:'center'});compatBtn.click();}
-        } else {window.scrollTo({top:0,behavior:'smooth'});}
+        switchPage('other');
     } else if(target==='share'){
         hideOnboarding();
         showShareModal();
