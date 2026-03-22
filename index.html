@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>トリセツ 〜あなたの性格〜</title>
-    <meta name="description" content="生年月日から性格・仕事運・恋愛運を読み解く本格占いアプリ">
+    <meta name="description" content="生年月日から性格・仕事・恋愛・お金のクセを読み解く占いアプリ">
     <meta property="og:title" content="トリセツ 〜あなたの性格〜">
     <meta property="og:description" content="2,000通り以上の組み合わせから、星と数秘があなただけのトリセツを作成。みんなも占ってみてね">
     <meta property="og:type" content="website">
@@ -166,7 +166,8 @@
 
         *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
         html{touch-action:manipulation;-ms-touch-action:manipulation;}
-        body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;}
+        body{background:var(--bg-page);color:var(--text-main);font-family:var(--font-body);font-size:14px;line-height:1.6;min-height:100dvh;overflow-x:hidden;transition:background .3s,color .3s;-webkit-font-smoothing:antialiased;word-break:break-word;overflow-wrap:break-word;}
+        img,video{max-width:100%;height:auto;}
         .mono-font{font-family:var(--font-mono);}
         .t-header{font-size:17px;font-weight:700;letter-spacing:2.5px;}
         .t-card-title{font-size:14px;font-weight:700;letter-spacing:0.7px;text-transform:uppercase;}
@@ -223,6 +224,49 @@
         .ob-dot.active{background:var(--primary) !important;width:16px;border-radius:4px;}
         ::-webkit-scrollbar{width:6px;}::-webkit-scrollbar-track{background:transparent;}::-webkit-scrollbar-thumb{background:var(--border-color);border-radius:3px;}
         #share-canvas{display:none;}
+
+        /* === Core Layout (Tailwind CDN fallback) === */
+        main#app-main{
+            width:100%;
+            max-width:448px;        /* = Tailwind max-w-md */
+            margin-left:auto;
+            margin-right:auto;
+            padding-left:max(16px, env(safe-area-inset-left, 0px));
+            padding-right:max(16px, env(safe-area-inset-right, 0px));
+            padding-top:32px;
+            padding-bottom:100px;
+            min-height:100dvh;
+            position:relative;
+            z-index:10;
+        }
+        /* Wider screens: tablet / landscape */
+        @media(min-width:768px){
+            main#app-main{
+                max-width:480px;
+                padding-left:24px;
+                padding-right:24px;
+            }
+        }
+        /* Small screens: tighter padding */
+        @media(max-width:360px){
+            main#app-main{
+                padding-left:12px;
+                padding-right:12px;
+            }
+        }
+        /* Safe area for notched devices */
+        @supports(padding:env(safe-area-inset-left)){
+            body{
+                padding-left:env(safe-area-inset-left);
+                padding-right:env(safe-area-inset-right);
+            }
+        }
+        /* Bottom nav centering fallback */
+        #bottom-nav>div{
+            max-width:420px;
+            margin-left:auto;
+            margin-right:auto;
+        }
     </style>
 </head>
 <body>
@@ -243,7 +287,7 @@
             <div style="width:100%;max-width:320px;display:flex;flex-direction:column;gap:10px;">
                 <button onclick="obNewSelect('self')" style="width:100%;padding:14px 16px;border-radius:12px;border:1px solid #2E3E3A;background:#1E2622;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;transition:border-color .2s;">
                     <div style="width:36px;height:36px;border-radius:50%;background:rgba(107,169,159,.1);border:1px solid rgba(107,169,159,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="sparkles" class="w-4 h-4" style="color:#6BA99F;"></i></div>
-                    <div><p style="font-size:14px;font-weight:700;color:#C8D8D2;">自分のことを知りたい</p><p style="font-size:11px;color:#4E6860;">性格・仕事・恋愛・金運を診断</p></div>
+                    <div><p style="font-size:14px;font-weight:700;color:#C8D8D2;">自分のことを知りたい</p><p style="font-size:11px;color:#4E6860;">性格・恋愛・仕事・お金のクセを診断</p></div>
                 </button>
                 <button onclick="obNewSelect('other')" style="width:100%;padding:14px 16px;border-radius:12px;border:1px solid #2E3E3A;background:#1E2622;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;transition:border-color .2s;">
                     <div style="width:36px;height:36px;border-radius:50%;background:rgba(107,169,159,.1);border:1px solid rgba(107,169,159,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="users" class="w-4 h-4" style="color:#6BA99F;"></i></div>
@@ -278,7 +322,7 @@
                 </button>
                 <button onclick="obReturnSelect('self')" style="width:100%;padding:16px;border-radius:12px;border:1px solid #2E3E3A;background:#1E2622;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;">
                     <div style="width:36px;height:36px;border-radius:50%;background:rgba(107,169,159,.1);border:1px solid rgba(107,169,159,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="sparkles" class="w-4 h-4" style="color:#6BA99F;"></i></div>
-                    <div><p style="font-size:14px;font-weight:700;color:#C8D8D2;">自分を占う</p><p style="font-size:11px;color:#4E6860;">性格・仕事・恋愛・金運を診断</p></div>
+                    <div><p style="font-size:14px;font-weight:700;color:#C8D8D2;">自分を占う</p><p style="font-size:11px;color:#4E6860;">性格・恋愛・仕事・お金のクセを診断</p></div>
                 </button>
                 <button onclick="obReturnSelect('other')" style="width:100%;padding:16px;border-radius:12px;border:1px solid #2E3E3A;background:#1E2622;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left;">
                     <div style="width:36px;height:36px;border-radius:50%;background:rgba(107,169,159,.1);border:1px solid rgba(107,169,159,.3);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><i data-lucide="users" class="w-4 h-4" style="color:#6BA99F;"></i></div>
@@ -361,7 +405,7 @@
             </div>
         </div>
         <div class="p-4" style="border-top:var(--border-w) solid var(--border-color);">
-            <a href="mailto:jone.lab.app@gmail.com" class="drawer-item w-full flex items-center justify-center gap-2 p-2.5 rounded-xl mb-3" style="color:var(--text-sub);text-decoration:none;font-size:12px;">
+            <a href="/cdn-cgi/l/email-protection#bad0d5d4df94d6dbd894dbcacafaddd7dbd3d694d9d5d7" class="drawer-item w-full flex items-center justify-center gap-2 p-2.5 rounded-xl mb-3" style="color:var(--text-sub);text-decoration:none;font-size:12px;">
                 <i data-lucide="mail" class="w-3.5 h-3.5"></i><span>お問い合わせ</span>
             </a>
             <p class="t-caption text-center" style="color:var(--text-muted);">トリセツ v1.0 — by ジョンラボ</p>
@@ -436,7 +480,7 @@
 <div id="toast" class="toast"></div>
 
 <!-- MAIN -->
-<main class="relative z-10 w-full max-w-md mx-auto px-4 pt-8 pb-32" style="min-height:100dvh;padding-bottom:100px;">
+<main id="app-main" class="relative z-10 w-full max-w-md mx-auto px-4 pt-8 pb-32">
 
     <!-- ======== PAGE: DAILY (今日の占い) ======== -->
     <section id="page-daily" class="app-page">
@@ -516,8 +560,8 @@
                 <div class="grid grid-cols-2 gap-3" id="premium-categories">
                     <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="love"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--danger-light);"><i data-lucide="heart" class="w-4 h-4" style="color:var(--danger);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">恋愛・相性</p><p class="t-caption" style="color:var(--text-muted);">相性・恋愛傾向を3段階で</p></button>
                     <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="career"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="briefcase" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">仕事・転職</p><p class="t-caption" style="color:var(--text-muted);">適職・行動プランまで</p></button>
-                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="money"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="coins" class="w-4 h-4" style="color:var(--warning-text);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">お金・投資</p><p class="t-caption" style="color:var(--text-muted);">金運タイプ・行動指針</p></button>
-                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p><p class="t-caption" style="color:var(--text-muted);">悩みの根本・解決策</p></button>
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="money"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="coins" class="w-4 h-4" style="color:var(--warning-text);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">お金のクセ</p><p class="t-caption" style="color:var(--text-muted);">使い方・貯め方の傾向</p></button>
+                    <button class="premium-cat-btn fortune-card p-4 text-left" data-cat="relation"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p><p class="t-caption" style="color:var(--text-muted);">家族・友人・職場での付き合い方</p></button>
                 </div>
                 <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="future"><div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--primary-light);"><i data-lucide="telescope" class="w-5 h-5" style="color:var(--primary);"></i></div><div><p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">あなたの未来</p><p class="t-caption" style="color:var(--text-muted);">1年後〜10年後のあなたを占う</p></div></button>
                 <button class="premium-cat-btn fortune-card p-4 mt-3 w-full text-left flex items-center gap-4" data-cat="lifetime"><div class="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style="background:var(--danger-light);"><i data-lucide="hourglass" class="w-5 h-5" style="color:var(--danger);"></i></div><div><p class="t-body font-semibold mb-0.5" style="color:var(--text-main);">残りの時間</p><p class="t-caption" style="color:var(--text-muted);">あなたのチャクラから寿命が計算されました</p></div></button>
@@ -623,7 +667,7 @@
                 <div class="grid grid-cols-2 gap-3" id="other-premium-categories">
                     <button class="other-cat-btn fortune-card p-4 text-left" data-ocat="love"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--danger-light);"><i data-lucide="heart" class="w-4 h-4" style="color:var(--danger);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">恋愛傾向</p><p class="t-caption" style="color:var(--text-muted);">相手の恋愛スタイル</p></button>
                     <button class="other-cat-btn fortune-card p-4 text-left" data-ocat="career"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="briefcase" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">仕事スタイル</p><p class="t-caption" style="color:var(--text-muted);">働き方の特徴</p></button>
-                    <button class="other-cat-btn fortune-card p-4 text-left" data-ocat="relation"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p><p class="t-caption" style="color:var(--text-muted);">付き合い方のクセ</p></button>
+                    <button class="other-cat-btn fortune-card p-4 text-left" data-ocat="relation"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--primary-light);"><i data-lucide="users" class="w-4 h-4" style="color:var(--primary);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">人間関係</p><p class="t-caption" style="color:var(--text-muted);">家族・友人・職場での付き合い方</p></button>
                     <button class="other-cat-btn fortune-card p-4 text-left" data-ocat="approach"><div class="w-8 h-8 rounded-full flex items-center justify-center mb-3" style="background:var(--warning-bg);"><i data-lucide="message-circle" class="w-4 h-4" style="color:var(--warning-text);"></i></div><p class="t-body font-semibold mb-1" style="color:var(--text-main);">接し方のコツ</p><p class="t-caption" style="color:var(--text-muted);">関係性に合わせたアドバイス</p></button>
                 </div>
                 <div id="other-deep-result" class="mt-4 space-y-4"></div>
@@ -662,8 +706,8 @@
 
 <canvas id="share-canvas" width="1080" height="1920"></canvas>
 
-<script>
-const db={zodiac:{aries:{name:'牡羊座',icon:'flame',base:{sub:'情熱的なパイオニア',points:['思い立ったら即行動する直感タイプ','嘘がつけず裏表のない性格','新しい挑戦に対して恐れがない','負けず嫌いで上昇志向が強い'],conc:'周囲からは「エネルギッシュで裏表のない人」として映る傾向があります。'},thought:{sub:'直感と決断力',points:['迷うよりまず動く行動派','最初の直感を強く信じる','過去より未来に目が向きやすい'],conc:'ゼロからイチを生み出す開拓者の資質を持っています。'},relation:{sub:'素直でストレート',points:['回りくどい表現が苦手','気の合う仲間と熱く語り合える','怒りの持続時間が短い'],conc:'建前より本音で関わり合える関係を好むタイプです。'},romance_free:{points:['直感で恋に落ちやすい','自分から積極的にアプローチする','駆け引きを面倒に感じる'],caution:['情熱が移り変わりやすい面もあるので、じっくり向き合う時間も作ってみて','自分のスピード感を大切にしつつ、相手のペースにも寄り添ってみてくださいね'],conc:'一緒にアクティブな体験を楽しめる相手との出会いが鍵です。'},romance_pair:{points:['愛情表現がストレートで伝わりやすい','デートはアクティブ派','相手をリードしたい気持ちが強い'],caution:['たまには相手の意見に耳を傾けること','関係のマンネリ化に注意'],conc:'お互いに新しい挑戦を共有することで関係が活性化します。'},romance_married:{points:['家族を引っ張るリーダー気質','休日は外出派','明るく風通しの良い家庭を作る'],caution:['自分のペースを家族に押し付けない','家事の分担を明確にすること'],conc:'適度な自由と家族イベントの両立が円満の秘訣です。'}},taurus:{name:'牡牛座',icon:'mountain',base:{sub:'穏やかな堅実主義者',points:['落ち着いた雰囲気で信頼を集める','コツコツ積み上げることが得意','一度決めたことは長く継続できる','感情より安定・現実を重視する'],conc:'周囲からは「安心感のある人」として映る傾向があります。'},thought:{sub:'慎重で現実的',points:['リスクを十分に検討する','勢いではなく納得してから動く','長期的な視点で判断する'],conc:'資産形成・計画・仕組みづくりに適性があります。'},relation:{sub:'狭く深い信頼関係',points:['信頼できる人を大切にする','穏やかな表面を保つ','本音は簡単に出さない'],conc:'無理な付き合いより安心できる関係を好むタイプです。'},romance_free:{points:['駆け引きより信頼関係を重視','一度好きになると長く続く','慎重に相手を見極める'],caution:['一人の時間も大切にしすぎる面','恋愛を後回しにしがち'],conc:'自分の生活を大切にしながら自然体で出会える関係が吉です。'},romance_pair:{points:['浮気の心配が少なく誠実','美味しい食事や空間の共有が好き','安定感のある関係を築く'],caution:['信念が強いぶん、時には相手の意見も取り入れてみると新しい発見がありますよ','安定を大切にする一方、小さな変化も楽しんでみると世界が広がりますよ'],conc:'一緒に美味しいものを楽しむ時間が最高の愛情表現になります。'},romance_married:{points:['家族の基盤をしっかり守る','経済観念がしっかりしている','住環境へのこだわりが強い'],caution:['大切なものへの愛情が深いぶん、相手の自由も尊重してあげてくださいね','自分の価値観を大切にしつつ、柔軟さも持ってみてくださいね'],conc:'五感を満たす快適な家づくりが家族の幸福度に直結します。'}},gemini:{name:'双子座',icon:'messages-square',base:{sub:'好奇心旺盛な情報通',points:['頭の回転が速く機転が利く','話題が豊富でコミュニケーション上手','同時進行で複数をこなすマルチタスク派','常に新しい刺激を求め、世界を広げていくタイプ'],conc:'周囲からは「話していて面白い多才な人」として映る傾向があります。'},thought:{sub:'論理的で客観的',points:['感情論よりデータ・事実を好む','常に新しい情報を取り入れる','一つの考えに固執しない柔軟さ'],conc:'情報収集やトレンド分析に優れた資質があります。'},relation:{sub:'広く風通しの良い関係',points:['誰とでもすぐに打ち解ける','重い話題は苦手でも、場を明るくする力がある','ネットワークを広げるのが上手い'],conc:'軽やかで楽しい関係を好むタイプです。'},romance_free:{points:['会話のテンポを重視する','友達から恋愛に発展しやすい','束縛されると距離を置く'],caution:['好奇心が旺盛なぶん、次の興味に心が動きやすい面も','深刻なムードが苦手'],conc:'知的な会話が弾み自由を尊重し合える相手が吉です。'},romance_pair:{points:['友達のような恋人関係','一緒にいて飽きない会話力','新しい話題を常に提供できる'],caution:['自由なペースで関係を楽しむのが自然体','本当の気持ちを言葉にするのが少し照れくさいタイプ'],conc:'お互いの趣味・一人の時間を尊重する関係が長続きの鍵です。'},romance_married:{points:['会話が絶えない明るい家庭','フットワークの軽い行動派','夫婦というより親友のような関係'],caution:['自分の時間も大切にしつつ、家族の時間も意識してみて','前向きな言葉で伝えると、より良い関係が築けますよ'],conc:'夫婦で共通の趣味や学びを持つと新鮮さが続きます。'}},cancer:{name:'蟹座',icon:'shield',base:{sub:'愛情深い守護者',points:['共感力が非常に高い','身内や仲間を全力で守る','記憶力が良く過去を大切にする','慎重に人を見極め、心を開くまで時間をかけるタイプ'],conc:'周囲からは「優しくて面倒見の良い人」として映る傾向があります。'},thought:{sub:'感情と直感がベース',points:['理屈より「どう感じるか」を大切にする','場の空気を瞬時に読み取る','安心・安全を第一に考える'],conc:'人のサポートや快適な環境づくりに優れた資質があります。'},relation:{sub:'深い絆の構築者',points:['心を開いた相手にはとことん尽くす','温かく穏やかな関係を好む','共感をベースに絆を深める'],conc:'アットホームなコミュニティを好むタイプです。'},romance_free:{points:['相手の世話を焼くのが好き','外見より安心感・包容力を重視','過去の恋愛を引きずりやすい'],caution:['慎重に一歩一歩距離を縮めていくタイプ','相手の気持ちを大切にするあまり、自分の気持ちを後回しにすることも'],conc:'あなたの優しさに感謝してくれる誠実な相手が吉です。'},romance_pair:{points:['包み込むような深い愛情表現','手料理や生活面で尽くす','一緒にいる時間を何より大切にする'],caution:['感情が豊かなぶん、波があることも自然なことです','愛情が深いぶん、相手の自由な時間も大切にしてあげてくださいね'],conc:'言葉で愛情を確かめ合うと情緒が安定します。'},romance_married:{points:['家族を最優先にする','温かく居心地の良い家庭を築く才能','子供・配偶者への愛情が深い'],caution:['心配する気持ちは素敵ですが、見守る余裕も持ってみてくださいね','小さな不満はこまめに伝える習慣を作ると、楽になりますよ'],conc:'「自分のための時間」も意識的に確保することが大切です。'}},leo:{name:'獅子座',icon:'crown',base:{sub:'みんなを照らす太陽のような存在',points:['自然と人の注目を集める存在感がある','頼られると期待以上の力を出す','ドラマチックで楽しいことが好き','芯が強く、周囲に安心感を与える'],conc:'周囲からは「明るく頼りになるリーダー」として映る傾向があります。'},thought:{sub:'スケールが大きく前向き',points:['細かいことより全体像を重視','自分らしさを大切に、ベストを尽くす','ポジティブで逆境に強い'],conc:'人前に立つこと、プロジェクトの牽引に適性があります。'},relation:{sub:'周りの人を笑顔にする力がある',points:['大切な人に惜しみなく愛情を注ぐ','認められると想像以上の力を発揮する','大切にされることでさらに輝きが増す'],conc:'お互いを認め合える温かい関係の中で、最も輝くタイプです。'},romance_free:{points:['心が動く特別な瞬間を大切にする','サプライズで相手を喜ばせたい','一緒にいて高め合える相手に惹かれる'],caution:['自分をよく見せたい気持ちが出やすい面も','たまには相手の話に耳を傾ける時間も作ってみて'],conc:'お互いを尊重し、一緒に笑い合える相手との出会いが鍵です。'},romance_pair:{points:['恋人には一途で甘い','特別な時間を演出することが好き','相手を守る正義感が強い'],caution:['相手の気持ちにも目を向ける余裕を持つこと','相手の都合も考慮すること'],conc:'感謝と日常の小さな幸せも大切にすると絆が深まります。'},romance_married:{points:['家族の誇り・大黒柱','子供のように無邪気に遊べる親','記念日を盛大にお祝いする'],caution:['家族の意見も取り入れる姿勢を意識してみて','本当に大切なことにお金を使う意識を'],conc:'「ありがとう」「すごいね」の言葉が円満の原動力です。'}},virgo:{name:'乙女座',icon:'scan-search',base:{sub:'丁寧さと気配りの達人',points:['細部まで気がつきミスが少ない','実用的で役立つことを好む','清潔感と秩序を大切にする','高い基準を持ち、成長し続けようとする向上心がある'],conc:'周囲からは「有能でしっかり者」として映る傾向があります。'},thought:{sub:'論理的でデータ重視',points:['曖昧さより事実と数字を信頼する','物事を整理・分析して最適化する','計画を立ててから実行に移す'],conc:'データ管理・品質チェック・実務処理に優れた資質があります。'},relation:{sub:'誠実で細やかな気配り',points:['困っている人を見ると自然と手を差し伸べる','約束や時間は厳守する','丁寧に物事に取り組む人に信頼を感じる'],conc:'お互いを尊重できる誠実な関係を好むタイプです。'},romance_free:{points:['相手の人間性・生活態度をよく観察する','清潔感やマナーを重視する','徐々に知ってから好きになる'],caution:['観察力が鋭いぶん、最初は慎重に見極める傾向がある','理想が高すぎて発展しにくい'],conc:'誠実で地に足のついた尊敬できる相手が吉です。'},romance_pair:{points:['体調や気分の変化に細やかに気づく','デートの計画・手配が完璧','真面目で浮気の心配が少ない'],caution:['相手のためを思って改善点に気づきやすい','細かいことを気にしすぎる'],conc:'相手の欠点も「個性」として大目に見る余裕が鍵です。'},romance_married:{points:['家計管理や家事がきっちりしている','家族の健康管理を徹底する','効率的な役割分担を設計する'],caution:['自分の中のルールを大切にしているぶん、柔軟さも意識してみて','細かいことを気にしすぎず、ゆとりを持てると楽になりますよ'],conc:'完璧を目指しすぎず多少の余白を笑って許せると円満です。'}},libra:{name:'天秤座',icon:'scale',base:{sub:'バランス感覚の社交家',points:['人当たりが良く誰に対しても公平','争いを避け平和を愛する','美意識が高くセンスが良い','決断に時間がかかりやすい'],conc:'周囲からは「洗練されて付き合いやすい人」として映る傾向があります。'},thought:{sub:'客観的で多角的な視点',points:['常にバランスを取ろうとする','相手の立場で考えられる','極端な思想・行動を嫌う'],conc:'交渉・デザイン・人と人を繋ぐ調整役に適性があります。'},relation:{sub:'スマートな距離感',points:['誰とでも適度に付き合える','場の空気を読んで話を合わせる','泥臭い感情のぶつかり合いは苦手'],conc:'知的でスマートな会話が楽しめる平和な関係を好みます。'},romance_free:{points:['外見やファッションセンスを重視しがち','ロマンチックなシチュエーションに弱い','受け身になりやすく押しに弱い'],caution:['誰にでも優しいぶん、特別な気持ちが伝わりにくいことも','自分から決断するのが苦手'],conc:'リードしてくれて美的センスを共有できる相手が吉です。'},romance_pair:{points:['喧嘩を避け穏やかな関係を維持する','いつもオシャレに気を遣う','相手の意見を尊重して合わせる'],caution:['相手を思いやるあまり、自分の気持ちを後回しにしがち','じっくり考える姿勢を大切にしつつ、時には思い切りも'],conc:'たまには本音でぶつかる勇気を持つことも大切です。'},romance_married:{points:['おしゃれで生活感のない理想の家庭','夫婦喧嘩が少なく会話で解決する','パートナーを対等に扱う'],caution:['心地よさを大切にするぶん、向き合うべき問題も少しずつ取り組んでみて','外見も内面も、バランスよく大切にしてみてくださいね'],conc:'ありのままを見せ合える関係づくりが大切です。'}},scorpio:{name:'蠍座',icon:'eye',base:{sub:'物事の本質を見抜く深い洞察力の持ち主',points:['物事の裏側や本質を見抜く直感','並外れた集中力を発揮する','信頼した人にだけ本音を見せる慎重さがある','一度決めたことを最後まで貫く意志の強さがある'],conc:'周囲からは「奥深い魅力と揺るぎない芯を持つ人」として映る傾向があります。'},thought:{sub:'深く狭く徹底的に',points:['物事に真剣に向き合い、納得いくまで追求する','興味ある分野は専門家レベルまで調べる','表面的な情報に惑わされない'],conc:'研究・調査・専門職など深く掘り下げる仕事に適性があります。'},relation:{sub:'本物の信頼で結ばれた深い関係を築く',points:['信頼関係をとても大切にする','ごく少数の人を深く愛する','本当に心が通じ合える関係を求める'],conc:'魂レベルで共鳴し合える絶対的な信頼関係を求めます。'},romance_free:{points:['直感で相手の本質を見抜き一途に想う','静かな魅力で自然と人を惹きつける','軽い関係には興味がない'],caution:['大切な人を深く想うあまり、不安を感じることがある','相手を深く理解したいという気持ちが強い'],conc:'深い愛情を受け止め裏切らない誠実な相手が吉です。'},romance_pair:{points:['全身全霊で相手を愛する','二人の世界を大切にし秘密を共有する','頼りになる強さがある'],caution:['相手の気持ちを深く考えるあまり、心配しすぎることも','感情を消化するのに時間がかかることがある'],conc:'信頼して少し放任する余裕を持つことが大切です。'},romance_married:{points:['家族を外敵から守る強い意志','夫婦の絆を非常に重視する','困難な状況でも逃げ出さない'],caution:['一人で抱え込まず、信頼できる人に話す時間も作ってみて','大切なものへの想いが強い分、手放すことに時間がかかることも'],conc:'「それぞれの世界」を認め合うと風通しが良くなります。'}},sagittarius:{name:'射手座',icon:'compass',base:{sub:'自由を愛する冒険家',points:['常に未知の世界や新しい知識を求める','自分のリズムを大切にし、のびのびと活動するタイプ','おおらかで楽天的な性格','目標を見つけると真っ直ぐ突き進む'],conc:'周囲からは「行動力があり楽しそうな人」として映る傾向があります。'},thought:{sub:'直感的で未来志向',points:['常に「次は何をするか」を考える','哲学的な問いや大きなビジョンが好き','衝動と直感で動く行動派'],conc:'海外関連やアイデアを形にする企画職に適性があります。'},relation:{sub:'オープンで裏表なし',points:['誰に対してもフレンドリーで偏見がない','思ったことをストレートに言う','ベタベタした依存関係は苦手'],conc:'自由を尊重し合いフランクに語れる関係を好みます。'},romance_free:{points:['恋愛も一種の冒険として楽しむ','お互いの自由を尊重してくれる相手を好む','国境も年齢も気にしない大胆さ'],caution:['新しい出会いにワクワクする、冒険心の強いタイプ','追いかける恋のほうが燃える'],conc:'自由を理解し共に未知を楽しめる相手が吉です。'},romance_pair:{points:['旅行や新体験の共有が好き','寛容で細かいことを気にしない','恋人であり親友のような関係'],caution:['率直さが魅力ですが、相手の気持ちへの配慮も忘れずに','一人の時間を楽しめる反面、相手にも気持ちを伝えることを忘れないで'],conc:'相手の話を最後まで聞く姿勢が信頼を深めます。'},romance_married:{points:['自由で明るい型破りな家庭','子供にも多様な体験をさせたい','細かいルールを嫌う'],caution:['日常のタスクにも楽しさを見つける工夫をしてみてくださいね','おおらかな金銭感覚も魅力ですが、少しだけ計画性も意識してみて'],conc:'最低限のルールを共有しつつ週末は冒険に出るのが円満の鍵です。'}},capricorn:{name:'山羊座',icon:'target',base:{sub:'目標達成型の努力家',points:['掲げた目標は必ず達成しようとする','無駄を嫌い時間・お金を効率的に使う','伝統やルールを重んじる真面目さ','年齢とともに魅力が増す大器晩成型'],conc:'周囲からは「頼りがいのあるしっかり者」として映る傾向があります。'},thought:{sub:'現実的で長期計画型',points:['未来の安定を優先する','実利と結果を重視する','常にプランBを用意している'],conc:'組織マネジメントや時間をかけた事業構築に適性があります。'},relation:{sub:'信頼と実績を重視',points:['行動と言葉が一致している誠実な人に信頼を感じる','自然と尊敬できる相手や高め合える関係を求める傾向がある','一度信頼した相手には義理堅い'],conc:'落ち着いた大人の付き合いを好むタイプです。'},romance_free:{points:['恋愛にも将来性・現実的メリットを求める','時間をかけて相手を審査する','アプローチは非常に慎重'],caution:['将来を見据えた慎重さがある一方、感覚的な相性も大切にしてみて','仕事が忙しいと恋愛を後回しにする'],conc:'野心を理解し精神的にも自立した相手が吉です。'},romance_pair:{points:['浮気の心配が少なく一途','記念日はきっちり計画してお祝い','将来に向けた現実的な話ができる'],caution:['気持ちは深いのに、言葉にするのが少し苦手なタイプ','お互いの頑張りを尊重しつつ、リラックスする時間も大切に'],conc:'結果だけでなく一緒に過ごす過程も楽しむことが長続きの鍵です。'},romance_married:{points:['家族を経済的・社会的に守る責任感','家計管理と老後の備えが万全','子供にしっかりした教育を受けさせたい'],caution:['仕事への情熱は素晴らしいですが、家族との対話の時間も意識してみて','家族それぞれの個性を尊重し、柔軟な家庭づくりを'],conc:'計画を忘れて家族とダラダラする余裕も大切です。'}},aquarius:{name:'水瓶座',icon:'lightbulb',base:{sub:'独創的な自由人',points:['常識にとらわれない独自の世界観','誰に対してもフラットで平等','冷静さと客観性を持ち合わせた、落ち着いた雰囲気の持ち主','最新テクノロジーや未来的なものに興味'],conc:'周囲からは「個性的で天才肌の人」として映る傾向があります。'},thought:{sub:'未来志向で俯瞰的',points:['「普通」という前提を疑う','全体の合理性を個人の感情より優先','閃きと論理を組み合わせる'],conc:'IT・企画・フリーランスなど裁量のある仕事に適性があります。'},relation:{sub:'自立したネットワーク',points:['年齢・性別・国籍を問わず幅広い交友','パーソナルスペースを大切にし、自分らしさを守る','多様性を本気で尊重する'],conc:'個性を認め合い干渉しない自立した関係を好みます。'},romance_free:{points:['恋愛感情より人間的な面白さを重視','友達からいつの間にか恋に発展','さっぱりとした人間関係を好む'],caution:['恋人も一人の人間として対等に接する姿勢がある','独自の感性を持っているぶん、同じ波長の相手と出会えると最高'],conc:'知的で自立しお互いの時間を尊重し合える相手が吉です。'},romance_pair:{points:['恋人を一人の人間として尊重する','既存の枠にとらわれない付き合い方','趣味・仕事の話で盛り上がれる'],caution:['形式にとらわれない、自分たちだけの愛情表現を見つけるタイプ','自分の時間が必要な時は素直に伝えてみてくださいね'],conc:'二人に合ったオリジナルな関係性を築くことが大切です。'},romance_married:{points:['伝統的な役割分担にこだわらない','お互いの生き方を尊重する風通しの良さ','子供を一人の人間として対等に扱う'],caution:['理想を大切にしつつ、目の前の現実にも向き合う時間を作ってみて','大切な人には時々、温かい言葉をかけてあげてくださいね'],conc:'家族の非合理的な感情にも寄り添う努力が必要です。'}},pisces:{name:'魚座',icon:'waves',base:{sub:'共感力の高いロマンチスト',points:['他者の感情をスポンジのように吸収する共感力','誰にでも優しく寄り添える境界線のなさ','想像力が豊かで空想の世界が好き','直感や目に見えないものを信じる'],conc:'周囲からは「癒し系で不思議な魅力のある人」として映る傾向があります。'},thought:{sub:'直感的で柔軟',points:['「何となくそう感じる」で動く直感型','水のように状況に適応する柔軟さ','芸術的センスやインスピレーションに優れる'],conc:'芸術・クリエイティブ・医療福祉など人を癒やす仕事に適性があります。'},relation:{sub:'惜しみない思いやりの心',points:['困っている人を見ると自然と手を差し伸べる','相手の気持ちを優先するあまり、自分の意見を控えめにしがち','穏やかな環境を好み、対立を避ける傾向がある'],conc:'穏やかな人に囲まれた平和な関係を好むタイプです。'},romance_free:{points:['愛情に溢れ、人との繋がりを大切にするタイプ','好きな人の世界観を理解し、一緒に楽しめる柔軟さがある','誰かを支えたい気持ちが、深い愛情に発展することがある'],caution:['優しさを向ける相手を、慎重に選ぶことが大切です','場の空気に合わせられる柔軟さがある反面、自分の軸も大切にして'],conc:'優しさを利用せず守ってくれる現実感覚のある相手が吉です。'},romance_pair:{points:['相手の求めることを察知し献身的に尽くす','ロマンチックな雰囲気を大切にする','深い精神的な繋がりを求める'],caution:['相手と深く繋がりたい気持ちが強い反面、自分の時間も大切に','感情が豊かなぶん、辛い出来事を深く受け止めやすい面がある'],conc:'自分の「嫌なこと」もしっかり伝える強さが長続きの鍵です。'},romance_married:{points:['家族に無償の愛を注ぐ優しい親','家に芸術的な癒やしの空間を作る','パートナーの痛みを受け止める'],caution:['現実的な管理よりも、温かい雰囲気づくりが得意','お子さんへの愛情が深いぶん、適度な線引きも意識してみてくださいね'],conc:'現実的な問題はパートナーと分担し精神的ケアで家族を支えると円満です。'}}},numerology:{1:{job:{sub:'独立・リーダー型',good:['裁量権がある環境','新規事業の立ち上げ','自分の力を発揮できるポジション'],bad:['決められた手順だけの作業','自分の判断が活かせない環境']},money:'自ら稼ぎ出す力が強い。投資や事業で大きく増やすポテンシャルあり。'},2:{job:{sub:'サポート・調整型',good:['秘書・アシスタント','1対1の接客','チームの調整役'],bad:['過度なプレッシャーのある環境','ギスギスした雰囲気の職場']},money:'堅実に貯めるタイプ。人との繋がりが金運を呼び込む。'},3:{job:{sub:'クリエイティブ・表現型',good:['企画・アイデア出し','エンタメ・デザイン','人と楽しく関わる仕事'],bad:['変化の少ない繰り返しの作業','柔軟性のない厳しいルール']},money:'楽しく使うことで巡る運気。交際費はケチらない方が吉。'},4:{job:{sub:'実務・構築型',good:['システム開発・経理','正確性が必要な業務','長期プロジェクト'],bad:['その場しのぎの対応','ルールが頻繁に変わる環境']},money:'最も堅実で貯蓄上手。長期分散投資が向いている。'},5:{job:{sub:'変化・開拓型',good:['営業・広報','旅行・海外関連','変化の激しい業界'],bad:['毎日同じ場所での作業','変化のない安定志向']},money:'出入りが激しい。経験やスキルへの投資が吉。'},6:{job:{sub:'育成・奉仕型',good:['教育・医療・福祉','人材育成','美しいものを扱う仕事'],bad:['利益だけの追求','ギスギスした職場']},money:'人のために使うと金運上昇。家族への投資が吉。'},7:{job:{sub:'探求・専門職型',good:['研究者・エンジニア','専門分析','一人で没頭できる仕事'],bad:['にぎやかすぎるチーム作業','深い専門性が求められない仕事']},money:'専門知識がお金に変わる。無駄遣いは少ないタイプ。'},8:{job:{sub:'達成・組織運営型',good:['経営・マネジメント','金融・不動産','成果が数字で出る仕事'],bad:['成果が見えにくい業務','評価基準が不明確な環境']},money:'稼ぐ力も使う力も大きい。ビジネスを通じた資産形成が得意。'},9:{job:{sub:'俯瞰・社会貢献型',good:['コンサル・NPO','癒やし・精神分野','全体を見渡す役職'],bad:['過度な成果主義','社会への貢献を感じにくい仕事']},money:'お金への執着は薄いが必要な分は不思議と入ってくる運気。'},11:{job:{sub:'直感・メッセンジャー型',good:['スピリチュアル・芸術','インスピレーション活用','独自センスが必要な仕事'],bad:['論理だけの仕事','現実的すぎる環境']},money:'直感が冴える時にお金が入る。思わぬ幸運も。'},22:{job:{sub:'カリスマ・大構築型',good:['大規模プロジェクト','政治・社会事業','理想を現実化する仕事'],bad:['スケールの小さい業務','誰でもできる作業']},money:'桁違いの財を築くポテンシャル。大きな目標を持つことが鍵。'},33:{job:{sub:'規格外・博愛型',good:['枠に囚われない独自活動','子供・動物に関わる仕事','特殊なクリエイティブ'],bad:['型にはめられる環境','決まったスタイルの働き方']},money:'金銭感覚は独特。好きなことに全振りする傾向あり。'}}};
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+const db={zodiac:{aries:{name:'牡羊座',icon:'flame',base:{sub:'情熱的なパイオニア',points:['思い立ったら即行動する直感タイプ','嘘がつけず裏表のない性格','新しい挑戦に対して恐れがない','負けず嫌いで上昇志向が強い'],conc:'周囲からは「エネルギッシュで裏表のない人」として映る傾向があります。ただし同じスピード感だからこそ、疲れると関係全体が停滞しやすい面も。時には「何もしない時間」も大切。メリハリがあなたの魅力を引き出します。'},thought:{sub:'直感と決断力',points:['迷うよりまず動く行動派','最初の直感を強く信じる','過去より未来に目が向きやすい'],conc:'ゼロからイチを生み出す開拓者の資質を持っています。'},relation:{sub:'素直でストレート',points:['回りくどい表現が苦手','気の合う仲間と熱く語り合える','怒りの持続時間が短い'],conc:'建前より本音で関わり合える関係を好むタイプです。'},romance_free:{points:['直感で恋に落ちやすい','自分から積極的にアプローチする','駆け引きを面倒に感じる'],caution:['情熱が移り変わりやすい面もあるので、じっくり向き合う時間も作ってみて','自分のスピード感を大切にしつつ、相手のペースにも寄り添ってみてくださいね'],conc:'一緒にアクティブな体験を楽しめる相手との出会いが鍵です。'},romance_pair:{points:['愛情表現がストレートで伝わりやすい','デートはアクティブ派','相手をリードしたい気持ちが強い'],caution:['たまには相手の意見に耳を傾けること','関係のマンネリ化に注意'],conc:'お互いに新しい挑戦を共有することで関係が活性化します。'},romance_married:{points:['家族を引っ張るリーダー気質','休日は外出派','明るく風通しの良い家庭を作る'],caution:['自分のペースを家族に押し付けない','家事の分担を明確にすること'],conc:'適度な自由と家族イベントの両立が円満の秘訣です。'}},taurus:{name:'牡牛座',icon:'mountain',base:{sub:'穏やかな堅実主義者',points:['落ち着いた雰囲気で信頼を集める','コツコツ積み上げることが得意','一度決めたことは長く継続できる','感情より安定・現実を重視する'],conc:'周囲からは「安心感のある人」として映る傾向があります。ただし「安定」が「当たり前」になると感謝が薄れやすい。でもあなたのペースと誠実さは何より大切です。'},thought:{sub:'慎重で現実的',points:['リスクを十分に検討する','勢いではなく納得してから動く','長期的な視点で判断する'],conc:'資産形成・計画・仕組みづくりに適性があります。'},relation:{sub:'狭く深い信頼関係',points:['信頼できる人を大切にする','穏やかな表面を保つ','本音は簡単に出さない'],conc:'無理な付き合いより安心できる関係を好むタイプです。'},romance_free:{points:['駆け引きより信頼関係を重視','一度好きになると長く続く','慎重に相手を見極める'],caution:['一人の時間も大切にしすぎる面','恋愛を後回しにしがち'],conc:'自分の生活を大切にしながら自然体で出会える関係が吉です。'},romance_pair:{points:['浮気の心配が少なく誠実','美味しい食事や空間の共有が好き','安定感のある関係を築く'],caution:['信念が強いぶん、時には相手の意見も取り入れてみると新しい発見がありますよ','安定を大切にする一方、小さな変化も楽しんでみると世界が広がりますよ'],conc:'一緒に美味しいものを楽しむ時間が最高の愛情表現になります。'},romance_married:{points:['家族の基盤をしっかり守る','経済観念がしっかりしている','住環境へのこだわりが強い'],caution:['大切なものへの愛情が深いぶん、相手の自由も尊重してあげてくださいね','自分の価値観を大切にしつつ、柔軟さも持ってみてくださいね'],conc:'五感を満たす快適な家づくりが家族の幸福度に直結します。'}},gemini:{name:'双子座',icon:'messages-square',base:{sub:'好奇心旺盛な情報通',points:['頭の回転が速く機転が利く','話題が豊富でコミュニケーション上手','同時進行で複数をこなすマルチタスク派','常に新しい刺激を求め、世界を広げていくタイプ'],conc:'周囲からは「話していて面白い多才な人」として映る傾向があります。ただ複数の興味に散るので「継続」が課題。でもその好奇心こそがあなたの最大の武器です。'},thought:{sub:'論理的で客観的',points:['感情論よりデータ・事実を好む','常に新しい情報を取り入れる','一つの考えに固執しない柔軟さ'],conc:'情報収集やトレンド分析に優れた資質があります。'},relation:{sub:'広く風通しの良い関係',points:['誰とでもすぐに打ち解ける','重い話題は苦手でも、場を明るくする力がある','ネットワークを広げるのが上手い'],conc:'軽やかで楽しい関係を好むタイプです。'},romance_free:{points:['会話のテンポを重視する','友達から恋愛に発展しやすい','束縛されると距離を置く'],caution:['好奇心が旺盛なぶん、次の興味に心が動きやすい面も','深刻なムードが苦手'],conc:'知的な会話が弾み自由を尊重し合える相手が吉です。'},romance_pair:{points:['友達のような恋人関係','一緒にいて飽きない会話力','新しい話題を常に提供できる'],caution:['自由なペースで関係を楽しむのが自然体','本当の気持ちを言葉にするのが少し照れくさいタイプ'],conc:'お互いの趣味・一人の時間を尊重する関係が長続きの鍵です。'},romance_married:{points:['会話が絶えない明るい家庭','フットワークの軽い行動派','夫婦というより親友のような関係'],caution:['自分の時間も大切にしつつ、家族の時間も意識してみて','前向きな言葉で伝えると、より良い関係が築けますよ'],conc:'夫婦で共通の趣味や学びを持つと新鮮さが続きます。'}},cancer:{name:'蟹座',icon:'shield',base:{sub:'愛情深い守護者',points:['共感力が非常に高い','身内や仲間を全力で守る','記憶力が良く過去を大切にする','慎重に人を見極め、心を開くまで時間をかけるタイプ'],conc:'周囲からは「優しくて面倒見の良い人」として映る傾向があります。ただし尽くしすぎると自分を見失いやすい。時には頼ることも愛情です。'},thought:{sub:'感情と直感がベース',points:['理屈より「どう感じるか」を大切にする','場の空気を瞬時に読み取る','安心・安全を第一に考える'],conc:'人のサポートや快適な環境づくりに優れた資質があります。'},relation:{sub:'深い絆の構築者',points:['心を開いた相手にはとことん尽くす','温かく穏やかな関係を好む','共感をベースに絆を深める'],conc:'アットホームなコミュニティを好むタイプです。'},romance_free:{points:['相手の世話を焼くのが好き','外見より安心感・包容力を重視','過去の恋愛を引きずりやすい'],caution:['慎重に一歩一歩距離を縮めていくタイプ','相手の気持ちを大切にするあまり、自分の気持ちを後回しにすることも'],conc:'あなたの優しさに感謝してくれる誠実な相手が吉です。'},romance_pair:{points:['包み込むような深い愛情表現','手料理や生活面で尽くす','一緒にいる時間を何より大切にする'],caution:['感情が豊かなぶん、波があることも自然なことです','愛情が深いぶん、相手の自由な時間も大切にしてあげてくださいね'],conc:'言葉で愛情を確かめ合うと情緒が安定します。'},romance_married:{points:['家族を最優先にする','温かく居心地の良い家庭を築く才能','子供・配偶者への愛情が深い'],caution:['心配する気持ちは素敵ですが、見守る余裕も持ってみてくださいね','小さな不満はこまめに伝える習慣を作ると、楽になりますよ'],conc:'「自分のための時間」も意識的に確保することが大切です。'}},leo:{name:'獅子座',icon:'crown',base:{sub:'みんなを照らす太陽のような存在',points:['自然と人の注目を集める存在感がある','頼られると期待以上の力を出す','ドラマチックで楽しいことが好き','芯が強く、周囲に安心感を与える'],conc:'周囲からは「明るく頼りになるリーダー」として映る傾向があります。ただ注目を浴びたい気持ちが強い時、周りが見えなくなることも。でもその輝きは本物です。'},thought:{sub:'スケールが大きく前向き',points:['細かいことより全体像を重視','自分らしさを大切に、ベストを尽くす','ポジティブで逆境に強い'],conc:'人前に立つこと、プロジェクトの牽引に適性があります。'},relation:{sub:'周りの人を笑顔にする力がある',points:['大切な人に惜しみなく愛情を注ぐ','認められると想像以上の力を発揮する','大切にされることでさらに輝きが増す'],conc:'お互いを認め合える温かい関係の中で、最も輝くタイプです。'},romance_free:{points:['心が動く特別な瞬間を大切にする','サプライズで相手を喜ばせたい','一緒にいて高め合える相手に惹かれる'],caution:['自分をよく見せたい気持ちが出やすい面も','たまには相手の話に耳を傾ける時間も作ってみて'],conc:'お互いを尊重し、一緒に笑い合える相手との出会いが鍵です。'},romance_pair:{points:['恋人には一途で甘い','特別な時間を演出することが好き','相手を守る正義感が強い'],caution:['相手の気持ちにも目を向ける余裕を持つこと','相手の都合も考慮すること'],conc:'感謝と日常の小さな幸せも大切にすると絆が深まります。'},romance_married:{points:['家族の誇り・大黒柱','子供のように無邪気に遊べる親','記念日を盛大にお祝いする'],caution:['家族の意見も取り入れる姿勢を意識してみて','本当に大切なことにお金を使う意識を'],conc:'「ありがとう」「すごいね」の言葉が円満の原動力です。'}},virgo:{name:'乙女座',icon:'scan-search',base:{sub:'丁寧さと気配りの達人',points:['細部まで気がつきミスが少ない','実用的で役立つことを好む','清潔感と秩序を大切にする','高い基準を持ち、成長し続けようとする向上心がある'],conc:'周囲からは「有能でしっかり者」として映る傾向があります。ただ高い基準を他人にも求めてしまい疲れることも。あなたの丁寧さは素晴らしい。でも「人それぞれ」の感覚も大切です。'},thought:{sub:'論理的でデータ重視',points:['曖昧さより事実と数字を信頼する','物事を整理・分析して最適化する','計画を立ててから実行に移す'],conc:'データ管理・品質チェック・実務処理に優れた資質があります。'},relation:{sub:'誠実で細やかな気配り',points:['困っている人を見ると自然と手を差し伸べる','約束や時間は厳守する','丁寧に物事に取り組む人に信頼を感じる'],conc:'お互いを尊重できる誠実な関係を好むタイプです。'},romance_free:{points:['相手の人間性・生活態度をよく観察する','清潔感やマナーを重視する','徐々に知ってから好きになる'],caution:['観察力が鋭いぶん、最初は慎重に見極める傾向がある','理想が高すぎて発展しにくい'],conc:'誠実で地に足のついた尊敬できる相手が吉です。'},romance_pair:{points:['体調や気分の変化に細やかに気づく','デートの計画・手配が完璧','真面目で浮気の心配が少ない'],caution:['相手のためを思って改善点に気づきやすい','細かいことを気にしすぎる'],conc:'相手の欠点も「個性」として大目に見る余裕が鍵です。'},romance_married:{points:['家計管理や家事がきっちりしている','家族の健康管理を徹底する','効率的な役割分担を設計する'],caution:['自分の中のルールを大切にしているぶん、柔軟さも意識してみて','細かいことを気にしすぎず、ゆとりを持てると楽になりますよ'],conc:'完璧を目指しすぎず多少の余白を笑って許せると円満です。'}},libra:{name:'天秤座',icon:'scale',base:{sub:'バランス感覚の社交家',points:['人当たりが良く誰に対しても公平','争いを避け平和を愛する','美意識が高くセンスが良い','決断に時間がかかりやすい'],conc:'周囲からは「洗練されて付き合いやすい人」として映る傾向があります。ただ「誰にでも良い顔」をしていると本当の自分が見えなくなる。時には「嫌」と言う勇気も大切です。'},thought:{sub:'客観的で多角的な視点',points:['常にバランスを取ろうとする','相手の立場で考えられる','極端な思想・行動を嫌う'],conc:'交渉・デザイン・人と人を繋ぐ調整役に適性があります。'},relation:{sub:'スマートな距離感',points:['誰とでも適度に付き合える','場の空気を読んで話を合わせる','泥臭い感情のぶつかり合いは苦手'],conc:'知的でスマートな会話が楽しめる平和な関係を好みます。'},romance_free:{points:['外見やファッションセンスを重視しがち','ロマンチックなシチュエーションに弱い','受け身になりやすく押しに弱い'],caution:['誰にでも優しいぶん、特別な気持ちが伝わりにくいことも','自分から決断するのが苦手'],conc:'リードしてくれて美的センスを共有できる相手が吉です。'},romance_pair:{points:['喧嘩を避け穏やかな関係を維持する','いつもオシャレに気を遣う','相手の意見を尊重して合わせる'],caution:['相手を思いやるあまり、自分の気持ちを後回しにしがち','じっくり考える姿勢を大切にしつつ、時には思い切りも'],conc:'たまには本音でぶつかる勇気を持つことも大切です。'},romance_married:{points:['おしゃれで生活感のない理想の家庭','夫婦喧嘩が少なく会話で解決する','パートナーを対等に扱う'],caution:['心地よさを大切にするぶん、向き合うべき問題も少しずつ取り組んでみて','外見も内面も、バランスよく大切にしてみてくださいね'],conc:'ありのままを見せ合える関係づくりが大切です。'}},scorpio:{name:'蠍座',icon:'eye',base:{sub:'物事の本質を見抜く深い洞察力の持ち主',points:['物事の裏側や本質を見抜く直感','並外れた集中力を発揮する','信頼した人にだけ本音を見せる慎重さがある','一度決めたことを最後まで貫く意志の強さがある'],conc:'周囲からは「奥深い魅力と揺るぎない芯を持つ人」として映る傾向があります。ただ深く考えすぎて疑心暗鬼に陥ることも。その深さは才能。でも時には「シンプルに考える」のも強さです。'},thought:{sub:'深く狭く徹底的に',points:['物事に真剣に向き合い、納得いくまで追求する','興味ある分野は専門家レベルまで調べる','表面的な情報に惑わされない'],conc:'研究・調査・専門職など深く掘り下げる仕事に適性があります。'},relation:{sub:'本物の信頼で結ばれた深い関係を築く',points:['信頼関係をとても大切にする','ごく少数の人を深く愛する','本当に心が通じ合える関係を求める'],conc:'魂レベルで共鳴し合える絶対的な信頼関係を求めます。'},romance_free:{points:['直感で相手の本質を見抜き一途に想う','静かな魅力で自然と人を惹きつける','軽い関係には興味がない'],caution:['大切な人を深く想うあまり、不安を感じることがある','相手を深く理解したいという気持ちが強い'],conc:'深い愛情を受け止め裏切らない誠実な相手が吉です。'},romance_pair:{points:['全身全霊で相手を愛する','二人の世界を大切にし秘密を共有する','頼りになる強さがある'],caution:['相手の気持ちを深く考えるあまり、心配しすぎることも','感情を消化するのに時間がかかることがある'],conc:'信頼して少し放任する余裕を持つことが大切です。'},romance_married:{points:['家族を外敵から守る強い意志','夫婦の絆を非常に重視する','困難な状況でも逃げ出さない'],caution:['一人で抱え込まず、信頼できる人に話す時間も作ってみて','大切なものへの想いが強い分、手放すことに時間がかかることも'],conc:'「それぞれの世界」を認め合うと風通しが良くなります。'}},sagittarius:{name:'射手座',icon:'compass',base:{sub:'自由を愛する冒険家',points:['常に未知の世界や新しい知識を求める','自分のリズムを大切にし、のびのびと活動するタイプ','おおらかで楽天的な性格','目標を見つけると真っ直ぐ突き進む'],conc:'周囲からは「行動力があり楽しそうな人」として映る傾向があります。ただ無責任に見える時も。その自由さは魅力。でも「自由」と「無責任」は違う。少しの約束が信頼を深めます。'},thought:{sub:'直感的で未来志向',points:['常に「次は何をするか」を考える','哲学的な問いや大きなビジョンが好き','衝動と直感で動く行動派'],conc:'海外関連やアイデアを形にする企画職に適性があります。'},relation:{sub:'オープンで裏表なし',points:['誰に対してもフレンドリーで偏見がない','思ったことをストレートに言う','ベタベタした依存関係は苦手'],conc:'自由を尊重し合いフランクに語れる関係を好みます。'},romance_free:{points:['恋愛も一種の冒険として楽しむ','お互いの自由を尊重してくれる相手を好む','国境も年齢も気にしない大胆さ'],caution:['新しい出会いにワクワクする、冒険心の強いタイプ','追いかける恋のほうが燃える'],conc:'自由を理解し共に未知を楽しめる相手が吉です。'},romance_pair:{points:['旅行や新体験の共有が好き','寛容で細かいことを気にしない','恋人であり親友のような関係'],caution:['率直さが魅力ですが、相手の気持ちへの配慮も忘れずに','一人の時間を楽しめる反面、相手にも気持ちを伝えることを忘れないで'],conc:'相手の話を最後まで聞く姿勢が信頼を深めます。'},romance_married:{points:['自由で明るい型破りな家庭','子供にも多様な体験をさせたい','細かいルールを嫌う'],caution:['日常のタスクにも楽しさを見つける工夫をしてみてくださいね','おおらかな金銭感覚も魅力ですが、少しだけ計画性も意識してみて'],conc:'最低限のルールを共有しつつ週末は冒険に出るのが円満の鍵です。'}},capricorn:{name:'山羊座',icon:'target',base:{sub:'目標達成型の努力家',points:['掲げた目標は必ず達成しようとする','無駄を嫌い時間・お金を効率的に使う','伝統やルールを重んじる真面目さ','年齢とともに魅力が増す大器晩成型'],conc:'周囲からは「頼りがいのあるしっかり者」として映る傾向があります。ただ責任感が強すぎて心が疲れることも。あなたの努力は素晴らしい。でも「完璧」を目指さず「十分」を認める力も必要です。'},thought:{sub:'現実的で長期計画型',points:['未来の安定を優先する','実利と結果を重視する','常にプランBを用意している'],conc:'組織マネジメントや時間をかけた事業構築に適性があります。'},relation:{sub:'信頼と実績を重視',points:['行動と言葉が一致している誠実な人に信頼を感じる','自然と尊敬できる相手や高め合える関係を求める傾向がある','一度信頼した相手には義理堅い'],conc:'落ち着いた大人の付き合いを好むタイプです。'},romance_free:{points:['恋愛にも将来性・現実的メリットを求める','時間をかけて相手を審査する','アプローチは非常に慎重'],caution:['将来を見据えた慎重さがある一方、感覚的な相性も大切にしてみて','仕事が忙しいと恋愛を後回しにする'],conc:'野心を理解し精神的にも自立した相手が吉です。'},romance_pair:{points:['浮気の心配が少なく一途','記念日はきっちり計画してお祝い','将来に向けた現実的な話ができる'],caution:['気持ちは深いのに、言葉にするのが少し苦手なタイプ','お互いの頑張りを尊重しつつ、リラックスする時間も大切に'],conc:'結果だけでなく一緒に過ごす過程も楽しむことが長続きの鍵です。'},romance_married:{points:['家族を経済的・社会的に守る責任感','家計管理と老後の備えが万全','子供にしっかりした教育を受けさせたい'],caution:['仕事への情熱は素晴らしいですが、家族との対話の時間も意識してみて','家族それぞれの個性を尊重し、柔軟な家庭づくりを'],conc:'計画を忘れて家族とダラダラする余裕も大切です。'}},aquarius:{name:'水瓶座',icon:'lightbulb',base:{sub:'独創的な自由人',points:['常識にとらわれない独自の世界観','誰に対してもフラットで平等','冷静さと客観性を持ち合わせた、落ち着いた雰囲気の持ち主','最新テクノロジーや未来的なものに興味'],conc:'周囲からは「個性的で天才肌の人」として映る傾向があります。ただ独特すぎて孤立することも。その個性は才能。でも「人と違う」ことより「人と繋がる」ことを時々思い出してください。'},thought:{sub:'未来志向で俯瞰的',points:['「普通」という前提を疑う','全体の合理性を個人の感情より優先','閃きと論理を組み合わせる'],conc:'IT・企画・フリーランスなど裁量のある仕事に適性があります。'},relation:{sub:'自立したネットワーク',points:['年齢・性別・国籍を問わず幅広い交友','パーソナルスペースを大切にし、自分らしさを守る','多様性を本気で尊重する'],conc:'個性を認め合い干渉しない自立した関係を好みます。'},romance_free:{points:['恋愛感情より人間的な面白さを重視','友達からいつの間にか恋に発展','さっぱりとした人間関係を好む'],caution:['恋人も一人の人間として対等に接する姿勢がある','独自の感性を持っているぶん、同じ波長の相手と出会えると最高'],conc:'知的で自立しお互いの時間を尊重し合える相手が吉です。'},romance_pair:{points:['恋人を一人の人間として尊重する','既存の枠にとらわれない付き合い方','趣味・仕事の話で盛り上がれる'],caution:['形式にとらわれない、自分たちだけの愛情表現を見つけるタイプ','自分の時間が必要な時は素直に伝えてみてくださいね'],conc:'二人に合ったオリジナルな関係性を築くことが大切です。'},romance_married:{points:['伝統的な役割分担にこだわらない','お互いの生き方を尊重する風通しの良さ','子供を一人の人間として対等に扱う'],caution:['理想を大切にしつつ、目の前の現実にも向き合う時間を作ってみて','大切な人には時々、温かい言葉をかけてあげてくださいね'],conc:'家族の非合理的な感情にも寄り添う努力が必要です。'}},pisces:{name:'魚座',icon:'waves',base:{sub:'共感力の高いロマンチスト',points:['他者の感情をスポンジのように吸収する共感力','誰にでも優しく寄り添える境界線のなさ','想像力が豊かで空想の世界が好き','直感や目に見えないものを信じる'],conc:'周囲からは「癒し系で不思議な魅力のある人」として映る傾向があります。ただ優しさだけでは世界は成り立たない。あなたの共感力は才能。でも「ノー」と言える強さも必要です。'},thought:{sub:'直感的で柔軟',points:['「何となくそう感じる」で動く直感型','水のように状況に適応する柔軟さ','芸術的センスやインスピレーションに優れる'],conc:'芸術・クリエイティブ・医療福祉など人を癒やす仕事に適性があります。'},relation:{sub:'惜しみない思いやりの心',points:['困っている人を見ると自然と手を差し伸べる','相手の気持ちを優先するあまり、自分の意見を控えめにしがち','穏やかな環境を好み、対立を避ける傾向がある'],conc:'穏やかな人に囲まれた平和な関係を好むタイプです。'},romance_free:{points:['愛情に溢れ、人との繋がりを大切にするタイプ','好きな人の世界観を理解し、一緒に楽しめる柔軟さがある','誰かを支えたい気持ちが、深い愛情に発展することがある'],caution:['優しさを向ける相手を、慎重に選ぶことが大切です','場の空気に合わせられる柔軟さがある反面、自分の軸も大切にして'],conc:'優しさを利用せず守ってくれる現実感覚のある相手が吉です。'},romance_pair:{points:['相手の求めることを察知し献身的に尽くす','ロマンチックな雰囲気を大切にする','深い精神的な繋がりを求める'],caution:['相手と深く繋がりたい気持ちが強い反面、自分の時間も大切に','感情が豊かなぶん、辛い出来事を深く受け止めやすい面がある'],conc:'自分の「嫌なこと」もしっかり伝える強さが長続きの鍵です。'},romance_married:{points:['家族に無償の愛を注ぐ優しい親','家に芸術的な癒やしの空間を作る','パートナーの痛みを受け止める'],caution:['現実的な管理よりも、温かい雰囲気づくりが得意','お子さんへの愛情が深いぶん、適度な線引きも意識してみてくださいね'],conc:'現実的な問題はパートナーと分担し精神的ケアで家族を支えると円満です。'}}},numerology:{1:{job:{sub:'独立・リーダー型',good:['裁量権がある環境','新規事業の立ち上げ','自分の力を発揮できるポジション'],bad:['決められた手順だけの作業','自分の判断が活かせない環境']},money:'「欲しい！」と思ったら即決するタイプ。勢いで買って後悔することも。買い物リストを作るだけでグッと上手になれます。'},2:{job:{sub:'サポート・調整型',good:['秘書・アシスタント','1対1の接客','チームの調整役'],bad:['過度なプレッシャーのある環境','ギスギスした雰囲気の職場']},money:'コツコツ貯めるのが得意。ただし人に頼まれると断れず出費しがち。「自分のための予算」を先に確保して。'},3:{job:{sub:'クリエイティブ・表現型',good:['企画・アイデア出し','エンタメ・デザイン','人と楽しく関わる仕事'],bad:['変化の少ない繰り返しの作業','柔軟性のない厳しいルール']},money:'楽しいことにはパッとお金を使う。交際費や趣味の出費が多めだけど、それが人生を豊かにする使い方です。'},4:{job:{sub:'実務・構築型',good:['システム開発・経理','正確性が必要な業務','長期プロジェクト'],bad:['その場しのぎの対応','ルールが頻繁に変わる環境']},money:'家計簿をつけなくても頭の中で管理できるしっかり者。貯金が得意だけど、たまには自分へのご褒美も忘れずに。'},5:{job:{sub:'変化・開拓型',good:['営業・広報','旅行・海外関連','変化の激しい業界'],bad:['毎日同じ場所での作業','変化のない安定志向']},money:'入ってきたら使う、の繰り返しになりがち。旅行や体験への出費が多め。先取り貯金の仕組みを作ると安心です。'},6:{job:{sub:'育成・奉仕型',good:['教育・医療・福祉','人材育成','美しいものを扱う仕事'],bad:['利益だけの追求','ギスギスした職場']},money:'家族や大切な人のためにお金を使うことに喜びを感じるタイプ。プレゼント選びも上手。ただし自分のことも大切に。'},7:{job:{sub:'探求・専門職型',good:['研究者・エンジニア','専門分析','一人で没頭できる仕事'],bad:['にぎやかすぎるチーム作業','深い専門性が求められない仕事']},money:'無駄遣いが少なく、本当に必要なものだけを買うミニマリスト気質。気づいたら貯まっているタイプです。'},8:{job:{sub:'達成・組織運営型',good:['経営・マネジメント','金融・不動産','成果が数字で出る仕事'],bad:['成果が見えにくい業務','評価基準が不明確な環境']},money:'稼ぐ力も使う力もダイナミック。良いものにはお金をかける主義。メリハリのある使い方が得意です。'},9:{job:{sub:'俯瞰・社会貢献型',good:['コンサル・NPO','癒やし・精神分野','全体を見渡す役職'],bad:['過度な成果主義','社会への貢献を感じにくい仕事']},money:'お金への執着が薄く、あまり気にしないタイプ。不思議と必要な時に必要な分が巡ってくる人です。'},11:{job:{sub:'直感・メッセンジャー型',good:['スピリチュアル・芸術','インスピレーション活用','独自センスが必要な仕事'],bad:['論理だけの仕事','現実的すぎる環境']},money:'「なんとなくこれ！」で買うことが多い直感派。当たりも多いけど、大きな買い物の前は一晩寝かせるクセをつけて。'},22:{job:{sub:'カリスマ・大構築型',good:['大規模プロジェクト','政治・社会事業','理想を現実化する仕事'],bad:['スケールの小さい業務','誰でもできる作業']},money:'スケールの大きいお金の使い方をしがち。夢のためなら惜しまないタイプ。日々の小さな出費にも目を向けてみて。'},33:{job:{sub:'規格外・博愛型',good:['枠に囚われない独自活動','子供・動物に関わる仕事','特殊なクリエイティブ'],bad:['型にはめられる環境','決まったスタイルの働き方']},money:'お金の使い方が独特で、周りからは理解されにくいことも。でもあなたが「これだ！」と感じたものへの出費は間違いないです。'}}};
 // Populate birth date selectors
 (function initBirthSelectors(){
     const yEl=document.getElementById('birth-year'),mEl=document.getElementById('birth-month'),dEl=document.getElementById('birth-day');
@@ -895,9 +939,9 @@ return c[zId]&&c[zId][cat]?c[zId][cat]:null;
 
 function renderCard({icon,iconColor,title,subtitle,points,caution,conclusion,conclusionColor,delay}){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,${iconColor}40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="${icon}" class="w-4 h-4 shrink-0" style="color:${iconColor};"></i><span class="t-card-title" style="color:var(--text-sub);">${title}</span></div><p class="t-service mb-3" style="color:var(--text-main);">${subtitle}</p><ul class="space-y-2 mb-4">${points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul>${caution?`<p class="t-label mb-2" style="color:var(--warning-text);">気をつけると更に良くなるポイント</p><ul class="space-y-2 mb-4">${caution.map(c=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="lightbulb" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${c}</span></li>`).join('')}</ul>`:'' }${conclusion?`<div class="rounded-lg p-3.5" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:${conclusionColor};">${conclusion}</p></div>`:''}</div>`;}
 
-function renderWorkCard(data,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-tool)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="briefcase" class="w-4 h-4 shrink-0" style="color:var(--cat-tool);"></i><span class="t-card-title" style="color:var(--text-sub);">仕事運</span></div><p class="t-service mb-4" style="color:var(--text-main);">${data.sub}</p><p class="t-label mb-2" style="color:var(--cat-music);">向いている環境</p><ul class="space-y-2 mb-4">${data.good.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--cat-music);"></i><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--danger);">避けたい環境</p><ul class="space-y-2">${data.bad.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--danger);"></i><span>${p}</span></li>`).join('')}</ul></div>`;}
+function renderWorkCard(data,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-tool)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="briefcase" class="w-4 h-4 shrink-0" style="color:var(--cat-tool);"></i><span class="t-card-title" style="color:var(--text-sub);">仕事の強み・適職</span></div><p class="t-service mb-4" style="color:var(--text-main);">${data.sub}</p><p class="t-label mb-2" style="color:var(--cat-music);">向いている環境</p><ul class="space-y-2 mb-4">${data.good.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="check" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--cat-music);"></i><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--danger);">避けたい環境</p><ul class="space-y-2">${data.bad.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="x" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--danger);"></i><span>${p}</span></li>`).join('')}</ul></div>`;}
 
-function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">金運</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--warning-text);">${text}</p></div></div>`;}
+function renderMoneyCard(text,delay){return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--cat-book)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="coins" class="w-4 h-4 shrink-0" style="color:var(--cat-book);"></i><span class="t-card-title" style="color:var(--text-sub);">お金のクセ</span></div><div class="rounded-lg p-4" style="background:var(--warning-bg);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--warning-text);">${text}</p></div></div>`;}
 
 // Famous people by zodiac
 const famousByZodiac={aries:['本田圭佑','上白石萌音','佐藤健','レディー・ガガ'],taurus:['ヒカキン','有吉弘行','澤穂希','ザッカーバーグ'],gemini:['中田敦彦','本田翼','広瀬すず','ジョニー・デップ'],cancer:['松本人志','菅田将暉','渡辺直美','メッシ'],leo:['米津玄師','吉田沙保里','ローラ','オバマ'],virgo:['石橋貴明','安室奈美恵','松本潤','ビヨンセ'],libra:['イチロー','石原さとみ','DAIGO','ジョン・レノン'],scorpio:['手塚治虫','指原莉乃','木村拓哉','ビル・ゲイツ'],sagittarius:['羽生結弦','秋元康','綾瀬はるか','ウォルト・ディズニー'],capricorn:['櫻井翔','小泉進次郎','新垣結衣','スティーブ・ジョブズ'],aquarius:['福山雅治','香取慎吾','橋本環奈','エジソン'],pisces:['大谷翔平','蒼井優','水卜麻美','アインシュタイン']};
@@ -907,7 +951,7 @@ function renderFamousCard(zId,delay){
     return `<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--primary)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="star" class="w-4 h-4 shrink-0" style="color:var(--primary);"></i><span class="t-card-title" style="color:var(--text-sub);">同じ星座の有名人</span></div><div class="flex flex-wrap gap-2">${people.map(p=>`<span class="px-3 py-1.5 rounded-full t-caption font-semibold" style="background:var(--primary-light);color:var(--primary);border:var(--border-w) solid var(--border-color);">${p}</span>`).join('')}</div><p class="t-caption mt-3" style="color:var(--text-muted);">同じ星座を持つ方々。共通する資質があるかもしれませんね。</p></div>`;
 }
 
-function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛運',single_partnered:'パートナー運',married:'家庭・夫婦運'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
+function renderRomanceCard(zd,status,delay){const km={single_free:'romance_free',single_partnered:'romance_pair',married:'romance_married'},tm={single_free:'恋愛のトリセツ',single_partnered:'恋愛のトリセツ',married:'恋愛のトリセツ'},rd=zd[km[status]],t=tm[status];return`<div class="fortune-card p-5 fade-up d${delay}"><div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger)40,transparent);"></div><div class="flex items-center gap-2.5 mb-3 pt-1"><i data-lucide="heart" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--text-sub);">${t}</span></div><ul class="space-y-2 mb-4">${rd.points.map(p=>`<li class="flex items-start gap-2.5 t-body leading-relaxed" style="color:var(--text-sub);"><span class="w-1.5 h-1.5 rounded-full shrink-0 mt-[7px]" style="background:var(--border-color);"></span><span>${p}</span></li>`).join('')}</ul><p class="t-label mb-2" style="color:var(--warning-text);">気をつけたいポイント</p><ul class="space-y-2 mb-4">${rd.caution.map(p=>`<li class="flex items-start gap-2 t-body leading-relaxed" style="color:var(--text-sub);"><i data-lucide="alert-triangle" class="w-3.5 h-3.5 shrink-0 mt-0.5" style="color:var(--warning-text);"></i><span>${p}</span></li>`).join('')}</ul><div class="rounded-lg p-3.5" style="background:var(--danger-light);border:var(--border-w) solid var(--border-color);"><p class="t-body font-semibold leading-relaxed" style="color:var(--danger);">${rd.conc}</p></div></div>`;}
 
 let shareData={zodiacName:'',zodiacSub:'',numSub:'',nickname:'',keywords:[],moneyHint:'',thoughtSub:'',relationSub:''};
 
@@ -927,7 +971,7 @@ function buildShareTextLine(){
         `【${shareData.nickname}さん のトリセツ】\n` +
         `${shareData.zodiacName}「${shareData.zodiacSub}」\n` +
         `キーワード：${kw}\n` +
-        `思考タイプ：${shareData.thoughtSub}\n\n` +
+        `行動パターン：${shareData.thoughtSub}\n\n` +
         `あなたのトリセツも見てみない？\n` +
         `${buildShareUrl()}`;
 }
@@ -1033,7 +1077,7 @@ function generateShareBlob(callback){
     ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
     roundRect(ctx,120,secY,400,120,16);ctx.stroke();
     ctx.fillStyle='#7E928C';ctx.font='600 22px sans-serif';
-    ctx.fillText('思考タイプ',320,secY+45);
+    ctx.fillText('行動パターン',320,secY+45);
     ctx.fillStyle='#2B3830';ctx.font='700 28px sans-serif';
     ctx.fillText(shareData.thoughtSub,320,secY+90);
 
@@ -1042,7 +1086,7 @@ function generateShareBlob(callback){
     ctx.strokeStyle='#E5EBE8';ctx.lineWidth=1;
     roundRect(ctx,560,secY,400,120,16);ctx.stroke();
     ctx.fillStyle='#7E928C';ctx.font='600 22px sans-serif';
-    ctx.fillText('仕事タイプ',760,secY+45);
+    ctx.fillText('仕事の強み',760,secY+45);
     ctx.fillStyle='#2B3830';ctx.font='700 28px sans-serif';
     ctx.fillText(shareData.numSub,760,secY+90);
 
@@ -1084,7 +1128,7 @@ function roundRect(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x
 
 function showToast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000);}
 
-const scanMessages=["星の配置を読み取っています...","基本性格パラメータを抽出...","思考・行動パターンを解析中...","人間関係・仕事・金運を算出...","トリセツを構築しています..."];
+const scanMessages=["星の配置を読み取っています...","基本性格パラメータを抽出...","思考・行動パターンを解析中...","人間関係・仕事・お金のクセを算出...","トリセツを構築しています..."];
 
 let _scanMainTimer=null,_scanStepTimer=null;
 
@@ -1106,7 +1150,7 @@ document.getElementById('predict-btn').addEventListener('click',()=>{
     let step=0;if(_scanStepTimer)clearInterval(_scanStepTimer);
     _scanStepTimer=setInterval(()=>{scanText.style.opacity='0';scanText.style.filter='blur(4px)';setTimeout(()=>{if(step<scanMessages.length){scanText.textContent=scanMessages[step];scanText.style.opacity='1';scanText.style.filter='blur(0)';step++;}},400);if(step>=scanMessages.length){clearInterval(_scanStepTimer);_scanStepTimer=null;}},2000);
     if(_scanMainTimer)clearTimeout(_scanMainTimer);
-    _scanMainTimer=setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('self-input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();triggerCardAnimations();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';_scanMainTimer=null;},700);},10500);
+    _scanMainTimer=setTimeout(()=>{overlay.style.opacity='0';setTimeout(()=>{overlay.classList.add('hidden');overlay.classList.remove('flex');document.getElementById('self-input-section').classList.add('hidden');document.getElementById('result-name').textContent=name;document.getElementById('result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;const c=document.getElementById('cards-container');c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'行動パターン',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+renderRomanceCard(zData,status,4)+renderWorkCard(nData.job,5)+renderMoneyCard(nData.money,6)+renderFamousCard(zId,7);document.getElementById('result-section').classList.remove('hidden');lucide.createIcons();triggerCardAnimations();window.scrollTo({top:0,behavior:'smooth'});trackEvent('fortune_complete',{zodiac:zId,destiny_number:nId,status});scanProgress.style.transition='none';scanProgress.style.width='0%';scanText.textContent='Initializing...';scanText.style.opacity='1';scanText.style.filter='blur(0)';_scanMainTimer=null;},700);},10500);
 });
 
 document.getElementById('reset-btn').addEventListener('click',()=>{
@@ -1567,7 +1611,7 @@ document.getElementById('deep-dive-area').addEventListener('click',function(e){
 function getRelatedCategory(cat){
     const related={
         love:{cat:'future',icon:'telescope',color:'var(--primary)',label:'あなたの未来',sub:'恋愛の未来も占えますよ'},
-        career:{cat:'money',icon:'coins',color:'var(--warning-text)',label:'お金・投資',sub:'キャリアとお金は繋がっています'},
+        career:{cat:'money',icon:'coins',color:'var(--warning-text)',label:'お金のクセ',sub:'キャリアとお金は繋がっています'},
         money:{cat:'career',icon:'briefcase',color:'var(--primary)',label:'仕事・転職',sub:'収入アップのヒントもご覧ください'},
         relation:{cat:'love',icon:'heart',color:'var(--primary)',label:'恋愛・相性',sub:'大切な人との関係をもっと深く'},
         compat:{cat:'future',icon:'telescope',color:'var(--primary)',label:'あなたの未来',sub:'2人の未来も気になりませんか？'},
@@ -1686,9 +1730,9 @@ function renderFinalResult(text){
     const area=document.getElementById('deep-dive-area');
     const catMeta={
         love:{icon:'heart',color:'var(--primary)',label:'恋愛のトリセツ'},
-        career:{icon:'briefcase',color:'var(--primary)',label:'仕事のトリセツ'},
-        money:{icon:'coins',color:'var(--warning-text)',label:'お金のトリセツ'},
-        relation:{icon:'users',color:'var(--primary)',label:'人間関係のトリセツ'},
+        career:{icon:'briefcase',color:'var(--primary)',label:'仕事の強み・適職'},
+        money:{icon:'coins',color:'var(--warning-text)',label:'お金のクセ'},
+        relation:{icon:'users',color:'var(--primary)',label:'人間関係'},
         compat:{icon:'heart-handshake',color:'var(--primary)',label:'相性診断'},
         future:{icon:'telescope',color:'var(--primary)',label:'未来のトリセツ'},
         lifetime:{icon:'hourglass',color:'var(--primary)',label:'人生時計'}
@@ -1739,7 +1783,7 @@ function getFlowForCategory(cat){
 const deepScanMsg={
     love:['恋愛パターンを解析中...','相性データを照合しています...','鑑定結果を生成中...'],
     career:['適職パラメータを解析中...','キャリアパスを算出しています...','鑑定結果を生成中...'],
-    money:['金運パターンを解析中...','資産タイプを照合しています...','鑑定結果を生成中...'],
+    money:['お金のクセを解析中...','使い方の傾向を照合しています...','鑑定結果を生成中...'],
     relation:['対人パターンを解析中...','コミュニケーション傾向を算出...','鑑定結果を生成中...'],
     compat:['2人のエネルギーを読み取り中...','星座の相性を照合しています...','運命の絆を解析中...'],
     future:['時間の糸を手繰り寄せています...','未来のエネルギーを解析中...','あなたの可能性を映し出しています...'],
@@ -1748,7 +1792,7 @@ const deepScanMsg={
 const resultScanMsg={
     love:['回答を分析しています...','あなた専用の鑑定書を作成中...'],
     career:['キャリアデータを統合中...','パーソナル鑑定書を生成中...'],
-    money:['金運データを統合中...','パーソナル鑑定書を生成中...'],
+    money:['お金の傾向データを統合中...','パーソナル鑑定書を生成中...'],
     relation:['対人データを統合中...','パーソナル鑑定書を生成中...'],
     compat:['2人の運命を重ね合わせています...','相性鑑定書を生成中...'],
     future:['未来の鑑定書を生成中...','星が示す道を描いています...'],
@@ -2091,7 +2135,7 @@ function buildFutureFlow(){
         },
         s3_1y_money:{q:'お金について、一番気になることは？',icon:'telescope',color:'var(--primary)',
             opts:[
-                {label:'貯金が増えるか',next:'result',result:`${nick}さんの1年後の金運：\n\n${arch==='analyst'||arch==='builder'?'数字に強い'+nick+'さんは、計画的な資産形成が得意。この1年で着実に貯金を増やせるタイプですよ。':'この1年は「仕組みを作る」ことが鍵。先取り貯金の自動振替を設定するだけで、1年後には想像以上の金額が貯まっていますよ。'}\n\n${nick}さんの1年間の貯金シミュレーション：\n月1万円 → 12万円\n月3万円 → 36万円\n月5万円 → 60万円\n\n大切なのは金額の大小ではなく「始めること」。今日設定すれば、1年後の${nick}さんはきっと「あの日始めてよかった」と思えますよ。\n\nお金についてもっと知りたい方は「お金・投資」カテゴリもおすすめです。`},
+                {label:'貯金が増えるか',next:'result',result:`${nick}さんの1年後のお金事情：\n\n${arch==='analyst'||arch==='builder'?'数字に強い'+nick+'さんは、計画的な資産形成が得意。この1年で着実に貯金を増やせるタイプですよ。':'この1年は「仕組みを作る」ことが鍵。先取り貯金の自動振替を設定するだけで、1年後には想像以上の金額が貯まっていますよ。'}\n\n${nick}さんの1年間の貯金シミュレーション：\n月1万円 → 12万円\n月3万円 → 36万円\n月5万円 → 60万円\n\n大切なのは金額の大小ではなく「始めること」。今日設定すれば、1年後の${nick}さんはきっと「あの日始めてよかった」と思えますよ。\n\nお金についてもっと知りたい方は「お金のクセ」カテゴリもおすすめです。`},
                 {label:'収入が上がるか',next:'result',result:`${nick}さんの1年後の収入：\n\n${arch==='leader'?'リーダータイプの'+nick+'さんは、交渉力で収入を上げられるタイプ。この1年で昇給交渉や転職を通じて、年収アップのチャンスがありそうですよ。':arch==='creative'?'クリエイティブな'+nick+'さんは、副業やフリーランスの仕事が収入源になる可能性。本業とは別の「自分の名前で稼ぐ」体験が、1年後の選択肢を大きく広げますよ。':''}\n\n今日からできること：\n① 自分の市場価値を転職サイトで確認する\n② 3ヶ月以内にスキルを一つ磨く\n③ 副業の可能性を一つ試してみる\n\n「何もしなければ何も変わらない」。でも小さな一歩で、1年後は大きく変わりますよ。`},
                 {label:'大きな出費に備えたい',next:'result',result:`${nick}さんの1年後に向けた備え：\n\n予想される大きな出費をリストアップしてみましょう。\n\n引越し、結婚、旅行、車、家電の買替え、資格の勉強代…\n\n「特別費積立」がおすすめですよ。予想される出費の合計を12で割って毎月積み立てるだけ。\n\nたとえば年間36万円の臨時出費が予想されるなら、月3万円を「特別費口座」に。\n\n1年後、「突然の出費」が「予定の出費」に変わっています。心の余裕が全然違いますよ。`}
             ]
@@ -2136,10 +2180,26 @@ function buildCompatFlow(){
     const elCompat={fire:{fire:'high_energy',earth:'complement',air:'exciting',water:'challenge'},earth:{fire:'complement',earth:'stable',air:'free_spirit',water:'nurture'},air:{fire:'exciting',earth:'free_spirit',air:'intellectual',water:'mysterious'},water:{fire:'challenge',earth:'nurture',air:'mysterious',water:'deep_bond'}};
     const matchType=elCompat[myEl][pEl];
     const matchLabels={high_energy:'情熱的でエネルギッシュな関係',complement:'お互いに補い合える関係',exciting:'刺激的で成長し合える関係',challenge:'惹かれ合うが乗り越える壁もある関係',stable:'安定感抜群の堅実な関係',free_spirit:'自由さと安定のバランスが鍵',nurture:'深い癒やしと安心の関係',intellectual:'知的で風通しの良い関係',mysterious:'ミステリアスに惹かれ合う関係',deep_bond:'魂レベルで繋がる深い絆'};
+    const compatibilityHonesty={
+        high_energy:{title:'情熱的でエネルギッシュな関係',desc:'一緒にいて退屈することはない。ただ同じスピード感だからこそ、どちらかが疲れると停滞しやすい。メリハリが大事。'},
+        complement:{title:'お互いに補い合える関係',desc:'真逆の性質がピースのように合う。ただ「違い」を理由に相手を変えたくなることも。「違い」は「欠点」じゃなく「個性」。'},
+        exciting:{title:'刺激的で成長し合える関係',desc:'新しい自分が発見でき成長できる。ただ成長のペースが合わないと不安に。「一緒に学ぶ」姿勢が大事。'},
+        challenge:{title:'惹かれ合うが乗り越える壁もある関係',desc:'深く惹かれ合える。ただその深さ故に、すれ違う時の痛みも深い。壁が高いのは「相手が特別だから」。'},
+        stable:{title:'安定感抜群の堅実な関係',desc:'安心感があり、いつもそばにいたくなる。ただ「安定」が「当たり前」になると感謝が薄れやすい。「幸せ」を確認し合う時間が大事。'},
+        free_spirit:{title:'自由さと安定のバランスが鍵',desc:'それぞれの世界を持ちながら繋がれる。ただ「繋がるタイミング」がズレると疑問に。定期的に「大切さ」を言葉で確認。'},
+        nurture:{title:'深い癒やしと安心の関係',desc:'一緒にいるだけで心が癒される。ただ温かさが強いぶん「重い」と感じることも。時には相手も癒される力を信じて。'},
+        intellectual:{title:'知的で風通しの良い関係',desc:'会話が尽きず知的刺激に満ちた関係。ただ「考えること」に夢中で相手の感情を見落とすことも。「言葉にならない想い」も大事。'},
+        mysterious:{title:'ミステリアスに惹かれ合う関係',desc:'相手の未知の部分に惹かれいつまでも不思議。ただ「完全には理解できない」が不安になることも。100%理解は目指さなくていい。'},
+        deep_bond:{title:'魂レベルで繋がる深い絆',desc:'言葉がなくても通じ合える。ただ相手を失う「恐怖」が大きく、執着になりやすい。時には「相手の人生を尊重する」余裕も。'}
+    };
+
 
     return {
         step1:{q:`${myZ}の${myName}さんと、${pZ}の${pName}さん。\n2人について何を知りたいですか？`,icon:'heart-handshake',color:'var(--primary)',
-            reading:`相性タイプ：「${matchLabels[matchType]}」`,
+            reading:`相性タイプ：「${matchLabels[matchType]}」
+
+【本当のところ】
+${compatibilityHonesty[matchType].desc}`,
             opts:[{label:'恋愛の相性',next:'s2_love'},{label:'仕事パートナーとしての相性',next:'s2_work'},{label:'コミュニケーションの傾向',next:'s2_comm'},{label:'2人の注意点を知りたい',next:'s2_caution'}]
         },
         // === 恋愛の相性 ===
@@ -2368,7 +2428,7 @@ howto:`<div style="text-align:center;margin-bottom:24px;">
 <h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">基本の占い</h3>
 <p style="color:var(--text-sub);line-height:1.8;margin-bottom:12px;">ニックネーム・生年月日・性別・状況を入力して「占いを開始する」をタップ。12星座 × 13運命数 × 5つの性格タイプから、あなただけのトリセツが生成されます。</p>
 <div style="background:var(--primary-light);border-radius:12px;padding:14px;margin-bottom:20px;">
-<p style="color:var(--text-main);font-size:13px;line-height:1.8;"><strong>わかること：</strong>基本性格、思考タイプ、人間関係、恋愛運、仕事運、金運、同じ星座の有名人</p>
+<p style="color:var(--text-main);font-size:13px;line-height:1.8;"><strong>わかること：</strong>基本性格、行動パターン、人間関係、恋愛のトリセツ、仕事の強み・適職、お金のクセ、同じ星座の有名人</p>
 </div>
 
 <h3 style="font-size:14px;font-weight:700;color:var(--primary);margin:20px 0 8px;">🔍 深掘り診断（7テーマ）</h3>
@@ -2376,7 +2436,7 @@ howto:`<div style="text-align:center;margin-bottom:24px;">
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:20px;">
 <div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">恋愛・相性</p></div>
 <div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">仕事・転職</p></div>
-<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">お金・投資</p></div>
+<div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">お金のクセ</p></div>
 <div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">人間関係</p></div>
 <div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">気になる相手</p></div>
 <div style="background:var(--bg-page);border:var(--border-w) solid var(--border-color);border-radius:10px;padding:10px;text-align:center;"><p style="font-size:12px;color:var(--text-main);font-weight:600;">あなたの未来</p></div>
@@ -2696,6 +2756,45 @@ function saveSelfEdit(){
     for(let d=1;d<=31;d++){const o=document.createElement('option');o.value=d;o.textContent=d;dd.appendChild(o);}
 })();
 
+// Reusable inline scan animation
+function showPageScan(containerEl, messages, duration, onComplete){
+    const dur=duration||2500;
+    const msgs=messages||['データを読み取っています...','解析中...','トリセツを構築しています...'];
+    const uid='ps'+Date.now();
+    containerEl.innerHTML=`
+    <div class="fortune-card p-6 fade-up visible" id="${uid}" style="opacity:1;">
+        <div style="display:flex;flex-direction:column;align-items:center;padding:16px 0;">
+            <div style="position:relative;width:56px;height:56px;margin-bottom:20px;">
+                <div class="orbit-ring" style="width:56px;height:56px;top:0;left:0;animation-duration:3s;">
+                    <div class="orbit-dot" style="top:-2px;left:50%;transform:translateX(-50%);"></div>
+                </div>
+                <div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;">
+                    <div style="width:8px;height:8px;border-radius:50%;background:var(--primary);box-shadow:0 0 10px var(--primary);animation:pulse-ring 1.5s infinite;"></div>
+                </div>
+            </div>
+            <p id="${uid}-text" class="mono-font t-caption" style="color:var(--text-sub);letter-spacing:.05em;transition:opacity .25s;min-height:20px;text-align:center;">${msgs[0]}</p>
+            <div class="progress-track" style="width:140px;margin-top:16px;">
+                <div id="${uid}-bar" class="progress-fill" style="width:0%;transition:width ${dur}ms linear;"></div>
+            </div>
+        </div>
+    </div>`;
+    setTimeout(()=>{containerEl.scrollIntoView({behavior:'smooth',block:'center'});},50);
+    requestAnimationFrame(()=>{requestAnimationFrame(()=>{
+        const p=document.getElementById(uid+'-bar');if(p)p.style.width='100%';
+    });});
+    const textEl=()=>document.getElementById(uid+'-text');
+    const interval=Math.floor(dur/msgs.length);
+    msgs.forEach((msg,i)=>{
+        if(i===0)return;
+        setTimeout(()=>{const t=textEl();if(t){t.style.opacity='0';setTimeout(()=>{if(t){t.textContent=msg;t.style.opacity='1';}},250);}},interval*i);
+    });
+    setTimeout(()=>{
+        const card=document.getElementById(uid);
+        if(card){card.style.opacity='0';card.style.transition='opacity .3s';}
+        setTimeout(()=>{if(card)card.remove();onComplete();},300);
+    },dur);
+}
+
 // Other predict button
 document.addEventListener('click',function(e){
     const btn=e.target.closest('#other-predict-btn');
@@ -2717,20 +2816,28 @@ document.addEventListener('click',function(e){
         document.getElementById('other-result-section').classList.remove('hidden');
         document.getElementById('other-result-name').textContent=name;document.getElementById('other-deep-name').textContent=name;
         document.getElementById('other-result-type-label').textContent=`${zData.name} / 運命数 ${nId}`;
+        // Show scan animation before revealing cards
         const c=document.getElementById('other-cards-container');
-        c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+
-            renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'思考タイプ',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+
-            renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+
-            renderWorkCard(nData.job,4)+renderMoneyCard(nData.money,5);
-        let saved=null;
-        try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e2){}
-        if(saved&&saved.year&&saved.month&&saved.day){
-            document.getElementById('compare-section').classList.remove('hidden');
-            window._otherPerson={name,zId,zData,nId,nData,relation,year:parseInt(y),month:parseInt(m),day:parseInt(d)};
-        }
-        lucide.createIcons();
-        triggerCardAnimations();
+        c.innerHTML='';
         window.scrollTo({top:0,behavior:'smooth'});
+        showPageScan(c,
+            [`${name}さんの星を読み取っています...`,`${zData.name}のデータを解析中...`,'トリセツを構築しています...'],
+            2800,
+            ()=>{
+                c.innerHTML=renderCard({icon:zData.icon,iconColor:'var(--primary)',title:'基本性格',subtitle:zData.base.sub,points:zData.base.points,caution:getCaution(zId,'base'),conclusion:zData.base.conc,conclusionColor:'var(--primary)',delay:1})+
+                    renderCard({icon:'brain',iconColor:'var(--cat-music)',title:'行動パターン',subtitle:zData.thought.sub,points:zData.thought.points,caution:getCaution(zId,'thought'),conclusion:zData.thought.conc,conclusionColor:'var(--cat-music)',delay:2})+
+                    renderCard({icon:'users',iconColor:'var(--cat-other)',title:'人間関係',subtitle:zData.relation.sub,points:zData.relation.points,caution:getCaution(zId,'relation'),conclusion:zData.relation.conc,conclusionColor:'var(--cat-other)',delay:3})+
+                    renderWorkCard(nData.job,4)+renderMoneyCard(nData.money,5);
+                let saved=null;
+                try{saved=JSON.parse(localStorage.getItem('fortuna_user'));}catch(e2){}
+                if(saved&&saved.year&&saved.month&&saved.day){
+                    document.getElementById('compare-section').classList.remove('hidden');
+                    window._otherPerson={name,zId,zData,nId,nData,relation,year:parseInt(y),month:parseInt(m),day:parseInt(d)};
+                }
+                lucide.createIcons();
+                triggerCardAnimations();
+            }
+        );
         trackEvent('other_fortune_complete',{zodiac:zId,destiny_number:nId,relation});
     }catch(err){
         console.error('Other predict error:',err);
@@ -2765,26 +2872,33 @@ document.getElementById('compare-btn')?.addEventListener('click',function(){
     const elKey=[selfEl,otherEl].sort().join('-');
     const elDesc=elCompat[elKey]||'お互いの個性を認め合える関係';
     const container=document.getElementById('compare-result');
-    container.innerHTML=`
-    <div class="fortune-card p-5 fade-up">
-        <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger),transparent);"></div>
-        <div class="flex items-center gap-2.5 mb-4 pt-1"><i data-lucide="heart-handshake" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--danger);">${self.name} × ${other.name} の相性</span></div>
-        <div class="text-center mb-4">
-            <p style="font-size:48px;font-weight:800;color:var(--primary);">${overallScore}<span style="font-size:16px;color:var(--text-muted);">%</span></p>
-            <p class="t-caption" style="color:var(--text-muted);">${selfZ.name} × ${otherZ.name}</p>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
-            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">コミュニケーション</p><p style="font-size:18px;font-weight:800;color:var(--primary);">${commScore}%</p></div>
-            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">価値観</p><p style="font-size:18px;font-weight:800;color:var(--cat-tool);">${valueScore}%</p></div>
-            <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">成長</p><p style="font-size:18px;font-weight:800;color:var(--cat-book);">${growthScore}%</p></div>
-        </div>
-        <div class="rounded-lg p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);">
-            <p class="t-body font-semibold leading-relaxed" style="color:var(--primary);">${elDesc}</p>
-        </div>
-    </div>`;
-    this.classList.add('hidden');
-    lucide.createIcons();
-    triggerCardAnimations();
+    const compareBtn=this;
+    compareBtn.classList.add('hidden');
+    showPageScan(container,
+        [`${self.name} × ${other.name} の星を照合中...`,'2人のエネルギーを読み取っています...','相性を算出しています...'],
+        2500,
+        ()=>{
+            container.innerHTML=`
+            <div class="fortune-card p-5 fade-up">
+                <div class="card-accent-line" style="background:linear-gradient(90deg,transparent,var(--danger),transparent);"></div>
+                <div class="flex items-center gap-2.5 mb-4 pt-1"><i data-lucide="heart-handshake" class="w-4 h-4 shrink-0" style="color:var(--danger);"></i><span class="t-card-title" style="color:var(--danger);">${self.name} × ${other.name} の相性</span></div>
+                <div class="text-center mb-4">
+                    <p style="font-size:48px;font-weight:800;color:var(--primary);">${overallScore}<span style="font-size:16px;color:var(--text-muted);">%</span></p>
+                    <p class="t-caption" style="color:var(--text-muted);">${selfZ.name} × ${otherZ.name}</p>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:16px;">
+                    <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">コミュニケーション</p><p style="font-size:18px;font-weight:800;color:var(--primary);">${commScore}%</p></div>
+                    <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">価値観</p><p style="font-size:18px;font-weight:800;color:var(--cat-tool);">${valueScore}%</p></div>
+                    <div style="padding:10px;background:var(--primary-light);border-radius:10px;text-align:center;"><p style="font-size:10px;color:var(--text-muted);margin-bottom:2px;">成長</p><p style="font-size:18px;font-weight:800;color:var(--cat-book);">${growthScore}%</p></div>
+                </div>
+                <div class="rounded-lg p-4" style="background:var(--primary-light);border:var(--border-w) solid var(--border-color);">
+                    <p class="t-body font-semibold leading-relaxed" style="color:var(--primary);">${elDesc}</p>
+                </div>
+            </div>`;
+            lucide.createIcons();
+            triggerCardAnimations();
+        }
+    );
     trackEvent('compare_complete',{self_zodiac:self.zId,other_zodiac:other.zId,score:overallScore});
 });
 
@@ -2841,9 +2955,11 @@ let _otherDeepState={cat:'',q1:'',q2:'',step:0};
 
 function showOtherMiniScan(onComplete){
     const container=document.getElementById('other-deep-result');
-    container.innerHTML=`<div class="fortune-card p-6 text-center"><div style="width:48px;height:48px;border-radius:50%;border:3px solid var(--primary);border-top-color:transparent;margin:0 auto 16px;animation:spin 1s linear infinite;"></div><p class="t-body font-semibold" style="color:var(--primary);">分析中...</p><p class="t-caption mt-1" style="color:var(--text-muted);">相手のデータを読み解いています</p></div>`;
-    container.scrollIntoView({behavior:'smooth',block:'center'});
-    setTimeout(onComplete,2000);
+    showPageScan(container,
+        ['相手のデータを読み解いています...','パーソナル分析を生成中...'],
+        2000,
+        onComplete
+    );
 }
 
 document.addEventListener('click',function(e){
@@ -2993,7 +3109,9 @@ function navTo(target){
 lucide.createIcons();
 // Initial page render
 try{renderDailyPage();}catch(e){console.error('Daily render error:',e);}
-if('serviceWorker' in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('sw.js').catch(()=>{});});}
+if(lsGet('fortuna-tutorial')!=='off'){
+    try{showOnboarding();}catch(e){console.error('Onboarding error:',e);}
+}
 </script>
 </body>
 </html>
